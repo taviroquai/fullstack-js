@@ -3,7 +3,6 @@ module.exports = `
     id: ID!
     username: String
     email: String
-    password: String
     authtoken: String
   }
 `
