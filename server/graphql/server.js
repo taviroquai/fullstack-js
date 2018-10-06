@@ -4,7 +4,6 @@ const combinedResolvers = require('../models/resolvers');
 const Hooks = require('../hooks');
 const config = require('./config');
 const schema = require('./schema');
-console.log(Hooks);
 
 // Combine schemas
 let definitions = schema;
@@ -18,18 +17,30 @@ config.map(item => {
   item.paths.map(path => {
     resolvers[item.type][path.name] = async (root, args, context) => {
 
+      // Convenient aliases
+      const request = context.ctx.request;
+      const type = item.type;
+      const name = path.name;
+
       // Add before hooks
       const before = path.before || [];
       for (let k of before) {
         if (Hooks[k]) {
-          await Hooks[k](context.ctx.request, item.type, path.name, args);
+          await Hooks[k](request, type, name, args);
         }
       }
 
       // Run resolver
-      const data = await combinedResolvers[item.type][path.name](root, args, context);
+      let data = await combinedResolvers[type][name](root, args, context);
 
-      // TODO: add after hooks
+      // Add after hooks
+      const after = path.after || [];
+      for (let k of after) {
+        if (Hooks[k]) {
+          data = await Hooks[k](request, type, name, args, data);
+        }
+      }
+
       // Return data
       return data;
     }

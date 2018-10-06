@@ -15,35 +15,36 @@ import logoImg from '../logo.svg';
 
 class LoginForm extends Component {
 
-  state = { error: '' }
+  state = { loading: false, errors: '' }
 
+  /**
+   * Submit login form
+   * 
+   * @param {Event} e 
+   */
   submit(e) {
     e.preventDefault();
     const { email, password } = e.target.elements;
+    this.setState({ loading: true, errors: null });
     login(email.value, password.value).then(data => {
 
       // Success
-      const { history } = this.props;
-      history.push('/');
+      this.setState({ errors: null, loading: false }, () => {
+        const { history } = this.props;
+        history.push('/');
+      });
     })
 
     // Fail
-    .catch(error => {
-      console.log(error);
-      this.setState({ error });
+    .catch(errors => {
+      this.setState({ errors, loading: false });
     });
   }
 
   render() {
-    const { error } = this.props;
-    console.log(error);
+    const { loading, errors } = this.state;
     return (
       <div className='login-form'>
-        {/*
-          Heads up! The styles below are necessary for the correct render of this example.
-          You can do same with CSS, the main idea is that all the elements up to the `Grid`
-          below must have a height of 100%.
-        */}
         <style>{`
           body > div,
           body > div > div,
@@ -57,9 +58,11 @@ class LoginForm extends Component {
               <Image src={logoImg} /> Log-in to your account
             </Header>
             <Form size='large'
-              error={!!error}
+              loading={loading}
+              error={!!errors}
               onSubmit={this.submit.bind(this)}>
               <Segment stacked>
+
                 <Form.Input
                   fluid
                   icon='user'
@@ -67,6 +70,7 @@ class LoginForm extends Component {
                   placeholder='E-mail address'
                   name="email"
                 />
+
                 <Form.Input
                   fluid
                   icon='lock'
@@ -76,11 +80,15 @@ class LoginForm extends Component {
                   name='password'
                 />
 
-                { error ? <Message error>{ error }</Message> : null }
+                { errors && <Message error size='mini'
+                  icon='exclamation triangle'
+                  list={errors.map(e => e.message)}
+                /> }
 
                 <Button type="submit" color='teal' fluid size='large'>
                   Login
                 </Button>
+
               </Segment>
             </Form>
             

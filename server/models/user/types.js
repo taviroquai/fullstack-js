@@ -4,5 +4,7 @@ module.exports = `
     username: String
     email: String
     authtoken: String
+    active: Boolean
+    avatar: String
   }
 `

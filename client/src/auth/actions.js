@@ -2,32 +2,42 @@ import { getClient } from '../graphql';
 import * as Queries from './queries';
 import { Cookies } from 'react-cookie';
 
-export const login = (username, password) => {
+/**
+ * Authenticate user
+ * 
+ * @param {String} email 
+ * @param {String} password 
+ */
+export const login = (email, password) => {
   const client = getClient();
   return new Promise((resolve, reject) => {
     client.query({
       query: Queries.getAccessToken,
-      variables: { username, password }
+      variables: { email, password }
     }).then(r => {
-        console.log(r);
-        if (r.data.getAccessToken) {
-          const cookies = new Cookies();
-          cookies.set('jwt', r.data.getAccessToken.authtoken);
-          resolve(r.data.getAccessToken);
-        } else reject();
+        const cookies = new Cookies();
+        cookies.set('user', r.data.getAccessToken);
+        resolve(r.data.getAccessToken);
       })
       .catch(error => {
-        console.log(error);
+        reject(error.graphQLErrors)
       })
   })
 }
 
-export const isAuthenticated = () => {
+export const getUser = () => {
   const cookies = new Cookies();
-  return cookies.get('jwt');
+  return cookies.get('user');
+}
+
+export const isAuthenticated = () => {
+  return !!getUser();
 }
 
 export const logout = () => {
-  const cookies = new Cookies();
-  cookies.remove('jwt');
+  return new Promise((resolve, reject) => {
+    const cookies = new Cookies();
+    cookies.remove('user');
+    resolve(true);
+  });
 }
