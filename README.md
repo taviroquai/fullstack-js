@@ -16,7 +16,13 @@
 ```
 $ cd server
 $ npm install
+$ npm i knex -g
+$ knex migrate:latest
+$ knex seed:run
 $ node app.js &
 $ cd ../client
 $ npm install
 $ npm run start
+```
+
+Login with admin@isp.com:admin
