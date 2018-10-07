@@ -8,6 +8,7 @@ import {
   Button
 } from 'semantic-ui-react';
 import Layout from '../shared/Layout';
+import RoleUsersList from './RoleUsersList';
 import { getRoleById, saveRole } from './actions';
 
 class RolesForm extends Component {
@@ -111,6 +112,8 @@ class RolesForm extends Component {
                 </Form.Field>
               </Grid.Column>
             </Grid>
+
+            <RoleUsersList role={edit} />
 
           </Form>
         )}

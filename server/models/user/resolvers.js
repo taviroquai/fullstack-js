@@ -104,6 +104,17 @@ const resolvers = {
       await User.storeAvatar(id, stream, filename, mimetype);
       await User.query().patch({ avatar: filename }).where('id', id);
       return { filename, mimetype, encoding };
+    },
+
+    /**
+     * Change user role
+     */
+    changeUserRole: async (root, args, context) => {
+      const role_id = args.role_id || '2';
+      await User.query()
+        .patch({ role_id })
+        .where('id', args.id)
+      return true;
     }
 
   }

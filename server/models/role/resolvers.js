@@ -1,4 +1,5 @@
 const Role = require('./Role');
+const User = require('../user/User');
 
 // Fetch helper
 const getRoleById = async (id) => {
@@ -38,6 +39,14 @@ const resolvers = {
       const role = await getRoleById(args.id);
       if (!role) throw new Error('Role not found');
       return role;
+    },
+
+    /**
+     * Get assign users to role
+     */
+    getRoleUsers: async (root, args, context) => {
+      const items = await User.query().where('role_id', args.id);
+      return items;
     }
   },
 

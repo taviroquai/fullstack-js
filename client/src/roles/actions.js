@@ -1,4 +1,4 @@
-import { getModelList, getModelById, saveModel } from '../graphql';
+import { getModelList, getById, saveModel } from '../graphql';
 import * as Queries from './queries';
 
 /**
@@ -13,7 +13,7 @@ export const getRoles = () => {
  * @param {Number} id 
  */
 export const getRoleById = (id) => {
-  return getModelById(Queries, 'Role', id);
+  return getById(Queries, 'getRoleById', id);
 }
 
 /**
@@ -22,4 +22,12 @@ export const getRoleById = (id) => {
  */
 export const saveRole = (role) => {
   return saveModel(Queries, 'Role', role);
+}
+
+/**
+ * Get users that belongs to role
+ * @param {String} id 
+ */
+export const getRoleUsers = (id) => {
+  return getById(Queries, 'getRoleUsers', id);
 }

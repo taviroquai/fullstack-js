@@ -15,7 +15,7 @@ exports.seed = function(knex, Promise) {
           password: bcrypt.hashSync('admin'),
           avatar: 'admin.jpg',
           active: true,
-          role_id: 1
+          role_id: 3
         }
       ]);
     });

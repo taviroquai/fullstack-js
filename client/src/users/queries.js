@@ -47,7 +47,6 @@ mutation createUser(
     }
 }`;
 
-
 export const updateUser = gql`
 mutation updateUser(
     $id: ID!
@@ -71,6 +70,17 @@ mutation updateUser(
         active
         avatar
     }
+}`;
+
+export const changeUserRole = gql`
+mutation changeUserRole(
+    $id: ID!
+    $role_id: ID
+  ) {
+    changeUserRole(
+      id: $id
+      role_id: $role_id
+    )
 }`;
 
 export const uploadAvatar = gql`

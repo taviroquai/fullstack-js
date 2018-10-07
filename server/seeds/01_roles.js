@@ -10,9 +10,19 @@ exports.seed = function(knex, Promise) {
       return knex('roles').insert([
         {
           id: 1,
+          label: 'Anonymous',
+          system: 'ANONYMOUS'
+        },
+        {
+          id: 2,
+          label: 'Registered',
+          system: 'REGISTERED'
+        },
+        {
+          id: 3,
           label: 'Superuser',
           system: 'SUPERUSER'
-        }
+        },
       ]);
     });
 };

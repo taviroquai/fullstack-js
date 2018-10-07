@@ -32,15 +32,14 @@ export const getModelList = (Queries, modelName) => {
  * @param {String} modelName 
  * @param {String} id 
  */
-export const getModelById = (Queries, modelName, id) => {
-  const action = 'get' + modelName + 'ById';
+export const getById = (Queries, queryName, id) => {
   const client = getClient();
   return new Promise((resolve, reject) => {
     client.query({
-      query: Queries[action],
+      query: Queries[queryName],
       variables: { id }
     }).then(r => {
-      resolve(r.data[action]);
+      resolve(r.data[queryName]);
     })
     .catch(error => {
       reject(error.graphQLErrors)
@@ -92,6 +91,27 @@ export const updateModel = (Queries, modelName, model) => {
   })
 }
 
+/**
+ * Run querie
+ * @param {Object} Queries 
+ * @param {String} modelName 
+ * @param {Object} model 
+ */
+export const put = (mutation, dataName, variables) => {
+  const client = getClient();
+  return new Promise((resolve, reject) => {
+    client.mutate({
+      mutation,
+      variables
+    }).then(r => {
+      resolve(r.data[dataName]);
+    })
+    .catch(error => {
+      reject(error.graphQLErrors);
+    })
+  })
+}
+
 export const getClient = () => {
   const client = new ApolloBoost({
     uri: endpoint,
@@ -128,7 +148,7 @@ export const getUploadClient = () => {
  */
 const Actions = {
   getModelList,
-  getModelById,
+  getById,
   createModel,
   updateModel  
 }

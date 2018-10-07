@@ -53,3 +53,11 @@ mutation updateRole(
         system
     }
 }`;
+
+export const getRoleUsers = gql`
+query getRoleUsers($id: ID!) {
+  getRoleUsers(id: $id) {
+    id
+    username
+  }
+}`;

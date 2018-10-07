@@ -1,4 +1,4 @@
-import { getModelList, getModelById, saveModel, getUploadClient } from '../graphql';
+import { getModelList, getById, saveModel, getUploadClient, put } from '../graphql';
 import * as Queries from './queries';
 
 /**
@@ -13,7 +13,7 @@ export const getUsers = () => {
  * @param {Number} id 
  */
 export const getUserById = (id) => {
-  return getModelById(Queries, 'User', id);
+  return getById(Queries, 'getUserById', id);
 }
 
 /**
@@ -22,6 +22,16 @@ export const getUserById = (id) => {
  */
 export const saveUser = (user) => {
   return saveModel(Queries, 'User', user);
+}
+
+/**
+ * Update model
+ * @param {Object} Queries 
+ * @param {String} modelName 
+ * @param {Object} model 
+ */
+export const changeUserRole = (id, role_id) => {
+  return put(Queries.changeUserRole, 'changeUserRole', { id, role_id });
 }
 
 /**

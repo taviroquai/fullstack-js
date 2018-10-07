@@ -7,6 +7,7 @@ const schema = `
 
     getRoles(query: String, limit: Int, offset: Int): RoleList
     getRoleById(id: ID!): Role
+    getRoleUsers(id: ID!): [User]
   
   }
 
@@ -41,6 +42,8 @@ const schema = `
       password_confirm: String
       active: Boolean
     ): User
+
+    changeUserRole(id: ID!, role_id: ID): Boolean
   }
   
   type File {
