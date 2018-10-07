@@ -4,6 +4,7 @@ module.exports = {
 
   development: {
     client: 'pg',
+    debug: true,
     version: '7.2',
     connection: {
       host : '127.0.0.1',

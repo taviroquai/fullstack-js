@@ -1,4 +1,4 @@
-const afterExample = (request, type, action, args, data) => {
+const afterExample = (ctx, type, action, args, data) => {
   return data;
 }
 

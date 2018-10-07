@@ -30,6 +30,7 @@ class Layout extends Component {
             </Menu.Item>
 
             <Menu.Item as={Link} to='/'>Users</Menu.Item>
+            <Menu.Item as={Link} to='/roles'>Roles</Menu.Item>
 
             <Menu.Item position='right'>
               { !logged ? (

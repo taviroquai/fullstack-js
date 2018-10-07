@@ -2,12 +2,15 @@ import gql from 'graphql-tag';
 
 export const getUsers = gql`
 query getUsers {
-    getUsers {
-        id
-        username
-        email
-        active
+  getUsers {
+    total
+    results {
+      id
+      username
+      email
+      active
     }
+  }
 }`;
 
 export const getUserById = gql`
@@ -26,12 +29,14 @@ mutation createUser(
     $username: String!
     $email: String!
     $password: String!
+    $password_confirm: String!
     $active: Boolean
   ) {
   createUser(
     username: $username
     email: $email
     password: $password
+    password_confirm: $password_confirm
     active: $active
     ) {
         id
@@ -49,6 +54,7 @@ mutation updateUser(
     $username: String!
     $email: String!
     $password: String
+    $password_confirm: String
     $active: Boolean
   ) {
     updateUser(
@@ -56,6 +62,7 @@ mutation updateUser(
       username: $username
       email: $email
       password: $password
+      password_confirm: $password_confirm
       active: $active
     ) {
         id

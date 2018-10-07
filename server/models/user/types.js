@@ -1,4 +1,10 @@
 module.exports = `
+
+  type UserList {
+    total: Int,
+    results: [User]
+  }
+
   type User {
     id: ID!
     username: String

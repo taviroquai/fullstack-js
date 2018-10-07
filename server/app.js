@@ -1,13 +1,15 @@
 const Koa = require('koa');
 const send = require('koa-send');
 const Router = require('koa-router');
+const JwtDatabaseUser = require('./middleware/JwtDatabaseUser');
 const apolloServer = require('./graphql/server');
 const User = require('./models/user/User');
 
 // Create koa app
 const app = new Koa();
 
-// Apply Apollo middleware
+// Apply middleware
+app.use(JwtDatabaseUser); // Required for apollo hooks
 apolloServer.applyMiddleware({ app });
 
 // Add non-Apollo routes

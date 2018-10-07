@@ -5,7 +5,7 @@ const storageConfig = require('../../config/storage');
 const Model = require('../Model');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
-
+const pick = require('lodash.pick');
 class User extends Model {
 
   /**
@@ -16,10 +16,33 @@ class User extends Model {
   }
 
   /**
+   * Set fillable columns
+   */
+  static fillable() {
+    return [
+      'username',
+      'email',
+      'password',
+      'active',
+      'avatar'
+    ];
+  }
+
+  /**
+   * Filter input
+   * @param {Object} input 
+   */
+  static filterInput(input) {
+    return pick(input, User.fillable())
+  }
+
+  /**
    * Encrypt password before insert
    */
   async $beforeInsert() {
-    if (this.password) this.password = User.hashPassword(this.password);
+    if (this.password) {
+      this.password = User.hashPassword(this.password);
+    }
   }
 
   /**
@@ -46,11 +69,22 @@ class User extends Model {
   }
 
   /**
-   * Validate email address
-   * @param {String} email 
+   * Passwords input
+   * @param {Object} input 
    */
-  static validateEmail(email) {
-    return validator.validate(email);
+  static validateInputPasswords(input) {
+    const { password, password_confirm } = input;
+    if (password && (password !== password_confirm))
+      throw new Error('Passwords did not match');
+  }
+
+  /**
+   * Validate input email address
+   * @param {Object} input 
+   */
+  static validateInputEmail(input) {
+    if (!validator.validate(input.email))
+      throw new Error('Invalid email address');
   }
 
   /**
@@ -63,7 +97,9 @@ class User extends Model {
       properties: {
         username: { type: 'string', minLength: 8, maxLength: 255 },
         email: { type: 'string', minLength: 1, maxLength: 255 },
-        password: { type: 'string', minLength: 8, maxLength: 255}
+        password: { type: 'string', minLength: 8, maxLength: 255 },
+        avatar: { type: 'string', minLength: 0, maxLength: 255 },
+        active: { type: 'boolean' }
       }
     }
   };
@@ -103,37 +139,16 @@ class User extends Model {
     )
   }
 
+  /**
+   * Get avatar full filename
+   * 
+   * @param {Number} id 
+   * @param {String} filename 
+   */
   static getAvatarPath(id, filename) {
     const dir = storageConfig.filesystem.path + '/users/avatar';
     const path = `${dir}/${filename}`;
     return path;
-    
-    /*
-    const mime = require('mime');
-    const mimetype = mime.lookup(file);
-
-    res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-    res.setHeader('Content-type', mimetype);
-
-    var filestream = fs.createReadStream(file);
-    filestream.pipe(res);
-    */
-  }
-
-  /**
-   * Set relation mappings
-   */
-  static get relationMappings() {
-    return {
-      children: {
-        relation: Model.HasManyRelation,
-        modelClass: User,
-        join: {
-          from: 'users.id',
-          to: 'users.parentId'
-        }
-      }
-    };
   }
 }
 

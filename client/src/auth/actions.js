@@ -16,7 +16,7 @@ export const login = (email, password) => {
       variables: { email, password }
     }).then(r => {
         const cookies = new Cookies();
-        cookies.set('user', r.data.getAccessToken);
+        cookies.set('user', r.data.getAccessToken, { maxAge: 40000 });
         resolve(r.data.getAccessToken);
       })
       .catch(error => {

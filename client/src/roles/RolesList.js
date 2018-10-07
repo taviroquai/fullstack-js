@@ -9,24 +9,24 @@ import {
   Icon
 } from 'semantic-ui-react';
 import Layout from '../shared/Layout';
-import { getUsers } from './actions';
+import { getRoles } from './actions';
 
-class UsersList extends Component {
+class RolesList extends Component {
 
   state = {
     loading: false,
     total: 0,
-    users: [],
+    roles: [],
     errors: null
   }
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true});
-    getUsers().then((users, total) => {
+    getRoles().then((roles, total) => {
       this.setState({
         ...this.state,
         loading: false,
-        users,
+        roles,
         total
        });
     }).catch(errors => {
@@ -35,15 +35,15 @@ class UsersList extends Component {
   }
 
   render() {
-    const { loading, errors, users } = this.state;
+    const { loading, errors, roles } = this.state;
     return (
       <Layout>
         <Header as='h1'>
-          Users
+          Roles
 
           <Button floated='right' primary icon
             size='mini'
-            as={Link} to='/users/edit'>
+            as={Link} to='/roles/edit'>
             <Icon name="plus" />
           </Button>
         </Header>
@@ -58,34 +58,22 @@ class UsersList extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Username</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Active</Table.HeaderCell>
+                <Table.HeaderCell>Label</Table.HeaderCell>
+                <Table.HeaderCell>System</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
-              { users.map(user => (
-                <Table.Row key={user.id}>
-                  <Table.Cell>{user.id}</Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>
-                    { user.active ? (
-                      <React.Fragment>
-                        <Icon circular color='green' name="check" />Active
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <Icon circular color='red' name="remove" />Inactive
-                      </React.Fragment>
-                    )}
-                  </Table.Cell>
+              { roles.map(role => (
+                <Table.Row key={role.id}>
+                  <Table.Cell>{role.id}</Table.Cell>
+                  <Table.Cell>{role.label}</Table.Cell>
+                  <Table.Cell>{role.system}</Table.Cell>
                   <Table.Cell>
                     <Button.Group>
                       <Button primary icon
-                        as={Link} to={'/users/edit/'+user.id}>
+                        as={Link} to={'/roles/edit/'+role.id}>
                         <Icon name="pencil" />
                       </Button>
                     </Button.Group>
@@ -102,4 +90,4 @@ class UsersList extends Component {
   }
 }
 
-export default UsersList;
+export default RolesList;

@@ -5,6 +5,8 @@ import LoginForm from './auth/LoginForm';
 import Logout from './auth/Logout';
 import UsersList from './users/UsersList';
 import UsersForm from './users/UsersForm';
+import RolesList from './roles/RolesList';
+import RolesForm from './roles/RolesForm';
 import RedirectNotAuthenticated from './auth/RedirectNotAuthenticated';
 
 class App extends Component {
@@ -18,6 +20,8 @@ class App extends Component {
             <RedirectNotAuthenticated to='/login'>
               <Route exact path="/" component={UsersList} />
               <Route path="/users/edit/:id?" component={UsersForm} />
+              <Route exact path="/roles" component={RolesList} />
+              <Route path="/roles/edit/:id?" component={RolesForm} />
             </RedirectNotAuthenticated>
           </Switch>
         </Router>

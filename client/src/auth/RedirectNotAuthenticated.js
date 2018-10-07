@@ -5,9 +5,9 @@ import { isAuthenticated } from './actions';
 class RedirectNotAuthenticated extends Component {
 
   render() {
-    const { redirect, children } = this.props;
+    const { to, children } = this.props;
     const result = isAuthenticated();
-    return result ? children : <Redirect to={redirect} />;
+    return result ? children : <Redirect to={to} />;
   }
 }
 

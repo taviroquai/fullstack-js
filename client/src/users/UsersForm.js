@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   Grid,
-  Segment,
   Header,
   Form,
   Loader,
@@ -22,7 +21,9 @@ class UsersForm extends Component {
     edit: {
       id: '',
       username: '',
-      email: ''
+      email: '',
+      password: '',
+      password_confirm: ''
     }
   }
 
@@ -45,37 +46,9 @@ class UsersForm extends Component {
     this.setState({ ...this.state, edit });
   }
 
-  /**
-   * Validate password
-   * 
-   * @param {String} password 
-   * @param {String} password_confirm 
-   * @param {Object} edit 
-   */
-  validatePassword(password, password_confirm, edit) {
-    if (password) {
-      if (password !== password_confirm) {
-        return false;
-      } else {
-        edit.password = password;
-      }
-    }
-    return true;
-  }
-
   onSubmit(e) {
     e.preventDefault();
     let { edit } = this.state;
-
-    // Validate password
-    const { password, password_confirm } = e.target.elements;
-    const isValid = this.validatePassword(password.value, password_confirm.value, edit);
-    if (!isValid) {
-      return this.setState({
-        ...this.state,
-        errors: [{message: 'Password does not match'}]
-      });
-    }
 
     // Save user
     this.setState({ ...this.state, loading: true, success: null });
@@ -126,10 +99,15 @@ class UsersForm extends Component {
     return (
       <Layout>
 
-        { edit.id ?
-        <Header as='h1'>Edit User</Header> :
-        <Header as='h1'>Create User</Header>
-        }
+        <Header as='h1'>
+        { edit.id ? 'Edit User' : 'Create User' }
+          <Button primary
+            floated='right'
+            onClick={e => this.onSubmit(e)}
+            type='submit'>
+            Save
+          </Button>
+        </Header>
 
         { errors && <Message error size='mini'
           icon='exclamation triangle'
@@ -167,7 +145,7 @@ class UsersForm extends Component {
             </Grid>
 
             <Grid>
-              <Grid.Column mobile={12}>
+              <Grid.Column computer={12} mobile={8} tablet={12}>
                 <Form.Field>
                   <label>Email</label>
                   <Form.Input value={edit.email}
@@ -179,26 +157,28 @@ class UsersForm extends Component {
                   <label>Password { edit.id ? '(opcional)' : ''}</label>
                   <Form.Input
                     type='password'
-                    name='password'
+                    value={edit.password}
                     placeholder='Enter password'
+                    onChange={e => this.onEdit('password', e.target.value)}
                   />
                 </Form.Field>
                 <Form.Field>
                   <label>Confirm Password</label>
                   <Form.Input
                     type='password'
-                    name='password_confirm'
+                    value={edit.password_confirm}
                     placeholder='Confirm password...'
+                    onChange={e => this.onEdit('password_confirm', e.target.value)}
                   />
                 </Form.Field>
               </Grid.Column>
-              <Grid.Column mobile={4}>
+              <Grid.Column computer={4} mobile={8} tablet={4}>
                 <Form.Field>
                   <label>Avatar</label>
                   <label htmlFor="avatar"
+                    title='Choose file'
                     className="ui primary button">
                       <i className="ui upload icon"></i>
-                      Carregar
                   </label>
                   <input name="upload"
                     id="avatar"
@@ -214,10 +194,6 @@ class UsersForm extends Component {
               </Grid.Column>
             </Grid>
 
-            <Segment basic align='right'>
-              <Button primary type='submit'>Save</Button>
-            </Segment>
-            
           </Form>
         )}
         
