@@ -1,5 +1,7 @@
-const isAuthenticated = require('./isAuthenticated');
+const onlyUsers = require('./onlyUsers');
+const afterExample = require('./afterExample');
 
 module.exports = {
-  isAuthenticated
+  onlyUsers,
+  afterExample
 }

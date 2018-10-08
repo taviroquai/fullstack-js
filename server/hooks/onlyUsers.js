@@ -8,9 +8,9 @@ const User = require('../models/user/User');
  * @param {String} action 
  * @param {Object} args 
  */
-const isAuthenticated = async (ctx, type, action, args) => {
+const hook = async (ctx, type, action, args) => {
   const { user } = ctx.state;
-  if (!user) throw new Error('User not authenticated');
+  if (!user) throw new Error('Authentication required');
 }
 
-module.exports = isAuthenticated;
+module.exports = hook;

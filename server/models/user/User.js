@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/auth');
 const storageConfig = require('../../config/storage');
 const Model = require('../Model');
+const Role = require('../role/Role');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
 const pick = require('lodash.pick');
@@ -105,6 +106,22 @@ class User extends Model {
   };
 
   /**
+   * Role relation
+   */
+  static get relationMappings() {
+    return {
+      role: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Role,
+        join: {
+          from: 'users.role_id',
+          to: 'roles.id'
+        }
+      }
+    }
+  }
+
+  /**
    * Regenerate Jwt
    * TODO: add expire date
    */
@@ -129,7 +146,6 @@ class User extends Model {
       stream
         .on('error', error => {
           if (stream.truncated)
-            // delete the truncated file
             fs.unlinkSync(path)
           reject(error)
         })

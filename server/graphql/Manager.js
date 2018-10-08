@@ -1,7 +1,6 @@
-const fs = require('fs');
-const find = require('lodash.find');
+const Resource = require('../models/resource/Resource');
 const { gql } = require('apollo-server-koa');
-const Hooks = require('../hooks');
+const HooksAvailable = require('../hooks');
 const Types = require('../models/types');
 const combinedResolvers = require('../models/resolvers');
 const schema = require('./schema');
@@ -23,26 +22,38 @@ class Manager {
         resolvers[type][name] = async (root, args, context) => {
 
           // Find configuration for resolver
-          const graphqlConfig = JSON.parse(fs.readFileSync('./config/graphql.json'));
-          const config = find(graphqlConfig, { name: type+'.'+name }) || {};
-          console.log(config);
+          const resource = await Resource.query()
+            .where('system', type+'.'+name)
+            .first();
 
-          // Add before hooks
-          const before = config.before || [];
-          for (let k of before) {
-            if (Hooks[k]) {
-              await Hooks[k](context.ctx, type, name, args);
+          // Run before hooks
+          if (resource) {
+            const before = await resource
+              .$relatedQuery('hooks')
+              .where('active', true)
+              .where('type', 'before')
+              .orderBy('order');
+            for (let k of before) {
+              if (HooksAvailable[k.system]) {
+                await HooksAvailable[k.system](context.ctx, type, name, args);
+              }
             }
           }
 
           // Run resolver
           let data = await combinedResolvers[type][name](root, args, context);
 
-          // Add after hooks
-          const after = config.after || [];
-          for (let k of after) {
-            if (Hooks[k]) {
-              data = await Hooks[k](context.ctx, type, name, args, data);
+          // Run after hooks
+          if (resource) {
+            const after = await resource
+              .$relatedQuery('hooks')
+              .where('active', true)
+              .where('type', 'after')
+              .orderBy('order');
+            for (let k of after) {
+              if (HooksAvailable[k.system]) {
+                data = await HooksAvailable[k.system](context.ctx, type, name, args, data);
+              }
             }
           }
 
@@ -52,6 +63,12 @@ class Manager {
       });
     });
     return resolvers;
+  }
+
+  generateStaticConfig() {
+    return new Promise((resolve, reject) => {
+
+    }); 
   }
 }
 
