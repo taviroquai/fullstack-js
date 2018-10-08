@@ -48,7 +48,7 @@ class RoleUsersList extends Component {
     const role_id = current.indexOf(user.id) > -1 ? null : role.id;
     this.setState({ ...this.state, loading: true});
     changeUserRole(user.id, role_id).then(() => {
-      this.reload();
+      this.reload(role);
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors });
     });
@@ -60,8 +60,8 @@ class RoleUsersList extends Component {
     if (!role.id) return null;
     return (
       <React.Fragment>
-        <Header as='h1'>
-          Users
+        <Header as='h3'>
+          Users In Role
         </Header>
 
         { errors && <Message error size='mini'
