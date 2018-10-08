@@ -21,6 +21,14 @@ query getPermissions(
       resource_id
       role_id
       access
+      resource {
+        id
+        system
+      }
+      role {
+        id
+        label
+      }
     }
   }
 }`;

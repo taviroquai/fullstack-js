@@ -108,6 +108,7 @@ class User extends Model {
   /**
    * Role relation
    */
+  /*
   static get relationMappings() {
     return {
       role: {
@@ -120,6 +121,7 @@ class User extends Model {
       }
     }
   }
+  */
 
   /**
    * Regenerate Jwt

@@ -18,11 +18,11 @@ const resolvers = {
      */
     getPermissions: async (root, args, context) => {
       const query = Permission.query();
-      const limit = args.limit || 25;
+      const limit = args.limit || 999;
       const page = args.page || 0;
 
       // Load relations
-      //query.eager('role');
+      query.eager('[role, resource]');
 
       // Filter by role
       if (args.role_id) {

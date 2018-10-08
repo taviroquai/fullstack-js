@@ -27,6 +27,7 @@ class Role extends Model {
   /**
    * Set relation mappings
    */
+  /*
   static get relationMappings() {
     return {
       users: {
@@ -39,6 +40,7 @@ class Role extends Model {
       }
     };
   }
+  */
 }
 
 module.exports = Role;

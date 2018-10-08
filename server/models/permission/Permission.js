@@ -36,15 +36,7 @@ class Permission extends Model {
           from: 'permissions.role_id',
           to: 'roles.id'
         }
-      }
-    }
-  }
-
-  /**
-   * Resource relation
-   */
-  static get relationMappings() {
-    return {
+      },
       resource: {
         relation: Model.BelongsToOneRelation,
         modelClass: Resource,
@@ -55,7 +47,6 @@ class Permission extends Model {
       }
     }
   }
-
 }
 
 module.exports = Permission;
