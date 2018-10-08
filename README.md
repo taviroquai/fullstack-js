@@ -36,6 +36,7 @@ $ knex seed:run
 $ node app.js &
 $ cd ../client
 $ npm install
+$ cp .env.example .env
 $ npm run start
 ```
 
