@@ -11,12 +11,13 @@ const endpoint = process.env.REACT_APP_API_URL;
  * @param {Object} Queries 
  * @param String} modelName 
  */
-export const getModelList = (Queries, modelName) => {
+export const getModelList = (Queries, modelName, variables) => {
   const action = 'get' + modelName;
   const client = getClient();
   return new Promise((resolve, reject) => {
     client.query({
-      query: Queries[action]
+      query: Queries[action],
+      variables
     }).then(r => {
       resolve(r.data[action].results, r.data[action].total);
     })

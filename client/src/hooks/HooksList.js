@@ -9,24 +9,24 @@ import {
   Icon
 } from 'semantic-ui-react';
 import Layout from '../shared/Layout';
-import { getUsers } from './actions';
+import { getHooks } from './actions';
 
-class UsersList extends Component {
+class HooksList extends Component {
 
   state = {
     loading: false,
     total: 0,
-    users: [],
+    hooks: [],
     errors: null
   }
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true});
-    getUsers().then((users, total) => {
+    getHooks().then((hooks, total) => {
       this.setState({
         ...this.state,
         loading: false,
-        users,
+        hooks,
         total
        });
     }).catch(errors => {
@@ -35,14 +35,14 @@ class UsersList extends Component {
   }
 
   render() {
-    const { loading, errors, users } = this.state;
+    const { loading, errors, hooks } = this.state;
     return (
       <Layout>
         <Header as='h1'>
-          Users
+          Hooks
 
           <Button floated='right' primary
-            as={Link} to='/users/edit'>
+            as={Link} to='/hooks/edit'>
             New
           </Button>
         </Header>
@@ -57,36 +57,20 @@ class UsersList extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Username</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Active</Table.HeaderCell>
+                <Table.HeaderCell>System</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
-              { users.map(user => (
-                <Table.Row key={user.id}>
-                  <Table.Cell>{user.id}</Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>
-
-                    { user.active ? (
-                      <React.Fragment>
-                        <Icon circular color='green' name="check" />Active
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <Icon circular color='red' name="remove" />Inactive
-                      </React.Fragment>
-                    )}
-
-                  </Table.Cell>
+              { hooks.map(hook => (
+                <Table.Row key={hook.id}>
+                  <Table.Cell>{hook.id}</Table.Cell>
+                  <Table.Cell>{hook.system}</Table.Cell>
                   <Table.Cell width={1}>
                     <Button.Group>
                       <Button primary icon
-                        as={Link} to={'/users/edit/'+user.id}>
+                        as={Link} to={'/hooks/edit/'+hook.id}>
                         <Icon name="pencil" />
                       </Button>
                     </Button.Group>
@@ -103,4 +87,4 @@ class UsersList extends Component {
   }
 }
 
-export default UsersList;
+export default HooksList;

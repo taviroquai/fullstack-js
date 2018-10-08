@@ -41,10 +41,9 @@ class RolesList extends Component {
         <Header as='h1'>
           Roles
 
-          <Button floated='right' primary icon
-            size='mini'
+          <Button floated='right' primary
             as={Link} to='/roles/edit'>
-            <Icon name="plus" />
+            New
           </Button>
         </Header>
 
@@ -70,9 +69,10 @@ class RolesList extends Component {
                   <Table.Cell>{role.id}</Table.Cell>
                   <Table.Cell>{role.label}</Table.Cell>
                   <Table.Cell>{role.system}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell width={1}>
                     <Button.Group>
                       <Button primary icon
+                        size='mini'
                         as={Link} to={'/roles/edit/'+role.id}>
                         <Icon name="pencil" />
                       </Button>

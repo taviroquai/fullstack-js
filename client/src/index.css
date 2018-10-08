@@ -12,3 +12,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.ui.header > .ui.button {
+  font-size: 1rem;
+}
+
+.ui.button.mini {
+  font-size: 0.8rem;
+}

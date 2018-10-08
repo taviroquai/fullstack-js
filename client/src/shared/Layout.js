@@ -21,7 +21,7 @@ class Layout extends Component {
       <div>
         <Menu fixed='top' inverted>
           <Container>
-            <Menu.Item as='a' header>
+            <Menu.Item as={Link} header to='/'>
               <Image size='mini'
                 src={logoImg}
                 style={{ marginRight: '1.5em' }}
@@ -29,10 +29,17 @@ class Layout extends Component {
               Brand
             </Menu.Item>
 
-            <Menu.Item as={Link} to='/'>Users</Menu.Item>
-            <Menu.Item as={Link} to='/roles'>Roles</Menu.Item>
-
             <Menu.Item position='right'>
+              <Dropdown item simple text={'System'}>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to='/users'>Users</Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/roles'>Roles</Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/resources'>Resources</Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/permissions'>Permissions</Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/hooks'>Hooks</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
               { !logged ? (
                 <Button as={Link} to='/login'>
                   Log in
