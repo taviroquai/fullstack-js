@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/auth');
 const storageConfig = require('../../config/storage');
 const Model = require('../Model');
-const Role = require('../role/Role');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
 const pick = require('lodash.pick');
@@ -108,8 +107,8 @@ class User extends Model {
   /**
    * Role relation
    */
-  /*
   static get relationMappings() {
+    const Role = require('../role/Role');
     return {
       role: {
         relation: Model.BelongsToOneRelation,
@@ -121,7 +120,6 @@ class User extends Model {
       }
     }
   }
-  */
 
   /**
    * Regenerate Jwt

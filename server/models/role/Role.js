@@ -1,5 +1,4 @@
 const Model = require('../Model');
-const User = require('../user/User');
 
 class Role extends Model {
 
@@ -27,8 +26,8 @@ class Role extends Model {
   /**
    * Set relation mappings
    */
-  /*
   static get relationMappings() {
+    const User = require('../user/User');
     return {
       users: {
         relation: Model.HasManyRelation,
@@ -40,7 +39,7 @@ class Role extends Model {
       }
     };
   }
-  */
+
 }
 
 module.exports = Role;

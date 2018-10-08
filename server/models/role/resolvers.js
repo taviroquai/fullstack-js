@@ -18,7 +18,7 @@ const resolvers = {
      * Get roles list
      */
     getRoles: async (root, args, context) => {
-      const query = Role.query();
+      const query = Role.query().eager('users');
       const limit = args.limit || 25;
       const page = args.page || 0;
 
