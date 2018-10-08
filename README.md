@@ -1,6 +1,16 @@
 # Fullstack Javascript Framework
 
-## Featuring UI Authorization for Graphql
+WARNING: this is an ongoing work. don't use in production yet!
+
+## Featuring Advanced Authorization for Graphql
+Role based + Policy based authorization using:
+1. User - The authenticated object
+2. Role - Group for permissions and policies
+3. Resource - Graphql resource (Queries, Mutations, etc...)
+4. Permission - Access (allow/deny) for Role/Resource
+5. Policy (or hook) - IN-code function, allows to compare database attributes for fine-grained permissions
+6. Role-policy (TODO) - Access (allow/deny) for Role/Policy. Allows to exclude policies for some roles
+7. Batteries included: React backend UI (Semantic UI) to manage all this!
 
 ## Server
 1. KnexJS - For database connections and migrations
@@ -29,4 +39,4 @@ $ npm install
 $ npm run start
 ```
 
-Login with admin@isp.com:admin
+Login with ([look at the code](./server/seeds/02_users.js#L14))
