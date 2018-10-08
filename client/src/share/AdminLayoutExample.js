@@ -19,7 +19,7 @@ class Layout extends Component {
                 src={logoImg}
                 style={{ marginRight: '1.5em' }}
               />
-              Brand
+              <span className="desk-only">Brand</span>
             </Menu.Item>
             <TopMenuLeft />
 

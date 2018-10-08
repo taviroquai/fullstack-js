@@ -12,5 +12,6 @@ module.exports = `
     authtoken: String
     active: Boolean
     avatar: String
+    role_id: ID
   }
 `

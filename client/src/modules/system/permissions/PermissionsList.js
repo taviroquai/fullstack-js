@@ -137,7 +137,7 @@ class PermissionsList extends Component {
                     size='mini'
                     onClick={this.toggleAccess.bind(this, permission)}
                     style={{ marginTop: '0.5rem' }}
-                  />{' '}
+                  />
 
                 </Table.Cell>
               </Table.Row>

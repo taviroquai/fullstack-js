@@ -59,5 +59,6 @@ query getRoleUsers($id: ID!) {
   getRoleUsers(id: $id) {
     id
     username
+    role_id
   }
 }`;

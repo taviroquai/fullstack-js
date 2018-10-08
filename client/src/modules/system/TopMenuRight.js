@@ -8,9 +8,10 @@ class TopMenuItem extends Component {
     return (
       <React.Fragment>
 
-        <Dropdown item simple text={(
+        <Dropdown item simple trigger={(
             <React.Fragment>
               <Icon name="cog" />
+              <span className="desk-only">System</span>
             </React.Fragment>
           )}>
           <Dropdown.Menu>

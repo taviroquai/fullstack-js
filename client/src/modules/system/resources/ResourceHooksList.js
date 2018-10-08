@@ -6,7 +6,6 @@ import {
   Message,
   Checkbox
 } from 'semantic-ui-react';
-import Layout from '../../../share/AdminLayoutExample';
 import { changeHookResource } from '../hooks/actions';
 import { getResourceHooks } from './actions';
 
@@ -58,7 +57,7 @@ class ResourceHooksList extends Component {
     const { loading, errors, hooks } = this.state;
     if (!resource.id) return null;
     return (
-      <Layout>
+      <React.Fragment>
         <Header as='h1'>
           Hooks
         </Header>
@@ -101,7 +100,7 @@ class ResourceHooksList extends Component {
 
         </Table>
 
-      </Layout>
+      </React.Fragment>
     )
   }
 }

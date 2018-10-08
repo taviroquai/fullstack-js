@@ -4,10 +4,8 @@ import {
   Table,
   Loader,
   Message,
-  Button,
-  Icon
+  Checkbox
 } from 'semantic-ui-react';
-import Layout from '../../../share/AdminLayoutExample';
 import { getUsers, changeUserRole } from '../users/actions';
 import { getRoleUsers } from './actions';
 
@@ -44,21 +42,13 @@ class RoleUsersList extends Component {
     this.reload(role);
   }
 
-  addUser(user_id) {
+  toggleUser(user) {
     const { role } = this.props;
+    const { current } = this.state;
+    const role_id = current.indexOf(user.id) > -1 ? null : role.id;
     this.setState({ ...this.state, loading: true});
-    changeUserRole(user_id, role.id).then(() => {
-      this.reload(role);
-    }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
-    });
-  }
-
-  removeUser(user_id) {
-    const { role } = this.props;
-    this.setState({ ...this.state, loading: true});
-    changeUserRole(user_id, null).then(() => {
-      this.reload(role);
+    changeUserRole(user.id, role_id).then(() => {
+      this.reload();
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors });
     });
@@ -68,9 +58,8 @@ class RoleUsersList extends Component {
     const { role } = this.props;
     const { loading, errors, users, current } = this.state;
     if (!role.id) return null;
-    console.log(users, current);
     return (
-      <Layout>
+      <React.Fragment>
         <Header as='h1'>
           Users
         </Header>
@@ -97,21 +86,14 @@ class RoleUsersList extends Component {
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell width={1}>
 
-                    { current.indexOf(user.id) > -1 ? (
-                      <Button negative icon
-                        title='Remove user'
-                        size='mini'
-                        onClick={this.removeUser.bind(this, user.id)}>
-                        <Icon name="minus" />
-                      </Button>
-                    ) : (
-                      <Button positive icon
-                        title='Add user'
-                        size='mini'
-                        onClick={this.addUser.bind(this, user.id)}>
-                        <Icon name="plus" />
-                      </Button>
-                    )}
+                    <Checkbox toggle
+                      disabled={loading}
+                      checked={current.indexOf(user.id) > -1}
+                      title={current.indexOf(user.id) > -1 ? 'Deny' : 'Allow'}
+                      size='mini'
+                      onClick={this.toggleUser.bind(this, user)}
+                      style={{ marginTop: '0.5rem' }}
+                    />
 
                   </Table.Cell>
                 </Table.Row>
@@ -121,7 +103,7 @@ class RoleUsersList extends Component {
           </Table>
         )}
 
-      </Layout>
+      </React.Fragment>
     )
   }
 }

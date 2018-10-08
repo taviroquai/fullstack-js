@@ -23,6 +23,10 @@ code {
   font-size: 0.8rem;
 }
 
+.ui.menu .item {
+  padding: .92857143em 0.9em;
+}
+
 @media (min-width: 768px) {
   .desk-only {
     display: inherit;
