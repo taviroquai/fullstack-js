@@ -1,4 +1,4 @@
-# Javascript Fullstack Boilerplate
+# Fullstack Javascript Framework
 
 ## Featuring UI Authorization for Graphql
 
