@@ -10,6 +10,7 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import ResourceHooksList from './ResourceHooksList';
 import { getResourceById, saveResource } from './actions';
+import loc from '../../../locales/en/translations';
 
 class ResourcesForm extends Component {
 
@@ -53,7 +54,7 @@ class ResourcesForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'Resource saved successfully'
+        success: loc.resource_saved_successfully
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -66,7 +67,9 @@ class ResourcesForm extends Component {
       <Layout>
 
         <Header as='h1'>
-        { edit.id ? 'Edit Resource' : 'Create Resource' }
+
+          { (edit.id ? loc.edit : loc.create) + ' ' + loc.resource}
+          
           <Button primary
             floated='right'
             onClick={e => this.onSubmit(e)}
@@ -82,7 +85,7 @@ class ResourcesForm extends Component {
 
         { success && <Message success size='mini'
           icon='bullhorn'
-          content='Resource saved successfully'
+          content={success}
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
@@ -91,9 +94,9 @@ class ResourcesForm extends Component {
             <Grid>
               <Grid.Column width={16}>
                 <Form.Field>
-                  <label>System Keyword</label>
+                  <label>{loc.system_keyword}</label>
                   <Form.Input value={edit.system}
-                    placeholder="Enter system keyword..."
+                    placeholder={loc.enter_system_keyword}
                     onChange={e => this.onEdit('system', e.target.value)}
                   />
                 </Form.Field>

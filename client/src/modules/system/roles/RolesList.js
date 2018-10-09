@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getRoles } from './actions';
+import loc from '../../../locales/en/translations';
 
 class RolesList extends Component {
 
@@ -39,11 +40,11 @@ class RolesList extends Component {
     return (
       <Layout>
         <Header as='h1'>
-          Roles
+          {loc.roles}
 
           <Button floated='right' primary
             as={Link} to='/roles/edit'>
-            New
+            {loc.create}
           </Button>
         </Header>
 
@@ -56,9 +57,9 @@ class RolesList extends Component {
           <Table size='small'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Label</Table.HeaderCell>
-                <Table.HeaderCell>System Keyword</Table.HeaderCell>
+                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.label}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.system_keyword}</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>

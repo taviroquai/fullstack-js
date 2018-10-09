@@ -1,5 +1,6 @@
 const Role = require('./Role');
 const User = require('../user/User');
+const locales = require('../../locales/en/translations.json');
 
 // Fetch helper
 const getRoleById = async (id) => {
@@ -36,9 +37,8 @@ const resolvers = {
      * Get role by id
      */
     getRoleById: async (root, args, context) => {
-      console.log('getRoleById args', args);
       const role = await getRoleById(args.id);
-      if (!role) throw new Error('Role not found');
+      if (!role) throw new Error(locales.error_role_not_found);
       return role;
     },
 

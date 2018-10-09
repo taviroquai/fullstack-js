@@ -11,6 +11,8 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleUsersList from './RoleUsersList';
 import { getUserById, saveUser, uploadAvatar } from './actions';
+import loc from '../../../locales/en/translations';
+
 const endpoint = process.env.REACT_APP_SERVER_URL;
 
 class UsersForm extends Component {
@@ -58,7 +60,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'User saved successfully'
+        success: loc.user_saved_successfuly
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -87,7 +89,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'Avatar uploaded',
+        success: loc.avatar_uploaded,
         edit
       });
     }).catch(errors => {
@@ -101,12 +103,12 @@ class UsersForm extends Component {
       <Layout>
 
         <Header as='h1'>
-        { edit.id ? 'Edit User' : 'Create User' }
+        { (edit.id ? loc.edit : loc.create) + ' ' + loc.user }
           <Button primary
             floated='right'
             onClick={e => this.onSubmit(e)}
             type='submit'>
-            Save
+            {loc.save}
           </Button>
         </Header>
 
@@ -117,7 +119,7 @@ class UsersForm extends Component {
 
         { success && <Message success size='mini'
           icon='bullhorn'
-          content='User saved successfully'
+          content={success}
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
@@ -126,16 +128,16 @@ class UsersForm extends Component {
             <Grid>
               <Grid.Column mobile={12}>
                 <Form.Field>
-                  <label>Username</label>
+                  <label>{loc.username}</label>
                   <Form.Input value={edit.username}
-                    placeholder="Enter username..."
+                    placeholder={loc.enter_username}
                     onChange={e => this.onEdit('username', e.target.value)}
                   />
                 </Form.Field>
               </Grid.Column>
               <Grid.Column mobile={4}>
                 <Form.Field>
-                  <label>Active</label>
+                  <label>{loc.active}</label>
                   <Form.Checkbox
                     toggle
                     checked={edit.active}
@@ -148,42 +150,42 @@ class UsersForm extends Component {
             <Grid>
               <Grid.Column computer={12} mobile={8} tablet={12}>
                 <Form.Field>
-                  <label>Email</label>
+                  <label>{loc.email}</label>
                   <Form.Input value={edit.email}
-                    placeholder="Enter email address..."
+                    placeholder={loc.enter_email_address}
                     onChange={e => this.onEdit('email', e.target.value)}
                   />
                 </Form.Field>
                 <Form.Field>
-                  <label>Password { edit.id ? '(opcional)' : ''}</label>
+                  <label>{loc.password} { edit.id ? loc.opcional : ''}</label>
                   <Form.Input
                     type='password'
                     value={edit.password}
-                    placeholder='Enter password'
+                    placeholder={loc.enter_password}
                     onChange={e => this.onEdit('password', e.target.value)}
                   />
                 </Form.Field>
                 <Form.Field>
-                  <label>Confirm Password</label>
+                  <label>{loc.confirm_password}</label>
                   <Form.Input
                     type='password'
                     value={edit.password_confirm}
-                    placeholder='Confirm password...'
+                    placeholder={loc.confirm_password}
                     onChange={e => this.onEdit('password_confirm', e.target.value)}
                   />
                 </Form.Field>
               </Grid.Column>
               <Grid.Column computer={4} mobile={8} tablet={4}>
                 <Form.Field>
-                  <label>Avatar</label>
+                  <label>{loc.avatar}</label>
                   <label htmlFor="avatar"
-                    title='Choose file'
+                    title={loc.choose_file}
                     className="ui primary button">
                       <i className="ui upload icon"></i>
                   </label>
                   <input name="upload"
                     id="avatar"
-                    placeholder="Escolha o ficheiro"
+                    placeholder={loc.choose_file}
                     type="file"
                     accept="image/jpeg,image/png"
                     onChange={e => this.onUpload(edit.id, e.target.files)}

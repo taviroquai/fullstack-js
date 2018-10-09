@@ -5,6 +5,7 @@ import { Container, Image, List, Menu, Segment } from 'semantic-ui-react';
 import TopMenuLeft from '../modules/topmenuleft';
 import TopMenuRight from '../modules/topmenuright';
 import logoImg from '../assets/logo.svg';
+import loc from '../locales/en/translations';
 
 class Layout extends Component {
 
@@ -19,7 +20,7 @@ class Layout extends Component {
                 src={logoImg}
                 style={{ marginRight: '1.5em' }}
               />
-              <span className="desk-only">Brand</span>
+              <span className="desk-only">{loc.brand}</span>
             </Menu.Item>
             <TopMenuLeft />
 
@@ -44,7 +45,7 @@ class Layout extends Component {
               <Image centered size='mini' src={logoImg} />
               <List horizontal inverted divided link>
                 <List.Item as='a' href='#'>
-                  Fullstack Javascript Framework { (new Date()).getFullYear() }
+                  {loc.copyright} { (new Date()).getFullYear() }
                 </List.Item>
               </List>
             </Container>

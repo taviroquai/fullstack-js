@@ -7,6 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getResourceHooks, updateResourceHook } from './actions';
+import loc from '../../../locales/en/translations';
 
 class ResourceHooksList extends Component {
 
@@ -55,7 +56,7 @@ class ResourceHooksList extends Component {
     return (
       <React.Fragment>
         <Header as='h3'>
-          Applied Policies
+          {loc.applied_hooks}
         </Header>
 
         { errors && <Message negative size='mini'
@@ -66,8 +67,8 @@ class ResourceHooksList extends Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>System Keyword</Table.HeaderCell>
+              <Table.HeaderCell>{loc.id}</Table.HeaderCell>
+              <Table.HeaderCell>{loc.system_keyword}</Table.HeaderCell>
               <Table.HeaderCell>
                 { loading && <Loader inline active /> }
               </Table.HeaderCell>
@@ -84,7 +85,10 @@ class ResourceHooksList extends Component {
                   <Checkbox toggle
                     disabled={loading}
                     checked={hook.active}
-                    title={hook.active ? 'Deactivate Hook' : 'Activate Hook'}
+                    title={
+                      (hook.active ? loc.deactivate : loc.activate)
+                      + ' ' + loc.policy 
+                    }
                     size='mini'
                     onClick={this.toggleHook.bind(this, hook)}
                   />

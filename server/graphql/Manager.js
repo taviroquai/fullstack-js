@@ -8,6 +8,7 @@ const HooksAvailable = require('../hooks');
 const Types = require('../models/types');
 const combinedResolvers = require('../models/resolvers');
 const schema = require('./schema');
+const locales = require('../locales/en/translations.json');
 
 /**
  * Graphql configuration manager
@@ -59,7 +60,7 @@ class Manager {
       const roles = await Manager.getRolesFromUser(user);
       const resource = await Manager.getResourceFromTypeName(type, name);
       const denied = resource ? await Manager.getAccessDenied(roles, resource) : false;
-      if (!!denied) throw new Error('Access denied');
+      if (!!denied) throw new Error(locales.error_access_denied);
 
       // Wrap hooks in sequence (before and after)
       args = await Manager.runHooks(roles, resource, 'before', context, type, name, args);

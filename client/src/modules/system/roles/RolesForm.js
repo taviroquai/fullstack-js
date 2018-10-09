@@ -10,6 +10,7 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleHooksList from './RoleHooksList';
 import { getRoleById, saveRole } from './actions';
+import loc from '../../../locales/en/translations';
 
 class RolesForm extends Component {
 
@@ -59,7 +60,7 @@ class RolesForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'Role saved successfully'
+        success: loc.role_saved_successfully
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -72,13 +73,13 @@ class RolesForm extends Component {
       <Layout>
 
         <Header as='h1'>
-          { edit.id ? 'Edit Role' : 'Create Role' }
+          { (edit.id ? loc.edit : loc.create) + ' ' + loc.role }
           { edit && (
             <Button primary
               floated='right'
               onClick={e => this.onSubmit(e)}
               type='submit'>
-              Save
+              {loc.save}
             </Button>
           ) }
         </Header>
@@ -90,7 +91,7 @@ class RolesForm extends Component {
 
         { success && <Message success size='mini'
           icon='bullhorn'
-          content='Role saved successfully'
+          content={success}
         /> }
 
         { loading && <Loader active inline='centered' /> }
@@ -100,9 +101,9 @@ class RolesForm extends Component {
             <Grid>
               <Grid.Column mobile={12}>
                 <Form.Field>
-                  <label>Label</label>
+                  <label>{loc.label}</label>
                   <Form.Input value={edit.label}
-                    placeholder="Enter label..."
+                    placeholder={loc.edit_label}
                     onChange={e => this.onEdit('label', e.target.value)}
                   />
                 </Form.Field>
@@ -112,9 +113,9 @@ class RolesForm extends Component {
             <Grid>
               <Grid.Column computer={12} mobile={12} tablet={12}>
                 <Form.Field>
-                  <label>System Keyword</label>
+                  <label>{loc.system_keyword}</label>
                   <Form.Input value={edit.system}
-                    placeholder="Enter system keyword..."
+                    placeholder={loc.enter_system_keyword}
                     onChange={e => this.onEdit('system', e.target.value)}
                   />
                 </Form.Field>

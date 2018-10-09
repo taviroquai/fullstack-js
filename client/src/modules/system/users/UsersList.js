@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getUsers } from './actions';
+import loc from '../../../locales/en/translations';
 
 class UsersList extends Component {
 
@@ -39,11 +40,11 @@ class UsersList extends Component {
     return (
       <Layout>
         <Header as='h1'>
-          Users
+          {loc.users}
 
           <Button floated='right' primary
             as={Link} to='/users/edit'>
-            New
+            {loc.create}
           </Button>
         </Header>
 
@@ -56,10 +57,10 @@ class UsersList extends Component {
           <Table size='small'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Username</Table.HeaderCell>
-                <Table.HeaderCell>Email</Table.HeaderCell>
-                <Table.HeaderCell>Active</Table.HeaderCell>
+                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.username}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.email}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.active}</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -74,11 +75,11 @@ class UsersList extends Component {
 
                     { user.active ? (
                       <React.Fragment>
-                        <Icon circular color='green' name="check" />Active
+                        <Icon circular color='green' name="check" />{loc.active}
                       </React.Fragment>
                     ) : (
                       <React.Fragment>
-                        <Icon circular color='red' name="remove" />Inactive
+                        <Icon circular color='red' name="remove" />{loc.inactive}
                       </React.Fragment>
                     )}
 

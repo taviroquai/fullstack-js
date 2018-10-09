@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getHookById, saveHook } from './actions';
+import loc from '../../../locales/en/translations';
 
 class HooksForm extends Component {
 
@@ -52,7 +53,7 @@ class HooksForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'Hook saved successfully'
+        success: loc.hook_saved
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -65,12 +66,14 @@ class HooksForm extends Component {
       <Layout>
 
         <Header as='h1'>
-        { edit.id ? 'Edit Policy' : 'Create Policy' }
+        { edit.id ? loc.edit + ' ' + loc.hook 
+          : loc.create + ' ' + loc.hook
+        }
           <Button primary
             floated='right'
             onClick={e => this.onSubmit(e)}
             type='submit'>
-            Save
+            {loc.save}
           </Button>
         </Header>
 
@@ -81,7 +84,7 @@ class HooksForm extends Component {
 
         { success && <Message success size='mini'
           icon='bullhorn'
-          content='Hook saved successfully'
+          content={loc.hook_saved}
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
@@ -90,9 +93,9 @@ class HooksForm extends Component {
             <Grid>
               <Grid.Column width={16}>
                 <Form.Field>
-                  <label>System Keyword</label>
+                  <label>{loc.system_keyword}</label>
                   <Form.Input value={edit.system}
-                    placeholder="Enter system keyword..."
+                    placeholder={loc.enter_system_keyword}
                     onChange={e => this.onEdit('system', e.target.value)}
                   />
                 </Form.Field>

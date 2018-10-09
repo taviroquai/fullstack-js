@@ -1,4 +1,5 @@
 const Hook = require('./Hook');
+const locales = require('../../locales/en/translations.json');
 
 // Fetch helper
 const getHookById = async (id) => {
@@ -36,7 +37,7 @@ const resolvers = {
      */
     getHookById: async (root, args, context) => {
       const hook = await getHookById(args.id);
-      if (!hook) throw new Error('Hook not found');
+      if (!hook) throw new Error(locales.error_hook_not_found);
       return hook;
     }
   },
@@ -57,7 +58,6 @@ const resolvers = {
      * Update hook
      */
     updateHook: async (root, args, context) => {
-      if (!args.id) throw new Error('Hook must exist');
       await Hook.query()
         .update(args)
         .where('id', args.id)

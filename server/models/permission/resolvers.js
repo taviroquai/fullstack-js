@@ -54,7 +54,6 @@ const resolvers = {
      * Update permission
      */
     updatePermission: async (root, args, context) => {
-      if (!args.id) throw new Error('Permission must exist');
       await Permission.query()
         .update({ access: args.access })
         .where('id', args.id)

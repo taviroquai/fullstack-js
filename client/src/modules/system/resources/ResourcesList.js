@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getResources } from './actions';
+import loc from '../../../locales/en/translations';
 
 class ResourcesList extends Component {
 
@@ -63,11 +64,11 @@ class ResourcesList extends Component {
     return (
       <Layout>
         <Header as='h1'>
-          Resources
+          {loc.resources}
 
           <Button floated='right' primary
             as={Link} to='/resources/edit'>
-            New
+            {loc.create}
           </Button>
         </Header>
 
@@ -80,11 +81,11 @@ class ResourcesList extends Component {
           <Table size='small'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
+                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
                 <Table.HeaderCell>
-                  System Keyword
+                  {loc.system_keyword}
                   <Input style={{fontSize: '.8rem', float: 'right'}}
-                    placeholder='Search...'
+                    placeholder={loc.search}
                     value={query}
                     loading={loading}
                     onChange={e => this.onSearch(e.target.value)}

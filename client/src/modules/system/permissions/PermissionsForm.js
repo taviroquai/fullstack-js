@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissionById, savePermission } from './actions';
+import loc from '../../../locales/en/translations';
 
 class PermissionsForm extends Component {
 
@@ -53,7 +54,7 @@ class PermissionsForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'Permission saved successfully'
+        success: loc.permission_saved
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -66,12 +67,14 @@ class PermissionsForm extends Component {
       <Layout>
 
         <Header as='h1'>
-        { edit.id ? 'Edit Permission' : 'Create Permission' }
+          { edit.id ? loc.edit + ' ' + loc.permission
+            : loc.create + ' ' + loc.permission
+          }
           <Button primary
             floated='right'
             onClick={e => this.onSubmit(e)}
             type='submit'>
-            Save
+            {loc.save}
           </Button>
         </Header>
 
@@ -82,7 +85,7 @@ class PermissionsForm extends Component {
 
         { success && <Message success size='mini'
           icon='bullhorn'
-          content='Permission saved successfully'
+          content={success}
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
@@ -91,9 +94,9 @@ class PermissionsForm extends Component {
             <Grid>
               <Grid.Column mobile={12}>
                 <Form.Field>
-                  <label>Label</label>
+                  <label>{loc.label}</label>
                   <Form.Input value={edit.label}
-                    placeholder="Enter label..."
+                    placeholder={loc.enter_label}
                     onChange={e => this.onEdit('label', e.target.value)}
                   />
                 </Form.Field>
@@ -103,9 +106,9 @@ class PermissionsForm extends Component {
             <Grid>
               <Grid.Column computer={12} mobile={12} tablet={12}>
                 <Form.Field>
-                  <label>System Keyword</label>
+                  <label>{loc.system_keyword}</label>
                   <Form.Input value={edit.system}
-                    placeholder="Enter system keyword..."
+                    placeholder={loc.enter_system_keyword}
                     onChange={e => this.onEdit('system', e.target.value)}
                   />
                 </Form.Field>

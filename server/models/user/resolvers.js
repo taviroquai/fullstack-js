@@ -1,4 +1,5 @@
 const User = require('./User');
+const locales = require('../../locales/en/translations.json');
 
 /**
  * Fetch helper
@@ -27,10 +28,10 @@ const resolvers = {
           return user;
         }
         if (!user.active) {
-          throw new Error('The account is disabled');
+          throw new Error(locales.error_account_is_disabled);
         }
       }
-      throw new Error('Invalid credentials');
+      throw new Error(locales.error_invalid_credentials);
     },
 
     /**
@@ -59,7 +60,7 @@ const resolvers = {
      */
     getUserById: async (root, args, context) => {
       const user = await getUserById(args.id);
-      if (!user) throw new Error('User not found');
+      if (!user) throw new Error(locales.error_user_not_found);
       return user;
     }
   },
@@ -83,7 +84,6 @@ const resolvers = {
      * Update user
      */
     updateUser: async (root, args, context) => {
-      if (!args.id) throw new Error('User must exist');
       User.validateInputEmail(args);
       User.validateInputPasswords(args);
       const data = User.filterInput(args);

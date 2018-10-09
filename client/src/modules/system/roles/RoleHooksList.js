@@ -7,6 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getRoleHooks, updateRoleHook } from './actions';
+import loc from '../../../locales/en/translations';
 
 class RoleHooksList extends Component {
 
@@ -58,7 +59,7 @@ class RoleHooksList extends Component {
     return (
       <React.Fragment>
         <Header as='h3'>
-          Bypass Policies
+          {loc.bypass} {loc.hooks}
         </Header>
 
         { errors ? <Message negative size='mini'
@@ -69,8 +70,8 @@ class RoleHooksList extends Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>System Keyword</Table.HeaderCell>
+              <Table.HeaderCell>{loc.id}</Table.HeaderCell>
+              <Table.HeaderCell>{loc.system_keyword}</Table.HeaderCell>
               <Table.HeaderCell>
                 { loading && <Loader inline active /> }
               </Table.HeaderCell>
@@ -87,7 +88,10 @@ class RoleHooksList extends Component {
                   <Checkbox toggle
                     disabled={loading}
                     checked={hook.bypass}
-                    title={hook.bypass ? 'Enforce hook' : 'Bypass hook' }
+                    title={
+                      (hook.bypass ? loc.enforce : loc.bypass)
+                      + ' ' + loc.policy
+                    }
                     size='mini'
                     onClick={this.toggleHook.bind(this, hook)}
                   />

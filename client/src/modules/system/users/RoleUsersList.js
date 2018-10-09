@@ -7,6 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getRoleUsers, updateRoleUser } from './actions';
+import loc from '../../../locales/en/translations';
 
 class RoleUsersList extends Component {
 
@@ -60,7 +61,7 @@ class RoleUsersList extends Component {
     return (
       <React.Fragment>
         <Header as='h3'>
-          User Roles
+          {loc.user} {loc.roles}
         </Header>
 
         { errors && <Message negative size='mini'
@@ -72,8 +73,8 @@ class RoleUsersList extends Component {
           <Table size='small'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>Username</Table.HeaderCell>
+                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.username}</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -88,7 +89,7 @@ class RoleUsersList extends Component {
                     <Checkbox toggle
                       disabled={loading}
                       checked={role.active}
-                      title={role.active ? 'Remove' : 'Add'}
+                      title={role.active ? loc.remove : loc.add}
                       size='mini'
                       onClick={this.toggleRole.bind(this, role)}
                       style={{ marginTop: '0.5rem' }}

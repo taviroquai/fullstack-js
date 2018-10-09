@@ -1,6 +1,7 @@
 const Model = require('../Model');
 const Role = require('../role/Role');
 const User = require('../user/User');
+const locales = require('../../locales/en/translations.json');
 
 class RoleUser extends Model {
 
@@ -20,7 +21,7 @@ class RoleUser extends Model {
       .where('active', true)
       .count();
     if (this.active === false && parseInt(result[0].count, 10) === 1) {
-      throw new Error('User must have at least 1 active role');
+      throw new Error(locales.error_at_least_one_role);
     }
   }
 

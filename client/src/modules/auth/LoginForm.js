@@ -5,6 +5,7 @@ import { Button, Form, Header, Image, Segment, Message } from 'semantic-ui-react
 import Layout from './Layout';
 import { login } from './actions';
 import logoImg from '../../assets/logo.svg';
+import loc from '../../locales/en/translations';
 
 class LoginForm extends Component {
 
@@ -42,7 +43,7 @@ class LoginForm extends Component {
     return (
       <Layout>
         <Header as='h2' color='teal' textAlign='center'>
-          <Image src={logoImg} /> Login
+          <Image src={logoImg} /> {loc.login}
         </Header>
         <Form size='large'
           loading={loading}
@@ -54,7 +55,7 @@ class LoginForm extends Component {
               fluid
               icon='user'
               iconPosition='left'
-              placeholder='E-mail address'
+              placeholder={loc.email_address}
               name="email"
             />
 
@@ -62,7 +63,7 @@ class LoginForm extends Component {
               fluid
               icon='lock'
               iconPosition='left'
-              placeholder='Password'
+              placeholder={loc.password}
               type='password'
               name='password'
             />

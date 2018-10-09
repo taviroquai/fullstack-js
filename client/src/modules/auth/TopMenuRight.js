@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown, Button } from 'semantic-ui-react';
 import { getUser } from '../auth/actions';
+import loc from '../../locales/en/translations.json';
 
 class TopMenuItem extends Component {
   render() {
@@ -11,12 +12,12 @@ class TopMenuItem extends Component {
 
         { !logged ? (
           <Button as={Link} to='/login'>
-            Log in
+            {loc.login}
           </Button>
         ) : (
           <Dropdown item simple text={logged.username}>
             <Dropdown.Menu>
-              <Dropdown.Item as={Link} to='/logout'>Logout</Dropdown.Item>
+              <Dropdown.Item as={Link} to='/logout'>{loc.logout}</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         )}

@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getHooks } from './actions';
+import loc from '../../../locales/en/translations';
 
 class HooksList extends Component {
 
@@ -39,11 +40,11 @@ class HooksList extends Component {
     return (
       <Layout>
         <Header as='h1'>
-          Policies
+          {loc.hooks}
 
           <Button floated='right' primary
             as={Link} to='/hooks/edit'>
-            New
+            {loc.create}
           </Button>
         </Header>
 
@@ -56,8 +57,8 @@ class HooksList extends Component {
           <Table size='small'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>System Keyword</Table.HeaderCell>
+                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
+                <Table.HeaderCell>{loc.system_keyword}</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>

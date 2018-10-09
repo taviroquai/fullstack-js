@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissions, savePermission } from './actions';
+import loc from '../../../locales/en/translations';
 
 class PermissionsList extends Component {
 
@@ -89,7 +90,7 @@ class PermissionsList extends Component {
     // Render
     return (
       <Layout>
-        <Header as='h1'>Permissions</Header>
+        <Header as='h1'>{loc.permissions}</Header>
 
         { errors && <Message error size='mini'
           icon='exclamation triangle'
@@ -99,27 +100,27 @@ class PermissionsList extends Component {
         <Table size='small'>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
+              <Table.HeaderCell>{loc.id}</Table.HeaderCell>
                 <Table.HeaderCell>
                   <Select
                     style={{ fontSize: '0.8rem'}}
-                    placeholder='Filter by role'
+                    placeholder={loc.filter_by_role}
                     value={roleFilter}
                     options={roleOptions}
                     onChange={(e, { value }) => this.onFilter('roleFilter', value)}
                   />
                 </Table.HeaderCell>
               <Table.HeaderCell>
-                Resource
+                {loc.resource}
                 <Input style={{fontSize: '.8rem', float: 'right'}}
-                  placeholder='Filter by resource...'
+                  placeholder={loc.filter_by_resource}
                   value={resourceFilter}
                   loading={loading}
                   onChange={e => this.onFilter('resourceFilter', e.target.value)}
                 />
               </Table.HeaderCell>
               <Table.HeaderCell width={3}>
-                { !loading ? 'Allowed' :
+                { !loading ? loc.allowed :
                   <Loader size='mini' active inline='centered' />
                 }
               </Table.HeaderCell>
@@ -137,7 +138,7 @@ class PermissionsList extends Component {
                   <Checkbox toggle
                     disabled={loading}
                     checked={permission.access}
-                    title={permission.access ? 'Deny' : 'Allow'}
+                    title={permission.access ? loc.deny : loc.allow}
                     className='mini'
                     onClick={this.toggleAccess.bind(this, permission)}
                     style={{ marginTop: '0.5rem' }}

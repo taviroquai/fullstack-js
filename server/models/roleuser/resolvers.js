@@ -1,12 +1,5 @@
 const RoleUser = require('./RoleUser');
 
-// Fetch helper
-const getRoleUserkById = async (id) => {
-  id = parseInt(id, 10);
-  const roleuser = await RoleUser.query().findById(id);
-  return roleuser;
-}
-
 /**
  * Graphql resolvers
  */

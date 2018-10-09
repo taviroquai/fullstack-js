@@ -1,4 +1,5 @@
 const Resource = require('./Resource');
+const locales = require('../../locales/en/translations.json');
 
 // Fetch helper
 const getResourceById = async (id) => {
@@ -39,7 +40,7 @@ const resolvers = {
      */
     getResourceById: async (root, args, context) => {
       const resource = await getResourceById(args.id);
-      if (!resource) throw new Error('Resource not found');
+      if (!resource) throw new Error(locales.error_resource_not_found);
       return resource;
     }
   },

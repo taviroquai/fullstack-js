@@ -1,12 +1,5 @@
 const ResourceHook = require('./ResourceHook');
 
-// Fetch helper
-const getResourceHookById = async (id) => {
-  id = parseInt(id, 10);
-  const resourcehook = await ResourceHook.query().findById(id);
-  return resourcehook;
-}
-
 /**
  * Graphql resolvers
  */

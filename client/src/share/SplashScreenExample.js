@@ -6,6 +6,7 @@ import {
   Grid
  } from 'semantic-ui-react';
 import imgLogo from '../assets/logo.svg';
+import loc from '../locales/en/translations';
 
 class SplashScreenExample extends Component {
   render() {
@@ -32,7 +33,7 @@ class SplashScreenExample extends Component {
 
             <Message
               header=""
-              content="Loading"
+              content={loc.loading}
             />
 
           </Grid.Column>
