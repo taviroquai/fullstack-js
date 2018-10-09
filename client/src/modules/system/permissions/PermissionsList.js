@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Header,
   Table,
   Loader,
   Message,
-  Button,
   Checkbox,
   Input
 } from 'semantic-ui-react';
@@ -80,21 +78,14 @@ class PermissionsList extends Component {
     // Render
     return (
       <Layout>
-        <Header as='h1'>
-          Permissions
-
-          <Button floated='right' primary
-            as={Link} to='/permissions/edit'>
-            New
-          </Button>
-        </Header>
+        <Header as='h1'>Permissions</Header>
 
         { errors && <Message error size='mini'
           icon='exclamation triangle'
           list={errors.map(e => e.message)}
         /> }
 
-        <Table celled>
+        <Table size='small'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>ID</Table.HeaderCell>
@@ -134,7 +125,7 @@ class PermissionsList extends Component {
                     disabled={loading}
                     checked={permission.access}
                     title={permission.access ? 'Deny' : 'Allow'}
-                    size='mini'
+                    className='mini'
                     onClick={this.toggleAccess.bind(this, permission)}
                     style={{ marginTop: '0.5rem' }}
                   />

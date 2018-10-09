@@ -53,7 +53,7 @@ class RolesList extends Component {
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
-          <Table celled>
+          <Table size='small'>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
@@ -70,9 +70,8 @@ class RolesList extends Component {
                   <Table.Cell>{role.label}</Table.Cell>
                   <Table.Cell>{role.system}</Table.Cell>
                   <Table.Cell width={1}>
-                    <Button.Group>
+                    <Button.Group size='mini'>
                       <Button primary icon
-                        size='mini'
                         as={Link} to={'/roles/edit/'+role.id}>
                         <Icon name="pencil" />
                       </Button>

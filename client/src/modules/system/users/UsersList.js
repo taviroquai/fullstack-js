@@ -86,6 +86,7 @@ class UsersList extends Component {
                   <Table.Cell width={1}>
                     <Button.Group>
                       <Button primary icon
+                        size='mini'
                         as={Link} to={'/users/edit/'+user.id}>
                         <Icon name="pencil" />
                       </Button>

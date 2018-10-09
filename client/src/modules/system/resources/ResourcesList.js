@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import debounce from 'lodash.debounce';
 import { Link } from 'react-router-dom';
 import {
   Header,
@@ -6,20 +7,31 @@ import {
   Message,
   Button,
   Icon,
-  Input
+  Input,
+  Loader
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getResources } from './actions';
 
 class ResourcesList extends Component {
 
-  state = {
-    loading: false,
-    query: '',
-    total: 0,
-    resources: [],
-    errors: null
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+      query: '',
+      total: 0,
+      resources: [],
+      errors: null
+    };
+
+    // Create search debounce
+    this.searchDebounce = debounce(() => {
+      this.reload();
+    }, 300);
   }
+
 
   reload() {
     const { query } = this.state;
@@ -42,7 +54,7 @@ class ResourcesList extends Component {
 
   onSearch(query) {
     this.setState({...this.state, query }, () => {
-      this.reload();
+      this.searchDebounce();
     });
   }
 
@@ -64,7 +76,7 @@ class ResourcesList extends Component {
           list={errors.map(e => e.message)}
         /> }
 
-        <Table celled>
+        <Table size='small'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>ID</Table.HeaderCell>
@@ -78,7 +90,9 @@ class ResourcesList extends Component {
                 />
               </Table.HeaderCell>
               <Table.HeaderCell>Resolver</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
+              <Table.HeaderCell>
+                { loading && <Loader active inline='centered' /> }
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -89,7 +103,7 @@ class ResourcesList extends Component {
                 <Table.Cell>{resource.system}</Table.Cell>
                 <Table.Cell>{resource.resolver}</Table.Cell>
                 <Table.Cell width={1}>
-                  <Button.Group>
+                  <Button.Group size='mini'>
                     <Button primary icon
                       size='mini'
                       as={Link} to={'/resources/edit/'+resource.id}>

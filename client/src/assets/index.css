@@ -19,8 +19,58 @@ code {
   font-size: 1rem;
 }
 
-.ui.button.mini {
-  font-size: 0.8rem;
+.ui.button.mini,
+.ui.mini.button,
+.ui.mini.buttons .button,
+.ui.mini.buttons .or,
+.ui.checkbox.mini
+{
+  font-size: 0.7rem;
+}
+
+.ui.toggle.checkbox {
+  min-height: 1rem;
+}
+
+.ui.fitted.toggle.checkbox {
+  width: 2.5rem;
+}
+
+.ui.toggle.checkbox input {
+  width: 2.5rem;
+  height: 1rem;
+}
+
+.ui.toggle.checkbox .box,
+.ui.toggle.checkbox label
+{
+  min-height: 1rem;
+}
+
+.ui.toggle.checkbox .box:before,
+.ui.toggle.checkbox label:before
+{
+  width: 2.5rem;
+  height: 1rem;
+}
+
+.ui.toggle.checkbox .box:after,
+.ui.toggle.checkbox label:after
+{
+  width: 1rem;
+  height: 1rem;
+}
+
+.ui.toggle.checkbox input:checked~.box:after,
+.ui.toggle.checkbox input:checked~label:after
+{
+  left: 1.5rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.ui.table td {
+  padding: .5em .5em;
 }
 
 .ui.menu .item {

@@ -53,7 +53,7 @@ class HooksList extends Component {
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
-          <Table celled>
+          <Table size='small'>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
@@ -68,7 +68,7 @@ class HooksList extends Component {
                   <Table.Cell>{hook.id}</Table.Cell>
                   <Table.Cell>{hook.system}</Table.Cell>
                   <Table.Cell width={1}>
-                    <Button.Group>
+                    <Button.Group size='mini'>
                       <Button primary icon
                         as={Link} to={'/hooks/edit/'+hook.id}>
                         <Icon name="pencil" />
