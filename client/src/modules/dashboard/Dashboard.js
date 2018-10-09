@@ -10,7 +10,7 @@ class Dashboard extends Component {
         <Header as='h1'>Dashboard</Header>
         <p>Welcome to Fullstack Javascript Framework</p>
 
-        <p>Visit <a href="https://github.com/taviroquai/ObjectionKoaApolloReact-Boilerplate">Github</a>
+        <p>Visit <a href="https://github.com/taviroquai/FullstackJavascriptFramework">Github</a>
           {' '}for documentation
         </p>
 
