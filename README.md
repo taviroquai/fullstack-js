@@ -9,7 +9,7 @@ Role based + Policy based authorization using:
 3. Resource - Graphql resource (Queries, Mutations, etc...)
 4. Permission - Access (allow/deny) for Role/Resource
 5. Policy (or hook) - IN-code function, allows to compare database attributes for fine-grained permissions
-6. Role-policy (TODO) - Access (allow/deny) for Role/Policy. Allows to exclude policies for some roles
+6. Policy Bypass - Allows to bypass/enforce policies for given roles
 7. Batteries included: React backend UI (Semantic UI) to manage all this!
 
 ## Server
