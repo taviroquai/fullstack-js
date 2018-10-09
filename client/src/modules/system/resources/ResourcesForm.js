@@ -19,7 +19,6 @@ class ResourcesForm extends Component {
     success: null,
     edit: {
       id: '',
-      resolver: '',
       system: ''
     }
   }
@@ -96,15 +95,6 @@ class ResourcesForm extends Component {
                   <Form.Input value={edit.system}
                     placeholder="Enter system keyword..."
                     onChange={e => this.onEdit('system', e.target.value)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-              <Grid.Column width={16}>
-                <Form.Field>
-                  <label>Resolver</label>
-                  <Form.Input value={edit.resolver}
-                    placeholder="Enter resolver..."
-                    onChange={e => this.onEdit('resolver', e.target.value)}
                   />
                 </Form.Field>
               </Grid.Column>

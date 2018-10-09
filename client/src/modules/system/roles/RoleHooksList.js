@@ -47,7 +47,6 @@ class RoleHooksList extends Component {
     updateRoleHook(variables).then(() => {
       this.reload(role);
     }).catch(errors => {
-      console.log(errors);
       this.setState({ ...this.state, loading: false, errors });
     });
   }
@@ -59,7 +58,7 @@ class RoleHooksList extends Component {
     return (
       <React.Fragment>
         <Header as='h3'>
-          Bypass Hooks
+          Bypass Policies
         </Header>
 
         { errors ? <Message negative size='mini'

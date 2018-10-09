@@ -65,7 +65,7 @@ class HooksForm extends Component {
       <Layout>
 
         <Header as='h1'>
-        { edit.id ? 'Edit Hook' : 'Create Hook' }
+        { edit.id ? 'Edit Policy' : 'Create Policy' }
           <Button primary
             floated='right'
             onClick={e => this.onSubmit(e)}

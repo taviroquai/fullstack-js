@@ -12,6 +12,19 @@ class RoleUser extends Model {
   }
 
   /**
+   * Add at least one role
+   */
+  async $beforeUpdate() {
+    const result = await RoleUser.query()
+      .where('user_id', this.user_id)
+      .where('active', true)
+      .count();
+    if (this.active === false && parseInt(result[0].count, 10) === 1) {
+      throw new Error('User must have at least 1 active role');
+    }
+  }
+
+  /**
    * Set validation schema
    */
   static get jsonSchema() {

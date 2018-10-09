@@ -17,9 +17,9 @@ class TopMenuItem extends Component {
           <Dropdown.Menu>
             <Dropdown.Item as={Link} to='/users'>Users</Dropdown.Item>
             <Dropdown.Item as={Link} to='/roles'>Roles</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/resources'>Resources</Dropdown.Item>
             <Dropdown.Item as={Link} to='/permissions'>Permissions</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/hooks'>Hooks</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/resources'>Resources</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/hooks'>Policies</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 

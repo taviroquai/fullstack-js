@@ -5,7 +5,8 @@ import {
   Loader,
   Message,
   Checkbox,
-  Input
+  Input,
+  Select
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissions, savePermission } from './actions';
@@ -16,8 +17,8 @@ class PermissionsList extends Component {
     loading: false,
     total: 0,
     permissions: [],
+    roleFilter: 'Registered',
     resourceFilter: '',
-    roleFilter: '',
     errors: null
   }
 
@@ -63,6 +64,16 @@ class PermissionsList extends Component {
     const { loading, errors, permissions, resourceFilter, roleFilter } = this.state;
     let filtered = permissions;
 
+    // Role options
+    const roleOptions = permissions.reduce((acc, i) => {
+      if (acc.indexOf(i.role.label) < 0) acc.push(i.role.label);
+      return acc;
+    }, []).map((opt, i) => ({
+      key: i,
+      value: opt,
+      text: opt
+    }));
+
     // Filter by resource
     if (resourceFilter) {
       const regex = new RegExp(resourceFilter, 'ig');
@@ -89,6 +100,15 @@ class PermissionsList extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>ID</Table.HeaderCell>
+                <Table.HeaderCell>
+                  <Select
+                    style={{ fontSize: '0.8rem'}}
+                    placeholder='Filter by role'
+                    value={roleFilter}
+                    options={roleOptions}
+                    onChange={(e, { value }) => this.onFilter('roleFilter', value)}
+                  />
+                </Table.HeaderCell>
               <Table.HeaderCell>
                 Resource
                 <Input style={{fontSize: '.8rem', float: 'right'}}
@@ -98,17 +118,10 @@ class PermissionsList extends Component {
                   onChange={e => this.onFilter('resourceFilter', e.target.value)}
                 />
               </Table.HeaderCell>
-              <Table.HeaderCell>
-                Role
-                <Input style={{fontSize: '.8rem', float: 'right'}}
-                  placeholder='Filter by role...'
-                  value={roleFilter}
-                  loading={loading}
-                  onChange={e => this.onFilter('roleFilter', e.target.value)}
-                />
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                { loading && <Loader active inline='centered' /> }
+              <Table.HeaderCell width={3}>
+                { !loading ? 'Allowed' :
+                  <Loader size='mini' active inline='centered' />
+                }
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -117,9 +130,9 @@ class PermissionsList extends Component {
             { filtered.map(permission => (
               <Table.Row key={permission.id}>
                 <Table.Cell>{permission.id}</Table.Cell>
-                <Table.Cell>{permission.resource.system}</Table.Cell>
                 <Table.Cell>{permission.role.label}</Table.Cell>
-                <Table.Cell width={2}>
+                <Table.Cell>{permission.resource.system}</Table.Cell>
+                <Table.Cell width={3}>
 
                   <Checkbox toggle
                     disabled={loading}

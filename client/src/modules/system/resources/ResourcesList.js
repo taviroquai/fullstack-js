@@ -76,46 +76,46 @@ class ResourcesList extends Component {
           list={errors.map(e => e.message)}
         /> }
 
-        <Table size='small'>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>
-                System
-                <Input style={{fontSize: '.8rem', float: 'right'}}
-                  placeholder='Search...'
-                  value={query}
-                  loading={loading}
-                  onChange={e => this.onSearch(e.target.value)}
-                />
-              </Table.HeaderCell>
-              <Table.HeaderCell>Resolver</Table.HeaderCell>
-              <Table.HeaderCell>
-                { loading && <Loader active inline='centered' /> }
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
-            { resources.map(resource => (
-              <Table.Row key={resource.id}>
-                <Table.Cell>{resource.id}</Table.Cell>
-                <Table.Cell>{resource.system}</Table.Cell>
-                <Table.Cell>{resource.resolver}</Table.Cell>
-                <Table.Cell width={1}>
-                  <Button.Group size='mini'>
-                    <Button primary icon
-                      size='mini'
-                      as={Link} to={'/resources/edit/'+resource.id}>
-                      <Icon name="pencil" />
-                    </Button>
-                  </Button.Group>
-                </Table.Cell>
+        { !!resources.length && (
+          <Table size='small'>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>ID</Table.HeaderCell>
+                <Table.HeaderCell>
+                  System
+                  <Input style={{fontSize: '.8rem', float: 'right'}}
+                    placeholder='Search...'
+                    value={query}
+                    loading={loading}
+                    onChange={e => this.onSearch(e.target.value)}
+                  />
+                </Table.HeaderCell>
+                <Table.HeaderCell>
+                  { loading && <Loader active inline='centered' /> }
+                </Table.HeaderCell>
               </Table.Row>
-            ))}
-          </Table.Body>
+            </Table.Header>
 
-        </Table>
+            <Table.Body>
+              { resources.map(resource => (
+                <Table.Row key={resource.id}>
+                  <Table.Cell>{resource.id}</Table.Cell>
+                  <Table.Cell>{resource.system}</Table.Cell>
+                  <Table.Cell width={1}>
+                    <Button.Group size='mini'>
+                      <Button primary icon
+                        size='mini'
+                        as={Link} to={'/resources/edit/'+resource.id}>
+                        <Icon name="pencil" />
+                      </Button>
+                    </Button.Group>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+
+          </Table>
+        )}
 
       </Layout>
     )

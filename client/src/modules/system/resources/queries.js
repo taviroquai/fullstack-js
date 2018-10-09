@@ -7,7 +7,6 @@ query getResources($query: String) {
     results {
       id
       system
-      resolver
     }
   }
 }`;
@@ -17,22 +16,18 @@ query getResourceById($id: ID!) {
   getResourceById(id: $id) {
     id
     system
-    resolver
   }
 }`;
 
 export const createResource = gql`
 mutation createResource(
     $system: String!
-    $resolver: String!
   ) {
   createResource(
     system: $system
-    resolver: $resolver
     ) {
         id
         system
-        resolver
     }
 }`;
 
@@ -41,16 +36,13 @@ export const updateResource = gql`
 mutation updateResource(
     $id: ID!
     $system: String!
-    $resolver: String!
   ) {
     updateResource(
       id: $id
       system: $system
-      resolver: $resolver
     ) {
         id
         system
-        resolver
     }
 }`;
 

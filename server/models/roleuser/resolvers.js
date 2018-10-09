@@ -45,11 +45,11 @@ const resolvers = {
   Mutation: {
 
     /**
-     * Update rolehook
+     * Update role user
      */
     updateRoleUser: async (root, args, context) => {
       await RoleUser.query()
-        .patch({ active: args.active })
+        .update(args)
         .where('id', args.id);
       return true
     }

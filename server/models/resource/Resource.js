@@ -16,8 +16,7 @@ class Resource extends Model {
    */
   static fillable() {
     return [
-      'system',
-      'resolver'
+      'system'
     ];
   }
 
@@ -45,10 +44,9 @@ class Resource extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['system', 'resolver'],
+      required: ['system'],
       properties: {
-        system: { type: 'string', minLength: 3, maxLength: 255 },
-        resolver: { type: 'string', minLength: 3, maxLength: 255 }
+        system: { type: 'string', minLength: 3, maxLength: 255 }
       }
     }
   };

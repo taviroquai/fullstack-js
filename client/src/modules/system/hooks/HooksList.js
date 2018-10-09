@@ -39,7 +39,7 @@ class HooksList extends Component {
     return (
       <Layout>
         <Header as='h1'>
-          Hooks
+          Policies
 
           <Button floated='right' primary
             as={Link} to='/hooks/edit'>

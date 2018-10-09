@@ -87,7 +87,7 @@ class Manager {
    */
   static async getResourceFromTypeName(type, name) {
     const resource = await Resource.query().where('system', type+'.'+name).first();
-    console.log('Found registered resource:', resource ? resource.system : 'none');
+    console.log('Resource found:', resource ? resource.system : 'none');
     return resource;
   }
 

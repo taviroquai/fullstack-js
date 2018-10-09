@@ -8,6 +8,5 @@ module.exports = `
   type Resource {
     id: ID!
     system: String
-    resolver: String
   }
 `

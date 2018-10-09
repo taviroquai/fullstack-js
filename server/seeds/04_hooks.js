@@ -8,7 +8,7 @@ exports.seed = function(knex, Promise) {
       return knex('hooks').insert([
         {
           id: 1,
-          system: 'onlyUsers'
+          system: 'onlyAuthenticated'
         },
         {
           id: 2,

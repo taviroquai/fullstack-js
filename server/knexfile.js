@@ -10,7 +10,7 @@ module.exports = {
       host : '127.0.0.1',
       user : 'postgres',
       password : 'postgres',
-      database : 'objkoagraph'
+      database : 'fullstackjs'
     },
     pool: {
       min: 2,

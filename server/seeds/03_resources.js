@@ -7,59 +7,104 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('resources').insert([
         {
-          id: 1,
-          system: 'Query.getRoles',
-          resolver: 'Role'
-        },
-        {
-          id: 2,
-          system: 'Query.getRoleById',
-          resolver: 'Role'
-        },
-        {
-          id: 3,
-          system: 'Mutation.createRole',
-          resolver: 'Role'
-        },
-        {
-          id: 4,
-          system: 'Mutation.updateRole',
-          resolver: 'Role'
-        },
-        {
-          id: 5,
           system: 'Query.getUsers',
           resolver: 'User'
         },
         {
-          id: 6,
           system: 'Query.getUserById',
           resolver: 'User'
         },
         {
-          id: 7,
+          system: 'Query.getRoles',
+          resolver: 'Role'
+        },
+        {
+          system: 'Query.getRoleById',
+          resolver: 'Role'
+        },
+        {
+          system: 'Query.getResources',
+          resolver: 'Resource'
+        },
+        {
+          system: 'Query.getResourceById',
+          resolver: 'Resource'
+        },
+        {
+          system: 'Query.getHooks',
+          resolver: 'Hook'
+        },
+        {
+          system: 'Query.getHookById',
+          resolver: 'Hook'
+        },
+        {
+          system: 'Query.getPermissions',
+          resolver: 'Permission'
+        },
+        {
+          system: 'Query.getResourceHooks',
+          resolver: 'ResourceHook'
+        },
+        {
+          system: 'Query.getRoleHooks',
+          resolver: 'RoleHook'
+        },
+        {
+          system: 'Query.getRoleUsers',
+          resolver: 'RoleUser'
+        },
+        {
+          system: 'Mutation.createRole',
+          resolver: 'Role'
+        },
+        {
+          system: 'Mutation.updateRole',
+          resolver: 'Role'
+        },
+        {
           system: 'Mutation.createUser',
           resolver: 'User'
         },
         {
-          id: 8,
           system: 'Mutation.updateUser',
           resolver: 'User'
         },
         {
-          id: 9,
           system: 'Mutation.uploadAvatar',
           resolver: 'User'
         },
         {
-          id: 10,
-          system: 'Mutation.changeUserRole',
-          resolver: 'User'
+          system: 'Mutation.createResource',
+          resolver: 'Resource'
         },
         {
-          id: 11,
-          system: 'Query.getRoleUsers',
-          resolver: 'Role'
+          system: 'Mutation.updateResource',
+          resolver: 'Resource'
+        },
+        {
+          system: 'Mutation.createHook',
+          resolver: 'Hook'
+        },
+        {
+          system: 'Mutation.updateHook',
+          resolver: 'Hook'
+        },
+        {
+          system: 'Mutation.updatePermission',
+          resolver: 'Permission'
+        },
+        {
+          system: 'Mutation.updateResourceHook',
+          resolver: 'ResourceHook'
+        },
+        {
+          system: 'Mutation.updateRoleHook',
+          resolver: 'RoleHook'
+        },
+        {
+          system: 'Mutation.updateRoleUser',
+          resolver: 'RoleUser'
         }
       ]);
     });

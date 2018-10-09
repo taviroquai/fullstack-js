@@ -83,13 +83,11 @@ const schema = `
 
     createResource(
       system: String!
-      resolver: String!
     ): Resource
 
     updateResource(
       id: ID!
       system: String!
-      resolver: String!
     ): Resource
 
     createHook(

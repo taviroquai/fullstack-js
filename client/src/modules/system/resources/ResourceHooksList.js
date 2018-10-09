@@ -55,7 +55,7 @@ class ResourceHooksList extends Component {
     return (
       <React.Fragment>
         <Header as='h3'>
-          Applied Hooks
+          Applied Policies
         </Header>
 
         { errors && <Message negative size='mini'

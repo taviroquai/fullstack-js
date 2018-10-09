@@ -25,6 +25,7 @@ class RoleUsersList extends Component {
       this.setState({
         ...this.state,
         loading: false,
+        errors: null,
         roles: result.results
       });
     }).catch(errors => {
