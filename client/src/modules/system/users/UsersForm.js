@@ -9,6 +9,7 @@ import {
   Image
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
+import RoleUsersList from './RoleUsersList';
 import { getUserById, saveUser, uploadAvatar } from './actions';
 const endpoint = process.env.REACT_APP_SERVER_URL;
 
@@ -193,6 +194,8 @@ class UsersForm extends Component {
                 </Form.Field>
               </Grid.Column>
             </Grid>
+
+            <RoleUsersList user={edit} />
 
           </Form>
         )}

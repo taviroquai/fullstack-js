@@ -54,15 +54,6 @@ mutation updateRole(
     }
 }`;
 
-export const getRoleUsers = gql`
-query getRoleUsers($id: ID!) {
-  getRoleUsers(id: $id) {
-    id
-    username
-    role_id
-  }
-}`;
-
 export const getRoleHooks = gql`
 query getRoleHooks(
   $hook_id: ID
@@ -94,4 +85,19 @@ query getRoleHooks(
       }
     }
   }
+}`;
+
+export const updateRoleHook = gql`
+mutation updateRoleHook(
+  $id: ID!
+  $role_id: ID!
+  $hook_id: ID!
+  $bypass: Boolean!
+) {
+  updateRoleHook(
+    id: $id
+    role_id: $role_id
+    hook_id: $hook_id
+    bypass: $bypass
+  )
 }`;

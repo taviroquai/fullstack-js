@@ -55,11 +55,52 @@ mutation updateResource(
 }`;
 
 export const getResourceHooks = gql`
-query getResourceHooks($id: ID!) {
-  getResourceHooks(id: $id) {
-    id
-    system
-    active
-    order
+query getResourceHooks(
+  $hook_id: ID
+  $resource_id: ID
+  $active: Boolean
+  $limit: Int
+  $page: Int
+) {
+  getResourceHooks(
+    resource_id: $resource_id
+    hook_id: $hook_id
+    active: $active
+    limit: $limit
+    page: $page
+  ) {
+    total
+    results {
+      id
+      resource_id
+      hook_id
+      active
+      order
+      resource {
+        id
+        system
+      }
+      hook {
+        id
+        system
+      }
+    }
   }
+}`;
+
+export const updateResourceHook = gql`
+mutation updateResourceHook(
+    $id: ID!
+    $resource_id: ID!
+    $hook_id: ID!
+    $active: Boolean!
+    $order: Int!
+  ) {
+    updateResourceHook(
+      id: $id
+      resource_id: $resource_id
+      hook_id: $hook_id
+      active: $active
+      order: $order
+    )
 }`;

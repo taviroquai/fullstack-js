@@ -1,17 +1,27 @@
-const Role = require('../models/user/Role');
+const RoleUser = require('../models/roleuser/RoleUser');
 
 /**
  * Check whether there is a user in state or not
- * 
+ *
  * @param {Object} ctx
- * @param {String} type 
- * @param {String} action 
- * @param {Object} args 
+ * @param {String} type
+ * @param {String} action
+ * @param {Object} args
  */
 const hook = async (ctx, type, action, args) => {
   const { user } = ctx.state;
-  const role = await Role.query().findById(user.role_id);
-  if (role.system !== 'SUPERUSER') throw new Error('Access denied');
+
+  // Get superuser roles
+  const result = await RoleUser.query()
+    .join('roles', 'role_users.role_id', 'roles.id')
+    .where('user_id', user.id)
+    .where('system', 'SUPERUSER')
+    .where('active', true)
+    .count();
+
+  // Check only superuser
+  if (parseInt(result[0].count, 10) < 1) throw new Error('Access denied');
+  return args;
 }
 
 module.exports = hook;

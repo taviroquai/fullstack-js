@@ -9,11 +9,4 @@ module.exports = `
     id: ID!
     system: String
   }
-
-  type ResourceHook {
-    id: ID!
-    system: String
-    active: Boolean
-    order: Int
-  }
 `

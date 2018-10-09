@@ -4,6 +4,8 @@ const Resource = require('./resource/types');
 const Hook = require('./hook/types');
 const Permission = require('./permission/types');
 const RoleHook = require('./rolehook/types');
+const ResourceHook = require('./resourcehook/types');
+const RoleUser = require('./roleuser/types');
 
 const schema = {
   Role,
@@ -11,7 +13,9 @@ const schema = {
   Resource,
   Hook,
   Permission,
-  RoleHook
+  RoleHook,
+  ResourceHook,
+  RoleUser
 }
 
 module.exports = schema;

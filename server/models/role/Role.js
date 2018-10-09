@@ -18,6 +18,8 @@ class Role extends Model {
     await Permission.populateWithRole(this);
     const RoleHook = require('../rolehook/RoleHook');
     await RoleHook.populateWithRole(this)
+    const RoleUser = require('../roleuser/RoleUser');
+    await RoleUser.populateWithRole(this)
   }
 
   /**
@@ -32,7 +34,7 @@ class Role extends Model {
 
   /**
    * Filter input
-   * @param {Object} input 
+   * @param {Object} input
    */
   static filterInput(input) {
     return pick(input, Role.fillable())
@@ -51,23 +53,6 @@ class Role extends Model {
       }
     }
   };
-
-  /**
-   * Set relation mappings
-   */
-  static get relationMappings() {
-    const User = require('../user/User');
-    return {
-      users: {
-        relation: Model.HasManyRelation,
-        modelClass: User,
-        join: {
-          from: 'roles.id',
-          to: 'users.role_id'
-        }
-      }
-    };
-  }
 
 }
 

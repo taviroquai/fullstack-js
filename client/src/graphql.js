@@ -8,8 +8,8 @@ const endpoint = process.env.REACT_APP_API_URL;
 
 /**
  * Get model list
- * @param {Object} Queries 
- * @param String} modelName 
+ * @param {Object} Queries
+ * @param String} modelName
  */
 export const getModelList = (Queries, modelName, variables) => {
   const action = 'get' + modelName;
@@ -29,12 +29,11 @@ export const getModelList = (Queries, modelName, variables) => {
 
 /**
  * Get single model
- * @param {Object} Queries 
- * @param {String} modelName 
- * @param {String} id 
+ * @param {Object} Queries
+ * @param {String} modelName
+ * @param {String} id
  */
 export const getById = (Queries, queryName, id) => {
-  console.log('getById', Queries, queryName, id);
   const client = getClient();
   return new Promise((resolve, reject) => {
     client.query({
@@ -51,9 +50,9 @@ export const getById = (Queries, queryName, id) => {
 
 /**
  * Create model
- * @param {Object} Queries 
- * @param {String} modelName 
- * @param {object} model 
+ * @param {Object} Queries
+ * @param {String} modelName
+ * @param {object} model
  */
 export const createModel = (Queries, modelName, model) => {
   const action = 'create' + modelName;
@@ -73,9 +72,9 @@ export const createModel = (Queries, modelName, model) => {
 
 /**
  * Update model
- * @param {Object} Queries 
- * @param {String} modelName 
- * @param {Object} model 
+ * @param {Object} Queries
+ * @param {String} modelName
+ * @param {Object} model
  */
 export const updateModel = (Queries, modelName, model) => {
   const action = 'update' + modelName;
@@ -95,9 +94,9 @@ export const updateModel = (Queries, modelName, model) => {
 
 /**
  * Run query
- * @param {Object} Queries 
- * @param {String} modelName 
- * @param {Object} model 
+ * @param {Object} Queries
+ * @param {String} modelName
+ * @param {Object} model
  */
 export const get = (query, dataName, variables) => {
   const client = getClient();
@@ -116,9 +115,9 @@ export const get = (query, dataName, variables) => {
 
 /**
  * Run query
- * @param {Object} Queries 
- * @param {String} dataName 
- * @param {Object} variables 
+ * @param {Object} Queries
+ * @param {String} dataName
+ * @param {Object} variables
  */
 export const put = (mutation, dataName, variables) => {
   const client = getClient();
@@ -173,14 +172,14 @@ const Actions = {
   getModelList,
   getById,
   createModel,
-  updateModel  
+  updateModel
 }
 
 /**
  * Save model
- * @param {Object} Queries 
- * @param {String} modelName 
- * @param {object} model 
+ * @param {Object} Queries
+ * @param {String} modelName
+ * @param {object} model
  */
 export const saveModel = (Queries, modelName, model) => {
   const name = model.id ? 'updateModel' : 'createModel';

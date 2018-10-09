@@ -30,7 +30,7 @@ class User extends Model {
 
   /**
    * Filter input
-   * @param {Object} input 
+   * @param {Object} input
    */
   static filterInput(input) {
     return pick(input, User.fillable())
@@ -40,9 +40,7 @@ class User extends Model {
    * Encrypt password before insert
    */
   async $beforeInsert() {
-    if (this.password) {
-      this.password = User.hashPassword(this.password);
-    }
+    if (this.password) this.password = User.hashPassword(this.password);
   }
 
   /**
@@ -53,8 +51,16 @@ class User extends Model {
   }
 
   /**
+   * Populate relations
+   */
+  async $afterInsert() {
+    const RoleUser = require('../roleuser/RoleUser');
+    await RoleUser.populateWithUser(this)
+  }
+
+  /**
    * Hash password
-   * @param {String} password 
+   * @param {String} password
    */
   static hashPassword(password) {
     return bcrypt.hashSync(password);
@@ -62,7 +68,7 @@ class User extends Model {
 
   /**
    * Verify password
-   * @param {String} password 
+   * @param {String} password
    */
   verifyPassword(password) {
     return bcrypt.compareSync(password, this.password);
@@ -70,7 +76,7 @@ class User extends Model {
 
   /**
    * Passwords input
-   * @param {Object} input 
+   * @param {Object} input
    */
   static validateInputPasswords(input) {
     const { password, password_confirm } = input;
@@ -80,7 +86,7 @@ class User extends Model {
 
   /**
    * Validate input email address
-   * @param {Object} input 
+   * @param {Object} input
    */
   static validateInputEmail(input) {
     if (!validator.validate(input.email))
@@ -134,13 +140,13 @@ class User extends Model {
 
   /**
    * Store avatar
-   * @param {Number} id 
-   * @param {FileStream} stream 
-   * @param {String} filename 
+   * @param {Number} id
+   * @param {FileStream} stream
+   * @param {String} filename
    */
   static storeAvatar(id, stream, filename) {
     const uploadDir = storageConfig.filesystem.path + '/users/avatar';
-    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir); 
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
     const path = `${uploadDir}/${filename}`
     return new Promise((resolve, reject) =>
       stream
@@ -157,9 +163,9 @@ class User extends Model {
 
   /**
    * Get avatar full filename
-   * 
-   * @param {Number} id 
-   * @param {String} filename 
+   *
+   * @param {Number} id
+   * @param {String} filename
    */
   static getAvatarPath(id, filename) {
     const dir = storageConfig.filesystem.path + '/users/avatar';

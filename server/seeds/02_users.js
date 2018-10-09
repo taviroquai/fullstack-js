@@ -14,8 +14,7 @@ exports.seed = function(knex, Promise) {
           email: 'admin@isp.com',
           password: bcrypt.hashSync('admin'),
           avatar: 'admin.jpg',
-          active: true,
-          role_id: 3
+          active: true
         }
       ]);
     });

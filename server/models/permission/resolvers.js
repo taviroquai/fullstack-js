@@ -45,29 +45,10 @@ const resolvers = {
       // Get results
       const result = await query.page(page, limit);
       return result;
-    },
-
-    /**
-     * Get permission by id
-     */
-    getPermissionById: async (root, args, context) => {
-      const permission = await getPermissionById(args.id);
-      if (!permission) throw new Error('Permission not found');
-      return permission;
     }
   },
 
   Mutation: {
-
-    /**
-     * Create permission
-     */
-    createPermission: async (root, args, context) => {
-      const permission = await Permission.query()
-        .insert(args)
-        .returning('id');
-      return await getPermissionById(permission.id);
-    },
 
     /**
      * Update permission

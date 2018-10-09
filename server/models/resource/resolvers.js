@@ -41,18 +41,6 @@ const resolvers = {
       const resource = await getResourceById(args.id);
       if (!resource) throw new Error('Resource not found');
       return resource;
-    },
-
-    /**
-     * Get assigned hooks to Resource
-     */
-    getResourceHooks: async (root, args, context) => {
-      const resource = await getResourceById(args.id);
-      const items = await resource
-        .$relatedQuery('hooks')
-        .select('hooks.*', 'resource_hooks.active', 'resource_hooks.order')
-        .orderBy('order');
-      return items;
     }
   },
 

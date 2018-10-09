@@ -6,8 +6,7 @@ import {
   Message,
   Checkbox
 } from 'semantic-ui-react';
-import { updateRoleHook } from '../hooks/actions';
-import { getRoleHooks } from './actions';
+import { getRoleHooks, updateRoleHook } from './actions';
 
 class RoleHooksList extends Component {
 
@@ -48,6 +47,7 @@ class RoleHooksList extends Component {
     updateRoleHook(variables).then(() => {
       this.reload(role);
     }).catch(errors => {
+      console.log(errors);
       this.setState({ ...this.state, loading: false, errors });
     });
   }
@@ -62,10 +62,10 @@ class RoleHooksList extends Component {
           Bypass Hooks
         </Header>
 
-        { errors && <Message error size='mini'
+        { errors ? <Message negative size='mini'
           icon='exclamation triangle'
           list={errors.map(e => e.message)}
-        /> }
+        /> : null }
 
         <Table celled>
           <Table.Header>

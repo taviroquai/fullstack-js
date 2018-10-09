@@ -23,7 +23,7 @@ class Resource extends Model {
 
   /**
    * Filter input
-   * @param {Object} input 
+   * @param {Object} input
    */
   static filterInput(input) {
     return pick(input, Resource.fillable())
@@ -35,7 +35,8 @@ class Resource extends Model {
   async $afterInsert() {
     const Permission = require('../permission/Permission');
     await Permission.populateWithResource(this);
-    await Resource.populateHooks(this)
+    const ResourceHook = require('../resourcehook/ResourceHook');
+    await ResourceHook.populateWithResource(this);
   }
 
   /**
@@ -70,21 +71,6 @@ class Resource extends Model {
         }
       }
     }
-  }
-
-  /**
-   * Populate hooks
-   */
-  static async populateHooks(resource) {
-    const Hook = require('../hook/Hook');
-    const hooks = await Hook.query();
-    const items = [];
-    for (let i = 0; i < hooks.length; i++) items.push({
-      resource_id: resource.id,
-      hook_id: hooks[i].id,
-      order: i+1
-    });
-    await Resource.knex().table('resource_hooks').insert(items);
   }
 }
 

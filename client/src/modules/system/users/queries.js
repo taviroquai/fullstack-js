@@ -95,3 +95,51 @@ mutation uploadAvatar(
       filename
     }
 }`;
+
+export const getRoleUsers = gql`
+query getRoleUsers(
+  $user_id: ID
+  $role_id: ID
+  $active: Boolean
+  $limit: Int
+  $page: Int
+) {
+  getRoleUsers(
+    role_id: $role_id
+    user_id: $user_id
+    active: $active
+    limit: $limit
+    page: $page
+  ) {
+    total
+    results {
+      id
+      role_id
+      user_id
+      active
+      role {
+        id
+        label
+      }
+      user {
+        id
+        username
+      }
+    }
+  }
+}`;
+
+export const updateRoleUser = gql`
+mutation updateRoleUser(
+  $id: ID!
+  $role_id: ID!
+  $user_id: ID!
+  $active: Boolean!
+) {
+  updateRoleUser(
+    id: $id
+    role_id: $role_id
+    user_id: $user_id
+    active: $active
+  )
+}`;

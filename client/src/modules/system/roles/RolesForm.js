@@ -8,7 +8,6 @@ import {
   Button
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
-import RoleUsersList from './RoleUsersList';
 import RoleHooksList from './RoleHooksList';
 import { getRoleById, saveRole } from './actions';
 
@@ -18,16 +17,21 @@ class RolesForm extends Component {
     loading: false,
     errors: null,
     success: null,
-    edit: {
-      id: '',
-      label: '',
-      system: ''
-    }
+    edit: false
   }
 
   componentDidMount() {
     const { params } = this.props.match;
-    if (!params.id) return;
+    if (!params.id) {
+      return this.setState({
+        ...this.state,
+        edit: {
+          id: '',
+          label: '',
+          system: ''
+        }
+      })
+    }
 
     // Load role
     this.setState({ ...this.state, loading: true });
@@ -68,13 +72,15 @@ class RolesForm extends Component {
       <Layout>
 
         <Header as='h1'>
-        { edit.id ? 'Edit Role' : 'Create Role' }
-          <Button primary
-            floated='right'
-            onClick={e => this.onSubmit(e)}
-            type='submit'>
-            Save
-          </Button>
+          { edit.id ? 'Edit Role' : 'Create Role' }
+          { edit && (
+            <Button primary
+              floated='right'
+              onClick={e => this.onSubmit(e)}
+              type='submit'>
+              Save
+            </Button>
+          ) }
         </Header>
 
         { errors && <Message error size='mini'
@@ -87,7 +93,8 @@ class RolesForm extends Component {
           content='Role saved successfully'
         /> }
 
-        { loading ? <Loader active inline='centered' /> : (
+        { loading && <Loader active inline='centered' /> }
+        { edit && (
           <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
 
             <Grid>
@@ -113,8 +120,6 @@ class RolesForm extends Component {
                 </Form.Field>
               </Grid.Column>
             </Grid>
-
-            <RoleUsersList role={edit} />
 
             <RoleHooksList role={edit} />
 

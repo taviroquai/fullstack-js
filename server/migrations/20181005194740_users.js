@@ -8,12 +8,6 @@ exports.up = function(knex, Promise) {
     table.string('authtoken');
     table.string('avatar');
     table.boolean('active').default(false);
-
-    // Role relation
-    table.integer('role_id').unsigned()
-      .references('id')
-      .inTable('roles')
-      .onDelete('SET NULL');
   });
 };
 

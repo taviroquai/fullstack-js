@@ -1,6 +1,7 @@
-const Role = require('../models/role/Role');
+const RoleUser = require('../models/roleuser/RoleUser');
 const Resource = require('../models/resource/Resource');
 const Permission = require('../models/permission/Permission');
+const ResourceHook = require('../models/resourcehook/ResourceHook');
 const RoleHook = require('../models/rolehook/RoleHook');
 const { gql } = require('apollo-server-koa');
 const HooksAvailable = require('../hooks');
@@ -10,9 +11,12 @@ const schema = require('./schema');
 
 /**
  * Graphql configuration manager
- * 
+ *
  * Builds the type definitions and resolvers with hooks
  * Configuration is loaded from database
+ *
+ * TODO: Refactor all of this!
+ * TODO: cache permissions instead of check from database in every request
  */
 class Manager {
 
@@ -35,95 +39,99 @@ class Manager {
     Object.keys(combinedResolvers).map(type => {
       finalResolvers[type] = finalResolvers[type] || {};
       Object.keys(combinedResolvers[type]).map(name => {
-        finalResolvers[type][name] = async (root, args, context) => {
-
-          // Get user from Koa state
-          console.log("");
-          console.time("permissions elapsed time");
-          const user = context.ctx.state.user;
-          console.log('request by user:', user ? user.username : user);
-          const role = await Role.query().findById(user ? user.role_id : '1');
-          console.log('role:', role ? role.label : role);
-
-          // Find resource
-          const resource = await Resource.query()
-            .where('system', type+'.'+name)
-            .first();
-          console.log('resource:', resource.system);
-
-          // Find permission
-          if (resource) {
-            
-            const permission = await Permission.query()
-              .where('role_id', user ? user.role_id : '1')
-              .where('resource_id', resource.id)
-              .where('access', true)
-              .first();
-            console.log('permission:', !!permission);
-            if (!permission) throw new Error('Access denied');
-          }
-
-          // Run before hooks
-          if (resource) {
-            const before = await resource
-              .$relatedQuery('hooks')
-              .where('active', true)
-              .where('type', 'before')
-              .orderBy('order');
-            for (let k of before) {
-
-              // Find hook bypass
-              const bypass = await RoleHook.query()
-                .where('role_id', user ? user.role_id : '1')
-                .where('hook_id', k.id)
-                .where('bypass', true)
-                .first();
-              console.log('bypass for before ' + k.system + ':', !!bypass);
-              if (!bypass) {
-                if (HooksAvailable[k.system]) {
-                  args = await HooksAvailable[k.system](context.ctx, type, name, args);
-                }
-              }
-            }
-          }
-          console.timeEnd("permissions elapsed time");
-
-          // Call resolver
-          const resolver = combinedResolvers[type][name];
-          let data = await resolver(root, args, context);
-
-          // Run after hooks
-          if (resource) {
-            const after = await resource
-              .$relatedQuery('hooks')
-              .where('active', true)
-              .where('type', 'after')
-              .orderBy('order');
-            for (let k of after) {
-
-              // Find hook bypass
-              const bypass = await RoleHook.query()
-                .where('role_id', user ? user.role_id : '1')
-                .where('hook_id', k.id)
-                .where('bypass', true)
-                .first();
-              console.log('bypass for after ' + k.system + ':', !!bypass);
-              if (!bypass) {
-                if (HooksAvailable[k.system]) {
-                  data = await HooksAvailable[k.system](context.ctx, type, name, args, data);
-                }
-              }
-            }
-          }
-
-          // Return data
-          return data;
-        }
+        const resolver = combinedResolvers[type][name];
+        finalResolvers[type][name] = Manager.wrapPermissions(type, name, resolver);
       });
     });
 
     // Return final resolvers object
     return finalResolvers;
+  }
+
+  /*
+   * Inject permissions for resolver
+   */
+  static wrapPermissions(type, name, resolver) {
+    const fn = async (root, args, context) => {
+
+      // Check permissions
+      const user = context.ctx.state.user;
+      const roles = await Manager.getRolesFromUser(user);
+      const resource = await Manager.getResourceFromTypeName(type, name);
+      const denied = resource ? await Manager.getAccessDenied(roles, resource) : false;
+      if (!!denied) throw new Error('Access denied');
+
+      // Wrap hooks in sequence (before and after)
+      args = await Manager.runHooks(roles, resource, 'before', context, type, name, args);
+      let data = await resolver(root, args, context);
+      data = await Manager.runHooks(roles, resource, 'after', context, type, name, data);
+      return data;
+    }
+    return fn;
+  }
+
+  /**
+   * Get user roles
+   */
+  static async getRolesFromUser(user) {
+    console.log('\nrequest by user:', user ? user.username : user);
+    let roles = [];
+    if (!user) roles = await RoleUser.query().eager('role').where('role_id', '1');
+    else roles = await RoleUser.query().eager('role').where('user_id', user.id).where('active', true);
+    console.log('roles:', roles.map(r => r.role.system).join(','));
+    return roles;
+  }
+
+  /*
+   * Get resource from resolver type and name
+   */
+  static async getResourceFromTypeName(type, name) {
+    const resource = await Resource.query().where('system', type+'.'+name).first();
+    console.log('Found registered resource:', resource ? resource.system : 'none');
+    return resource;
+  }
+
+  /*
+   * Get access denied
+   */
+  static async getAccessDenied(roles, resource) {
+    const denied = await Permission.query()
+      .whereIn('role_id', roles.map(r => r.role_id))
+      .where('resource_id', resource.id)
+      .where('access', false)
+      .first();
+    console.log('access denied:', !!denied);
+    return denied;
+  }
+
+  /*
+   * Run before hooks
+   */
+  static async runHooks(roles, resource, hookType, context, type, name, data) {
+    if (resource) {
+      const before = await ResourceHook.query()
+        .eager('hook')
+        .where('resource_id', resource.id)
+        .where('active', true)
+        .where('type', hookType)
+        .orderBy('order');
+      for (let k of before) {
+
+        // Find hooks bypass
+        const bypass = await RoleHook.query()
+          .whereIn('role_id', roles.map(r => r.role_id))
+          .where('hook_id', k.hook.id)
+          .where('bypass', true)
+          .first();
+        console.log('bypass before ' + k.hook.system + ':', !!bypass);
+        if (!bypass) {
+          if (HooksAvailable[k.hook.system]) {
+            data = await HooksAvailable[k.hook.system](context.ctx, type, name, data);
+          }
+        }
+      }
+    }
+    return data;
   }
 }
 

@@ -6,30 +6,26 @@ import {
   Message,
   Checkbox
 } from 'semantic-ui-react';
-import { getUsers, changeUserRole } from '../users/actions';
-import { getRoleUsers } from './actions';
+import { getRoleUsers, updateRoleUser } from './actions';
 
 class RoleUsersList extends Component {
 
   state = {
     loading: false,
     total: 0,
-    users: [],
+    roles: [],
     current: [],
     errors: null
   }
 
-  reload(role) {
+  reload(user) {
+    const variables = { user_id: user.id }
     this.setState({ ...this.state, loading: true});
-    getUsers().then((users, total) => {
-      getRoleUsers(role.id).then(current => {
-        this.setState({
-          ...this.state,
-          loading: false,
-          users,
-          total,
-          current: current.map(i => i.id)
-          });
+    getRoleUsers(variables).then(result => {
+      this.setState({
+        ...this.state,
+        loading: false,
+        roles: result.results
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors });
@@ -37,34 +33,36 @@ class RoleUsersList extends Component {
   }
 
   componentDidMount() {
-    const { role } = this.props;
-    if (!role.id) return;
-    this.reload(role);
+    const { user } = this.props;
+    if (!user.id) return;
+    this.reload(user);
   }
 
-  toggleUser(user) {
-    const { role } = this.props;
-    const { current } = this.state;
-    const role_id = current.indexOf(user.id) > -1 ? null : role.id;
+  toggleRole(role) {
+    const { user } = this.props;
     this.setState({ ...this.state, loading: true});
-    changeUserRole(user.id, role_id).then(() => {
-      this.reload(role);
+    const variables = {
+      ...role,
+      active: !role.active,
+    }
+    updateRoleUser(variables).then(() => {
+      this.reload(user);
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors });
     });
   }
 
   render() {
-    const { role } = this.props;
-    const { loading, errors, users, current } = this.state;
-    if (!role.id) return null;
+    const { user } = this.props;
+    const { loading, errors, roles } = this.state;
+    if (!user.id) return null;
     return (
       <React.Fragment>
         <Header as='h3'>
-          Users In Role
+          User Roles
         </Header>
 
-        { errors && <Message error size='mini'
+        { errors && <Message negative size='mini'
           icon='exclamation triangle'
           list={errors.map(e => e.message)}
         /> }
@@ -80,18 +78,18 @@ class RoleUsersList extends Component {
             </Table.Header>
 
             <Table.Body>
-              { users.map(user => (
-                <Table.Row key={user.id}>
-                  <Table.Cell>{user.id}</Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
+              { roles.map(role => (
+                <Table.Row key={role.id}>
+                  <Table.Cell>{role.id}</Table.Cell>
+                  <Table.Cell>{role.role.label}</Table.Cell>
                   <Table.Cell width={1}>
 
                     <Checkbox toggle
                       disabled={loading}
-                      checked={current.indexOf(user.id) > -1}
-                      title={current.indexOf(user.id) > -1 ? 'Deny' : 'Allow'}
+                      checked={role.active}
+                      title={role.active ? 'Remove' : 'Add'}
                       size='mini'
-                      onClick={this.toggleUser.bind(this, user)}
+                      onClick={this.toggleRole.bind(this, role)}
                       style={{ marginTop: '0.5rem' }}
                     />
 

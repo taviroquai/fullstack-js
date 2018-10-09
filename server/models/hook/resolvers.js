@@ -62,24 +62,7 @@ const resolvers = {
         .update(args)
         .where('id', args.id)
       return await getHookById(args.id);
-    },
-
-    /**
-     * Change hook resource
-     */
-    changeHookResource: async (root, args, context) => {
-      const data = {
-        active: args.active,
-        order: args.order
-      };
-      const knex = Hook.knex();
-      await knex.table('resource_hooks')
-        .update(data)
-        .where('resource_id', args.resource_id)
-        .where('hook_id', args.id)
-      return true;
     }
-
   }
 }
 

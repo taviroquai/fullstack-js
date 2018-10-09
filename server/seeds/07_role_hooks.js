@@ -7,7 +7,7 @@ exports.seed = function(knex, Promise) {
 
       return knex.select('id').from('hooks').then(function(hooks) {
         return knex.select('id').from('roles').then(function(roles) {
-        
+
           let items = [];
           for (let i = 0; i < hooks.length; i++) {
             for (let j = 0; j < roles.length; j++) {
@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
 
           // Insert
           return knex('role_hooks').insert(items);
-          
+
         });
       });
     });

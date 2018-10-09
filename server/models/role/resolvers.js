@@ -18,7 +18,7 @@ const resolvers = {
      * Get roles list
      */
     getRoles: async (root, args, context) => {
-      const query = Role.query().eager('users');
+      const query = Role.query();
       const limit = args.limit || 25;
       const page = args.page || 0;
 
@@ -36,6 +36,7 @@ const resolvers = {
      * Get role by id
      */
     getRoleById: async (root, args, context) => {
+      console.log('getRoleById args', args);
       const role = await getRoleById(args.id);
       if (!role) throw new Error('Role not found');
       return role;

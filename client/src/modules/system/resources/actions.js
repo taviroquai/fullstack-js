@@ -1,4 +1,4 @@
-import { getModelList, getById, saveModel } from '../../../graphql';
+import { getModelList, getById, saveModel, get, put } from '../../../graphql';
 import * as Queries from './queries';
 
 /**
@@ -26,8 +26,16 @@ export const saveResource = (resource) => {
 
 /**
  * Get hooks that belongs to resource
- * @param {String} id
+ * @param {Object} variables
  */
-export const getResourceHooks = (id) => {
-  return getById(Queries, 'getResourceHooks', id);
+export const getResourceHooks = (variables) => {
+  return get(Queries.getResourceHooks, 'getResourceHooks', variables);
+}
+
+/**
+ * Update resource hook
+ * @param {Object} variables
+ */
+export const updateResourceHook = (variables) => {
+  return put(Queries.updateResourceHook, 'updateResourceHook', variables);
 }
