@@ -62,3 +62,36 @@ query getRoleUsers($id: ID!) {
     role_id
   }
 }`;
+
+export const getRoleHooks = gql`
+query getRoleHooks(
+  $hook_id: ID
+  $role_id: ID
+  $bypass: Boolean
+  $limit: Int
+  $page: Int
+) {
+  getRoleHooks(
+    role_id: $role_id
+    hook_id: $hook_id
+    bypass: $bypass
+    limit: $limit
+    page: $page
+  ) {
+    total
+    results {
+      id
+      role_id
+      hook_id
+      bypass
+      role {
+        id
+        label
+      }
+      hook {
+        id
+        system
+      }
+    }
+  }
+}`;

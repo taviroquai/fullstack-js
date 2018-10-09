@@ -1,4 +1,4 @@
-import { getModelList, getById, saveModel } from '../../../graphql';
+import { getModelList, getById, saveModel, get } from '../../../graphql';
 import * as Queries from './queries';
 
 /**
@@ -30,4 +30,13 @@ export const saveRole = (role) => {
  */
 export const getRoleUsers = (id) => {
   return getById(Queries, 'getRoleUsers', id);
+}
+
+/**
+ * Get hooks of role
+ * @param {String} id
+ */
+export const getRoleHooks = (variables) => {
+  console.log('getRoleHooks', variables)
+  return get(Queries.getRoleHooks, 'getRoleHooks', variables);
 }

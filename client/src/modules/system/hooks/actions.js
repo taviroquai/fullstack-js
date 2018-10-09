@@ -25,11 +25,17 @@ export const saveHook = (hook) => {
 }
 
 /**
- * Change hook
- * @param {Object} Queries
- * @param {String} modelName
- * @param {Object} model
+ * Change resource hook
+ * @param {Object} variables
  */
 export const changeHookResource = (variables) => {
   return put(Queries.changeHookResource, 'changeHookResource', variables);
+}
+
+/**
+ * Update role hook
+ * @param {Object} variables
+ */
+export const updateRoleHook = (variables) => {
+  return put(Queries.updateRoleHook, 'updateRoleHook', variables);
 }

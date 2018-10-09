@@ -6,10 +6,10 @@ import {
   Message,
   Checkbox
 } from 'semantic-ui-react';
-import { changeHookResource } from '../hooks/actions';
-import { getResourceHooks } from './actions';
+import { updateRoleHook } from '../hooks/actions';
+import { getRoleHooks } from './actions';
 
-class ResourceHooksList extends Component {
+class RoleHooksList extends Component {
 
   state = {
     loading: false,
@@ -18,13 +18,14 @@ class ResourceHooksList extends Component {
     errors: null
   }
 
-  reload(resource) {
+  reload(role) {
     this.setState({ ...this.state, loading: true});
-    getResourceHooks(resource.id).then(hooks => {
+    const variables = { role_id: role.id }
+    getRoleHooks(variables).then(result => {
       this.setState({
         ...this.state,
         loading: false,
-        hooks
+        hooks: result.results
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors });
@@ -32,34 +33,33 @@ class ResourceHooksList extends Component {
   }
 
   componentDidMount() {
-    const { resource } = this.props;
-    if (!resource.id) return;
-    this.reload(resource);
+    const { role } = this.props;
+    if (!role.id) return;
+    this.reload(role);
   }
 
   toggleHook(hook) {
-    const { resource } = this.props;
+    const { role } = this.props;
     this.setState({ ...this.state, loading: true});
     const variables = {
       ...hook,
-      resource_id: resource.id,
-      active: !hook.active,
+      bypass: !hook.bypass,
     }
-    changeHookResource(variables).then(() => {
-      this.reload(resource);
+    updateRoleHook(variables).then(() => {
+      this.reload(role);
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors });
     });
   }
 
   render() {
-    const { resource } = this.props;
+    const { role } = this.props;
     const { loading, errors, hooks } = this.state;
-    if (!resource.id) return null;
+    if (!role.id) return null;
     return (
       <React.Fragment>
         <Header as='h3'>
-          Applied Hooks
+          Bypass Hooks
         </Header>
 
         { errors && <Message error size='mini'
@@ -82,13 +82,13 @@ class ResourceHooksList extends Component {
             { hooks.map(hook => (
               <Table.Row key={hook.id}>
                 <Table.Cell>{hook.id}</Table.Cell>
-                <Table.Cell>{hook.system}</Table.Cell>
+                <Table.Cell>{hook.hook.system}</Table.Cell>
                 <Table.Cell width={1}>
 
                   <Checkbox toggle
                     disabled={loading}
-                    checked={hook.active}
-                    title='Remove hook'
+                    checked={hook.bypass}
+                    title={hook.bypass ? 'Enforce hook' : 'Bypass hook' }
                     size='mini'
                     onClick={this.toggleHook.bind(this, hook)}
                   />
@@ -105,4 +105,4 @@ class ResourceHooksList extends Component {
   }
 }
 
-export default ResourceHooksList;
+export default RoleHooksList;

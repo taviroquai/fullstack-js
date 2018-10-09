@@ -47,6 +47,36 @@ class Permission extends Model {
       }
     }
   }
+
+  /**
+   * Populate with resource
+   */
+  static async populateWithResource(resource) {
+    const Role = require('../role/Role');
+    const roles = await Role.query();
+    const items = [];
+    for (let i = 0; i < roles.length; i++) items.push({
+      resource_id: resource.id,
+      role_id: roles[i].id,
+      access: roles[i].system === 'ANONYMOUS' ? false : true
+    });
+    await Resource.knex().table('permissions').insert(items);
+  }
+
+  /**
+   * Populate with role
+   */
+  static async populateWithRole(role) {
+    const Resource = require('../resource/Resource');
+    const resources = await Resource.query();
+    const items = [];
+    for (let i = 0; i < resources.length; i++) items.push({
+      resource_id: resources[i].id,
+      role_id: role.id,
+      access: roles[i].system === 'ANONYMOUS' ? false : true
+    });
+    await Resource.knex().table('permissions').insert(items);
+  }
 }
 
 module.exports = Permission;

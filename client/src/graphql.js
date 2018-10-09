@@ -34,6 +34,7 @@ export const getModelList = (Queries, modelName, variables) => {
  * @param {String} id 
  */
 export const getById = (Queries, queryName, id) => {
+  console.log('getById', Queries, queryName, id);
   const client = getClient();
   return new Promise((resolve, reject) => {
     client.query({
@@ -93,10 +94,31 @@ export const updateModel = (Queries, modelName, model) => {
 }
 
 /**
- * Run querie
+ * Run query
  * @param {Object} Queries 
  * @param {String} modelName 
  * @param {Object} model 
+ */
+export const get = (query, dataName, variables) => {
+  const client = getClient();
+  return new Promise((resolve, reject) => {
+    client.query({
+      query,
+      variables
+    }).then(r => {
+      resolve(r.data[dataName]);
+    })
+    .catch(error => {
+      reject(error.graphQLErrors);
+    })
+  })
+}
+
+/**
+ * Run query
+ * @param {Object} Queries 
+ * @param {String} dataName 
+ * @param {Object} variables 
  */
 export const put = (mutation, dataName, variables) => {
   const client = getClient();

@@ -1,3 +1,4 @@
+const pick = require('lodash.pick');
 const Model = require('../Model');
 
 class Role extends Model {
@@ -7,6 +8,34 @@ class Role extends Model {
    */
   static get tableName() {
     return 'roles';
+  }
+
+  /**
+   * Populate relations
+   */
+  async $afterInsert() {
+    const Permission = require('../permission/Permission');
+    await Permission.populateWithRole(this);
+    const RoleHook = require('../rolehook/RoleHook');
+    await RoleHook.populateWithRole(this)
+  }
+
+  /**
+   * Set fillable columns
+   */
+  static fillable() {
+    return [
+      'label',
+      'system',
+    ];
+  }
+
+  /**
+   * Filter input
+   * @param {Object} input 
+   */
+  static filterInput(input) {
+    return pick(input, Role.fillable())
   }
 
   /**

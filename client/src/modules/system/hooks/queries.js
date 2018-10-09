@@ -60,3 +60,23 @@ mutation changeHookResource(
       order: $order
     )
 }`;
+
+export const updateRoleHook = gql`
+mutation updateRoleHook(
+  $id: ID!
+  $role_id: ID!
+  $hook_id: ID!
+  $bypass: Boolean!
+) {
+  updateRoleHook(
+    id: $id
+    role_id: $role_id
+    hook_id: $hook_id
+    bypass: $bypass
+  ) {
+    id
+    role_id
+    hook_id
+    bypass 
+  }
+}`;

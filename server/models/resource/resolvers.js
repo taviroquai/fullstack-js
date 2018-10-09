@@ -62,8 +62,9 @@ const resolvers = {
      * Create resource
      */
     createResource: async (root, args, context) => {
+      const data = Resource.filterInput(args);
       const resource = await Resource.query()
-        .insert(args)
+        .insert(data)
         .returning('id');
       return await getResourceById(resource.id);
     },
@@ -72,8 +73,9 @@ const resolvers = {
      * Update resource
      */
     updateResource: async (root, args, context) => {
+      const data = Resource.filterInput(args);
       await Resource.query()
-        .update(args)
+        .update(data)
         .where('id', args.id)
       return await getResourceById(args.id);
     }

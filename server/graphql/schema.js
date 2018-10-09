@@ -24,6 +24,15 @@ const schema = `
       page: Int
     ): PermissionList
     getPermissionById(id: ID!): Permission
+
+    getRoleHooks(
+      hook_id: ID
+      role_id: ID
+      bypass: Boolean
+      limit: Int
+      page: Int
+    ): RoleHookList
+    getRoleHookById(id: ID!): RoleHook
   
   }
 
@@ -100,6 +109,19 @@ const schema = `
       role_id: ID!
       access: Boolean!
     ): Permission
+
+    createRoleHook(
+      hook_id: ID!
+      role_id: ID!
+      bypass: Boolean!
+    ): RoleHook
+    
+    updateRoleHook(
+      id: ID!
+      hook_id: ID!
+      role_id: ID!
+      bypass: Boolean!
+    ): RoleHook
   }
   
   type File {

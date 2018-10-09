@@ -56,8 +56,9 @@ const resolvers = {
      * Create role
      */
     createRole: async (root, args, context) => {
+      const data = Role.filterInput(args);
       const role = await Role.query()
-        .insert(args)
+        .insert(data)
         .returning('id');
       return await getRoleById(role.id);
     },
@@ -66,9 +67,9 @@ const resolvers = {
      * Update role
      */
     updateRole: async (root, args, context) => {
-      if (!args.id) throw new Error('Role must exist');
+      const data = User.filterInput(args);
       await Role.query()
-        .update(args)
+        .update(data)
         .where('id', args.id)
       return await getRoleById(args.id);
     }
