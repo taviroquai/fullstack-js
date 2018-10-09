@@ -82,7 +82,7 @@ class ResourcesList extends Component {
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.HeaderCell>
-                  System
+                  System Keyword
                   <Input style={{fontSize: '.8rem', float: 'right'}}
                     placeholder='Search...'
                     value={query}

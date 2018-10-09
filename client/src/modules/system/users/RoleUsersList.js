@@ -69,7 +69,7 @@ class RoleUsersList extends Component {
         /> }
 
         { loading ? <Loader active inline='centered' /> : (
-          <Table celled>
+          <Table size='small'>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>

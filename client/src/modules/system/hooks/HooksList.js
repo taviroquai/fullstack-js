@@ -57,7 +57,7 @@ class HooksList extends Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
-                <Table.HeaderCell>System</Table.HeaderCell>
+                <Table.HeaderCell>System Keyword</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>

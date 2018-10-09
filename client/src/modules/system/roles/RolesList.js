@@ -58,7 +58,7 @@ class RolesList extends Component {
               <Table.Row>
                 <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.HeaderCell>Label</Table.HeaderCell>
-                <Table.HeaderCell>System</Table.HeaderCell>
+                <Table.HeaderCell>System Keyword</Table.HeaderCell>
                 <Table.HeaderCell></Table.HeaderCell>
               </Table.Row>
             </Table.Header>

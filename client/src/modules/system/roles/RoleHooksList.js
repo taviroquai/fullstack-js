@@ -70,7 +70,7 @@ class RoleHooksList extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>ID</Table.HeaderCell>
-              <Table.HeaderCell>System Name</Table.HeaderCell>
+              <Table.HeaderCell>System Keyword</Table.HeaderCell>
               <Table.HeaderCell>
                 { loading && <Loader inline active /> }
               </Table.HeaderCell>

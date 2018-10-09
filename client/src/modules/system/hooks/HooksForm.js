@@ -90,7 +90,7 @@ class HooksForm extends Component {
             <Grid>
               <Grid.Column width={16}>
                 <Form.Field>
-                  <label>System</label>
+                  <label>System Keyword</label>
                   <Form.Input value={edit.system}
                     placeholder="Enter system keyword..."
                     onChange={e => this.onEdit('system', e.target.value)}
