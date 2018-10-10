@@ -1,11 +1,13 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const authConfig = require('../../config/auth');
-const storageConfig = require('../../config/storage');
 const Model = require('../Model');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
 const pick = require('lodash.pick');
+
+// Get config
+const authSecret = process.env.FSTACK_AUTH_SECRET;
+const storagePath = process.env.FSTACK_STORAGE_PATH;
 
 /**
  * User model
@@ -136,7 +138,7 @@ class User extends Model {
    * TODO: add expire date
    */
   async regenerateJwt() {
-    this.authtoken = jwt.sign({ username: this.username }, authConfig.jwt.secret);
+    this.authtoken = jwt.sign({ username: this.username }, authSecret);
     await User.query()
       .patch({ authtoken: this.authtoken })
       .where('id', this.id);
@@ -149,14 +151,12 @@ class User extends Model {
    * @param {String} filename
    */
   static storeAvatar(id, stream, filename) {
-    const uploadDir = storageConfig.filesystem.path + '/users/avatar';
+    const uploadDir = storagePath + '/users/avatar';
     if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
     const path = `${uploadDir}/${filename}`
     return new Promise((resolve, reject) =>
-      stream
-        .on('error', error => {
-          if (stream.truncated)
-            fs.unlinkSync(path)
+      stream.on('error', error => {
+          if (stream.truncated) fs.unlinkSync(path)
           reject(error)
         })
         .pipe(fs.createWriteStream(path))
@@ -172,7 +172,7 @@ class User extends Model {
    * @param {String} filename
    */
   static getAvatarPath(id, filename) {
-    const dir = storageConfig.filesystem.path + '/users/avatar';
+    const dir = storagePath + '/users/avatar';
     const path = `${dir}/${filename}`;
     return path;
   }

@@ -97,7 +97,7 @@ class Manager {
       const resource = await Manager.getResourceFromTypeName(type, name);
       const denied = resource ? await Manager.getAccessDenied(roles, resource) : false;
       console.log(
-        '\nRequest:',
+        'Request:',
         user ? user.username : user,
         roles.map(r => r.role.system).join(','),
         resource ? resource.system : 'none',
