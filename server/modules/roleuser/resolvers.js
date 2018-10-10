@@ -21,7 +21,7 @@ const resolvers = {
       if (args.role_id) query.where('role_id', args.role_id)
 
       // Filter by user
-      if (args.hook_id) query.where('user_id', args.role_id)
+      if (args.user_id) query.where('user_id', args.user_id)
 
       // Filter by bypass
       if (args.active) query.where('active', args.active)

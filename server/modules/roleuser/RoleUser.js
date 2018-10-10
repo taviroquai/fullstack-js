@@ -85,7 +85,7 @@ class RoleUser extends Model {
     for (let i of roles) items.push({
       role_id: i.id,
       user_id: user.id,
-      active: false
+      active: i.system === 'REGISTERED' ? true : false
     });
     await RoleUser.query().insert(items)
   }

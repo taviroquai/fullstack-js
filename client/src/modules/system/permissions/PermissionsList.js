@@ -111,7 +111,7 @@ class PermissionsList extends Component {
                   <Table.HeaderCell>{t('id')}</Table.HeaderCell>
                     <Table.HeaderCell>
                       <Select
-                        style={{ fontSize: '0.8rem'}}
+                        style={{ fontSize: '0.8rem' }}
                         placeholder={t('filter_by_role')}
                         value={roleFilter}
                         options={roleOptions}

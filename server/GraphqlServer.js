@@ -1,7 +1,7 @@
 const fs = require('fs');
-const path = require('path');
 const merge = require('lodash.merge');
 const errors = require('./errors.json');
+const ModuleManager = require('./ModuleManager');
 const RoleHook = require('./modules/rolehook/RoleHook');
 const RoleUser = require('./modules/roleuser/RoleUser');
 const { ApolloServer, gql } = require('apollo-server-koa');
@@ -9,70 +9,20 @@ const Permission = require('./modules/permission/Permission');
 const ResourceHook = require('./modules/resourcehook/ResourceHook');
 
 /**
- * Graphql configuration manager
+ * Graphql configuration server
  *
  * Builds the type definitions and resolvers with hooks
- * Configuration is loaded from database
  *
- * TODO: Refactor all of this!
  * TODO: cache permissions instead of check from database in every request
  */
-class Manager {
+class GraphqlServer {
 
   /**
-   * Get modules names
+   * Get apollo server
    */
-  static getModulesNames() {
-    const path = './modules';
-    let modules = fs.readdirSync(path)
-    .filter(file => {
-      return fs.statSync(path+'/'+file).isDirectory();
-    });
-    return modules;
-  }
-
-  /**
-   * Load middleware
-   */
-  static loadMiddleware() {
-    const middlewareList = Manager.getMiddlewareNames();
-    const middleware = {};
-    for (let name of middlewareList) {
-      middleware[name] = require('./middleware/' + name);
-    }
-    return middleware;
-  }
-
-  /**
-   * Get middleware names
-   */
-  static getMiddlewareNames() {
-    const path = './middleware';
-    let names = fs.readdirSync(path)
-    .filter(file => {
-      return !fs.statSync(path+'/'+file).isDirectory();
-    });
-    return names;
-  }
-
-  /**
-   * Load routes
-   */
-  static loadRoutes() {
-    const routes = {};
-    const modules = Manager.getModulesNames();
-    for (let name of modules) {
-      routes[name] = require('./modules/' + name + '/routes');
-    }
-    return routes;
-  }
-
-  /**
-   * Get graphql server
-   */
-  static getGraphqlServer() {
-    const typeDefs = Manager.getTypeDefs();
-    const resolvers = Manager.getResolvers();
+  static getApolloServer() {
+    const typeDefs = GraphqlServer.getTypeDefs();
+    const resolvers = GraphqlServer.getResolvers();
     const server = new ApolloServer({
       typeDefs,
       resolvers,
@@ -85,7 +35,7 @@ class Manager {
    * Load hooks
    */
   static loadHooks() {
-    const hooksList = Manager.getHooksNames();
+    const hooksList = ModuleManager.getHooksNames();
     const hooks = {};
     for (let name of hooksList) {
       hooks[name] = require('./hooks/' + name);
@@ -99,7 +49,7 @@ class Manager {
    */
   static getResolvers() {
     let combinedResolvers = {};
-    const modulesList = Manager.getModulesNames();
+    const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
       let modelResolvers = require('./modules/' + m + '/resolvers');
       combinedResolvers = merge(combinedResolvers, modelResolvers);
@@ -109,48 +59,12 @@ class Manager {
       finalResolvers[type] = finalResolvers[type] || {};
       Object.keys(combinedResolvers[type]).map(name => {
         const resolver = combinedResolvers[type][name];
-        finalResolvers[type][name] = Manager.getResolverWithAuthorization(type, name, resolver);
+        finalResolvers[type][name] = GraphqlServer.getResolverWithAuthorization(type, name, resolver);
       });
     });
 
     // Return final resolvers object
     return finalResolvers;
-  }
-
-  /**
-   * Get resources names
-   */
-  static getResourcesNames() {
-    let combinedResolvers = {};
-    const modulesList = Manager.getModulesNames();
-    for (let m of modulesList) {
-      let modelResolvers = require('./modules/' + m + '/resolvers');
-      combinedResolvers = merge(combinedResolvers, modelResolvers);
-    }
-    let resources = [];
-    Object.keys(combinedResolvers).map(type => {
-      Object.keys(combinedResolvers[type]).map(name => {
-        resources.push(type + '.' +name);
-      });
-    });
-
-    // Return resources
-    return resources;
-  }
-
-  /**
-   * Get hooks names
-   */
-  static getHooksNames() {
-    let hooks = [];
-    fs.readdirSync('./hooks').forEach(filename => {
-      const regex = new RegExp("\.([^/.]+)$", "ig");
-      let result = regex.exec(filename);
-      if (result && result[1].toLowerCase() === 'js') {
-        hooks.push(filename.replace(/\.[^/.]+$/, ""));
-      }
-    });
-    return hooks;
   }
 
   /*
@@ -161,9 +75,9 @@ class Manager {
 
       // Check permissions
       const user = context.ctx.state.user;
-      const roles = await Manager.getRolesFromUser(user);
+      const roles = await GraphqlServer.getRolesFromUser(user);
       const resource = type + '.' + name;
-      const denied = resource ? await Manager.getAccessDenied(roles, resource) : false;
+      const denied = resource ? await GraphqlServer.getAccessDenied(roles, resource) : false;
       console.log(
         'Request:',
         user ? user.username : user,
@@ -175,9 +89,9 @@ class Manager {
       if (!!denied) throw new Error(errors['001']);
 
       // Wrap hooks in sequence (before and after)
-      args = await Manager.runHooks(roles, resource, 'before', context, type, name, args);
+      args = await GraphqlServer.runHooks(roles, resource, 'before', context, type, name, args);
       let data = await resolver(root, args, context);
-      data = await Manager.runHooks(roles, resource, 'after', context, type, name, data);
+      data = await GraphqlServer.runHooks(roles, resource, 'after', context, type, name, data);
       return data;
     }
     return fn;
@@ -236,7 +150,7 @@ class Manager {
           .first();
         console.log('Bypass:', hookType, k.hook, !!bypass);
         if (!bypass) {
-          const hooks = Manager.loadHooks();
+          const hooks = GraphqlServer.loadHooks();
           if (hooks[k.hook]) {
             data = await hooks[k.hook](context.ctx, type, name, data);
           }
@@ -253,7 +167,7 @@ class Manager {
     let queriesCombined = '';
     let mutationsCombined = '';
     let typesCombined = '';
-    const modulesList = Manager.getModulesNames();
+    const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
       queriesCombined += require('./modules/' + m + '/queries');
     }
@@ -288,4 +202,4 @@ class Manager {
   }
 }
 
-module.exports = Manager;
+module.exports = GraphqlServer;

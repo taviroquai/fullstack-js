@@ -36,6 +36,7 @@ class RoleUsersList extends Component {
 
   componentDidMount() {
     const { user } = this.props;
+    console.log('userrole did mount', user);
     if (!user.id) return;
     this.reload(user);
   }

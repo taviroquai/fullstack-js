@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Grid,
   Header,
@@ -68,6 +69,16 @@ class RolesForm extends Component {
     });
   }
 
+  /**
+   * On cancel form, go back
+   * @param {Object} e 
+   */
+  onCancel(e) {
+    e.preventDefault();
+    const { history } = this.props;
+    history.goBack();
+  }
+
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
@@ -75,17 +86,25 @@ class RolesForm extends Component {
         { (t, { i18n }) => (
           <Layout>
 
-            <Header as='h1'>
-              { (edit.id ? t('edit') : t('create')) + ' ' + t('role') }
-              { edit && (
-                <Button primary
-                  floated='right'
-                  onClick={e => this.onSubmit(e)}
-                  type='submit'>
-                  {t('save')}
-                </Button>
-              ) }
-            </Header>
+            { edit && (
+              <Header as='h1'>
+                { (edit.id ? t('edit') : t('create')) + ' ' + t('role') }
+
+                <React.Fragment>
+                  <Button negative
+                    floated='right'
+                    onClick={this.onCancel.bind(this)}>
+                    {t('cancel')}
+                  </Button>
+                  <Button primary
+                    floated='right'
+                    onClick={e => this.onSubmit(e)}
+                    type='submit'>
+                    {t('save')}
+                  </Button>
+                </React.Fragment>
+              </Header>
+            )}
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
@@ -102,7 +121,7 @@ class RolesForm extends Component {
               <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
 
                 <Grid>
-                  <Grid.Column mobile={12}>
+                  <Grid.Column width={16}>
                     <Form.Field>
                       <label>{t('label')}</label>
                       <Form.Input value={edit.label}
@@ -114,7 +133,7 @@ class RolesForm extends Component {
                 </Grid>
 
                 <Grid>
-                  <Grid.Column computer={12} mobile={12} tablet={12}>
+                  <Grid.Column width={16}>
                     <Form.Field>
                       <label>{t('system_keyword')}</label>
                       <Form.Input value={edit.system}
@@ -137,4 +156,4 @@ class RolesForm extends Component {
   }
 }
 
-export default RolesForm;
+export default withRouter(RolesForm);

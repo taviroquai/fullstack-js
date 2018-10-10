@@ -68,7 +68,7 @@ const resolvers = {
       const user = await User.query()
         .insert(data)
         .returning('id');
-      return await getUserById(user.id);
+      return await User.query().findById(user.id);
     },
 
     /**
@@ -81,7 +81,7 @@ const resolvers = {
       await User.query()
         .update(data)
         .where('id', args.id)
-      return await getUserById(args.id);
+      return await User.query().findById(args.id);
     },
 
     /**

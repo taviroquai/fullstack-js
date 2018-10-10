@@ -1,5 +1,5 @@
-const Manager = require('../Manager');
-const resources = Manager.getResourcesNames();
+const ModuleManager = require('../ModuleManager');
+const resources = ModuleManager.getResourcesNames();
 
 exports.seed = function(knex, Promise) {
 

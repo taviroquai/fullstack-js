@@ -1,5 +1,5 @@
-const Manager = require('../Manager');
-const hooks = Manager.getHooksNames();
+const ModuleManager = require('../ModuleManager');
+const hooks = ModuleManager.getHooksNames();
 
 exports.seed = function(knex, Promise) {
 

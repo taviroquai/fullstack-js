@@ -43,15 +43,15 @@ class Permission extends Model {
    * Populate with role
    */
   static async populateWithRole(role) {
-    const Manager = require('../../Manager');
-    const resources = Manager.getResourcesNames();
+    const ModuleManager = require('../../ModuleManager');
+    const resources = ModuleManager.getResourcesNames();
     const items = [];
     for (let r of resources) items.push({
       resource: r,
       role_id: role.id,
-      access: roles[i].system === 'ANONYMOUS' ? false : true
+      access: role.system === 'ANONYMOUS' ? false : true
     });
-    await Resource.knex().table('permissions').insert(items);
+    await Permission.knex().table('permissions').insert(items);
   }
 }
 

@@ -8,8 +8,8 @@ const resolvers = {
      * Get resource list
      */
     getResources: async (root, args, context) => {
-      const Manager = require('../Manager');
-      return Manager.getHooksNames();
+      const ModuleManager = require('../ModuleManager');
+      return ModuleManager.getHooksNames();
     }
   }
 }

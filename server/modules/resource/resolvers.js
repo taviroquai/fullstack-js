@@ -8,8 +8,8 @@ const resolvers = {
      * Get resource list
      */
     getResources: async (root, args, context) => {
-      const Manager = require('../../Manager');
-      const results = Manager.getResourcesNames();
+      const ModuleManager = require('../../ModuleManager');
+      const results = ModuleManager.getResourcesNames();
       const total = results.length;
       return { total, results };
     }

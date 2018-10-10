@@ -43,8 +43,8 @@ class RoleHook extends Model {
    * Populate with role
    */
   static async populateWithRole(role) {
-    const Manager = require('../../Manager');
-    const hooks = Manager.getHooksNames();
+    const ModuleManager = require('../../ModuleManager');
+    const hooks = ModuleManager.getHooksNames();
     const items = [];
     for (let h of hooks) items.push({
       role_id: role.id,

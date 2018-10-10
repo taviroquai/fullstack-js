@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Grid,
   Header,
@@ -22,18 +23,23 @@ class UsersForm extends Component {
     loading: false,
     errors: null,
     success: null,
-    edit: {
-      id: '',
-      username: '',
-      email: '',
-      password: '',
-      password_confirm: ''
-    }
+    edit: null
   }
 
   componentDidMount() {
     const { params } = this.props.match;
-    if (!params.id) return;
+    if (!params.id) {
+      return this.setState({
+        ...this.state,
+        edit: {
+          id: '',
+          username: '',
+          email: '',
+          password: '',
+          password_confirm: ''
+        }
+      });
+    }
 
     // Load user
     this.setState({ ...this.state, loading: true });
@@ -44,12 +50,21 @@ class UsersForm extends Component {
     });
   }
 
+  /**
+   * Edit form field
+   * @param {String} field 
+   * @param {String} value 
+   */
   onEdit(field, value) {
     const { edit } = this.state;
     edit[field] = value;
     this.setState({ ...this.state, edit });
   }
 
+  /**
+   * On submit form
+   * @param {Object} e 
+   */
   onSubmit(e) {
     e.preventDefault();
     let { edit } = this.state;
@@ -98,6 +113,16 @@ class UsersForm extends Component {
     });
   }
 
+  /**
+   * On cancel form, go back
+   * @param {Object} e 
+   */
+  onCancel(e) {
+    e.preventDefault();
+    const { history } = this.props;
+    history.goBack();
+  }
+
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
@@ -105,15 +130,25 @@ class UsersForm extends Component {
         { (t, { i18n }) => (
           <Layout>
 
-            <Header as='h1'>
-            { (edit.id ? t('edit') : t('create')) + ' ' + t('user') }
-              <Button primary
-                floated='right'
-                onClick={e => this.onSubmit(e)}
-                type='submit'>
-                {t('save')}
-              </Button>
-            </Header>
+            { edit && (
+              <Header as='h1'>
+                { (edit.id ? t('edit') : t('create')) + ' ' + t('user') }
+
+                <React.Fragment>
+                  <Button negative
+                    floated='right'
+                    onClick={this.onCancel.bind(this)}>
+                    {t('cancel')}
+                  </Button>
+                  <Button primary
+                    floated='right'
+                    onClick={e => this.onSubmit(e)}
+                    type='submit'>
+                    {t('save')}
+                  </Button>
+                </React.Fragment>
+              </Header>
+            )}
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
@@ -125,9 +160,10 @@ class UsersForm extends Component {
               content={t(success)}
             /> }
 
-            { loading ? <Loader active inline='centered' /> : (
-              <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
+            { loading && <Loader active inline='centered' /> }
 
+            { edit && (
+              <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
                 <Grid>
                   <Grid.Column mobile={12}>
                     <Form.Field>
@@ -183,7 +219,10 @@ class UsersForm extends Component {
                       <label>{t('avatar')}</label>
                       <label htmlFor="avatar"
                         title={t('choose_file')}
-                        className="ui primary button">
+                        className={
+                          loading || !edit.id ?
+                          "ui primary button disabled"
+                          : "ui primary button"}>
                           <i className="ui upload icon"></i>
                       </label>
                       <input name="upload"
@@ -212,4 +251,4 @@ class UsersForm extends Component {
   }
 }
 
-export default UsersForm;
+export default withRouter(UsersForm);
