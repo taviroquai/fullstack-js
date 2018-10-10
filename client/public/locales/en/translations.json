@@ -58,5 +58,10 @@
   "avatar": "Avatar",
   "choose_file": "Choose file",
   "inactive": "Inactive",
-  "loading": "Loading"
+  "loading": "Loading",
+  "ERROR_ACCESS_DENIED": "Access denied",
+  "ERROR_NOT_FOUND": "The requested object was not found",
+  "ERROR_AT_LEAST_ONE_ROLE": "User must have at least 1 role",
+  "ERROR_ACCOUNT_IS_DISABLED": "The account is disabled",
+  "ERROR_INVALID_CREDENTIALS": "Invalid credentials"
 }

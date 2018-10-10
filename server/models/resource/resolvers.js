@@ -1,12 +1,5 @@
 const Resource = require('./Resource');
-const locales = require('../../locales/en/translations.json');
-
-// Fetch helper
-const getResourceById = async (id) => {
-  id = parseInt(id, 10);
-  const resource = await Resource.query().findById(id);
-  return resource;
-}
+const errors = require('../../errors.json');
 
 /**
  * Graphql resolvers
@@ -40,7 +33,7 @@ const resolvers = {
      */
     getResourceById: async (root, args, context) => {
       const resource = await Resource.query().findById(args.id);
-      if (!resource) throw new Error(locales.error_resource_not_found);
+      if (!resource) throw new Error(errors['010']);
       return resource;
     }
   },

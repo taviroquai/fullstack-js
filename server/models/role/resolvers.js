@@ -1,6 +1,6 @@
 const Role = require('./Role');
 const User = require('../user/User');
-const locales = require('../../locales/en/translations.json');
+const errors = require('../../errors.json');
 
 /**
  * Graphql resolvers
@@ -31,7 +31,7 @@ const resolvers = {
      */
     getRoleById: async (root, args, context) => {
       const role = await Role.query().findById(args.id);
-      if (!role) throw new Error(locales.error_role_not_found);
+      if (!role) throw new Error(errors['010']);
       return role;
     }
   },

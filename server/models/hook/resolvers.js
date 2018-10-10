@@ -1,5 +1,5 @@
 const Hook = require('./Hook');
-const locales = require('../../locales/en/translations.json');
+const errors = require('../../errors.json');
 
 /**
  * Graphql resolvers
@@ -30,7 +30,7 @@ const resolvers = {
      */
     getHookById: async (root, args, context) => {
       const hook = await Hook.query().findById(args.id);
-      if (!hook) throw new Error(locales.error_hook_not_found);
+      if (!hook) throw new Error(errors['010']);
       return hook;
     }
   },

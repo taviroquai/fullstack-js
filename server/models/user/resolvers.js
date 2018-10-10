@@ -1,5 +1,5 @@
 const User = require('./User');
-const locales = require('../../locales/en/translations.json');
+const errors = require('../../errors.json');
 
 /**
  * Graphql resolvers
@@ -19,10 +19,10 @@ const resolvers = {
           return user;
         }
         if (!user.active) {
-          throw new Error(locales.error_account_is_disabled);
+          throw new Error(errors['041']);
         }
       }
-      throw new Error(locales.error_invalid_credentials);
+      throw new Error(errors['042']);
     },
 
     /**
@@ -51,7 +51,7 @@ const resolvers = {
      */
     getUserById: async (root, args, context) => {
       const user = await User.query().findById(args.id);
-      if (!user) throw new Error(locales.error_user_not_found);
+      if (!user) throw new Error(errors['010']);
       return user;
     }
   },

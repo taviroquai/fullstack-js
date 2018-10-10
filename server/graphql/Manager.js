@@ -6,7 +6,7 @@ const RoleHook = require('../models/rolehook/RoleHook');
 const { gql } = require('apollo-server-koa');
 const HooksAvailable = require('../hooks');
 const merge = require('lodash.merge');
-const locales = require('../locales/en/translations.json');
+const errors = require('../errors.json');
 
 /**
  * Graphql configuration manager
@@ -104,7 +104,7 @@ class Manager {
         !denied,
         '(' + context.ctx.request.ip + ')'
       );
-      if (!!denied) throw new Error(locales.error_access_denied);
+      if (!!denied) throw new Error(errors['001']);
 
       // Wrap hooks in sequence (before and after)
       args = await Manager.runHooks(roles, resource, 'before', context, type, name, args);
