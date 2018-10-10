@@ -31,12 +31,14 @@ Role based + Policy based authorization using:
 $ cd server
 $ npm install
 $ npm i knex -g
+$ cp .env.example .env # Edit .env with your configuration
 $ knex migrate:latest
 $ knex seed:run
 $ node app.js &
+
 $ cd ../client
 $ npm install
-$ cp .env.example .env
+$ cp .env.example .env # Edit .env with your configuration
 $ npm run start
 ```
 
