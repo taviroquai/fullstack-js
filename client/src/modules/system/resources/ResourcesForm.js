@@ -10,7 +10,8 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import ResourceHooksList from './ResourceHooksList';
 import { getResourceById, saveResource } from './actions';
-import loc from '../../../locales/en/translations';
+import { t } from 'i18next';
+import { I18n } from 'react-i18next';
 
 class ResourcesForm extends Component {
 
@@ -54,7 +55,7 @@ class ResourcesForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: loc.resource_saved_successfully
+        success: t('resource_saved_successfully')
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -64,51 +65,55 @@ class ResourcesForm extends Component {
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
-      <Layout>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
 
-        <Header as='h1'>
+            <Header as='h1'>
 
-          { (edit.id ? loc.edit : loc.create) + ' ' + loc.resource}
-          
-          <Button primary
-            floated='right'
-            onClick={e => this.onSubmit(e)}
-            type='submit'>
-            Save
-          </Button>
-        </Header>
+              { (edit.id ? t('edit') : t('create')) + ' ' + t('resource')}
 
-        { errors && <Message error size='mini'
-          icon='exclamation triangle'
-          list={errors[0].message.split(',')}
-        /> }
+              <Button primary
+                floated='right'
+                onClick={e => this.onSubmit(e)}
+                type='submit'>
+                Save
+              </Button>
+            </Header>
 
-        { success && <Message success size='mini'
-          icon='bullhorn'
-          content={success}
-        /> }
+            { errors && <Message error size='mini'
+              icon='exclamation triangle'
+              list={errors[0].message.split(',')}
+            /> }
 
-        { loading ? <Loader active inline='centered' /> : (
-          <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
+            { success && <Message success size='mini'
+              icon='bullhorn'
+              content={success}
+            /> }
 
-            <Grid>
-              <Grid.Column width={16}>
-                <Form.Field>
-                  <label>{loc.system_keyword}</label>
-                  <Form.Input value={edit.system}
-                    placeholder={loc.enter_system_keyword}
-                    onChange={e => this.onEdit('system', e.target.value)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-            </Grid>
+            { loading ? <Loader active inline='centered' /> : (
+              <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
 
-            <ResourceHooksList resource={edit} />
+                <Grid>
+                  <Grid.Column width={16}>
+                    <Form.Field>
+                      <label>{t('system_keyword')}</label>
+                      <Form.Input value={edit.system}
+                        placeholder={t('enter_system_keyword')}
+                        onChange={e => this.onEdit('system', e.target.value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid>
 
-          </Form>
+                <ResourceHooksList resource={edit} />
+
+              </Form>
+            )}
+
+          </Layout>
         )}
-
-      </Layout>
+      </I18n>
     )
   }
 }

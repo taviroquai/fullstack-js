@@ -5,7 +5,7 @@ import { Button, Form, Header, Image, Segment, Message } from 'semantic-ui-react
 import Layout from './Layout';
 import { login } from './actions';
 import logoImg from '../../assets/logo.svg';
-import loc from '../../locales/en/translations';
+import { I18n } from 'react-i18next';
 
 class LoginForm extends Component {
 
@@ -41,45 +41,49 @@ class LoginForm extends Component {
   render() {
     const { loading, errors } = this.state;
     return (
-      <Layout>
-        <Header as='h2' color='teal' textAlign='center'>
-          <Image src={logoImg} /> {loc.login}
-        </Header>
-        <Form size='large'
-          loading={loading}
-          error={!!errors}
-          onSubmit={this.submit.bind(this)}>
-          <Segment stacked>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
+            <Header as='h2' color='teal' textAlign='center'>
+              <Image src={logoImg} /> {t('login')}
+            </Header>
+            <Form size='large'
+              loading={loading}
+              error={!!errors}
+              onSubmit={this.submit.bind(this)}>
+              <Segment stacked>
 
-            <Form.Input
-              fluid
-              icon='user'
-              iconPosition='left'
-              placeholder={loc.email_address}
-              name="email"
-            />
+                <Form.Input
+                  fluid
+                  icon='user'
+                  iconPosition='left'
+                  placeholder={t('email_address')}
+                  name="email"
+                />
 
-            <Form.Input
-              fluid
-              icon='lock'
-              iconPosition='left'
-              placeholder={loc.password}
-              type='password'
-              name='password'
-            />
+                <Form.Input
+                  fluid
+                  icon='lock'
+                  iconPosition='left'
+                  placeholder={t('password')}
+                  type='password'
+                  name='password'
+                />
 
-            { errors && <Message error size='mini'
-              icon='exclamation triangle'
-              list={errors.map(e => e.message)}
-            /> }
+                { errors && <Message error size='mini'
+                  icon='exclamation triangle'
+                  list={errors.map(e => e.message)}
+                /> }
 
-            <Button type="submit" color='teal' fluid size='large'>
-              Login
-            </Button>
+                <Button type="submit" color='teal' fluid size='large'>
+                  Login
+                </Button>
 
-          </Segment>
-        </Form>
-      </Layout>
+              </Segment>
+            </Form>
+          </Layout>
+        )}
+      </I18n>
     )
   }
 }

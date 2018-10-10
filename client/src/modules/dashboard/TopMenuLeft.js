@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'semantic-ui-react';
-import loc from '../../locales/en/translations';
+import { I18n } from 'react-i18next';
 
 class TopMenuItem extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <React.Fragment>
 
-        <Menu.Item as={Link} to='/'>
-          <Icon name="chart line" className="mob-only" />
-          <span className="desk-only">{loc.dashboard}</span>
-        </Menu.Item>
+            <Menu.Item as={Link} to='/'>
+              <Icon name="chart line" className="mob-only" />
+              <span className="desk-only">{t('dashboard')}</span>
+            </Menu.Item>
 
-      </React.Fragment>
+          </React.Fragment>
+        )}
+      </I18n>
     )
   }
 }

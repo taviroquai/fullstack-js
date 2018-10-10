@@ -7,7 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getResourceHooks, updateResourceHook } from './actions';
-import loc from '../../../locales/en/translations';
+import { I18n } from 'react-i18next';
 
 class ResourceHooksList extends Component {
 
@@ -54,53 +54,57 @@ class ResourceHooksList extends Component {
     const { loading, errors, hooks } = this.state;
     if (!resource.id) return null;
     return (
-      <React.Fragment>
-        <Header as='h3'>
-          {loc.applied_hooks}
-        </Header>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <React.Fragment>
+            <Header as='h3'>
+              {t('applied_hooks')}
+            </Header>
 
-        { errors && <Message negative size='mini'
-          icon='exclamation triangle'
-          list={errors.map(e => e.message)}
-        /> }
+            { errors && <Message negative size='mini'
+              icon='exclamation triangle'
+              list={errors.map(e => e.message)}
+            /> }
 
-        <Table celled>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>{loc.id}</Table.HeaderCell>
-              <Table.HeaderCell>{loc.system_keyword}</Table.HeaderCell>
-              <Table.HeaderCell>
-                { loading && <Loader inline active /> }
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                  <Table.HeaderCell>{t('system_keyword')}</Table.HeaderCell>
+                  <Table.HeaderCell>
+                    { loading && <Loader inline active /> }
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-          <Table.Body>
-            { hooks.map(hook => (
-              <Table.Row key={hook.id}>
-                <Table.Cell>{hook.id}</Table.Cell>
-                <Table.Cell>{hook.hook.system}</Table.Cell>
-                <Table.Cell width={1}>
+              <Table.Body>
+                { hooks.map(hook => (
+                  <Table.Row key={hook.id}>
+                    <Table.Cell>{hook.id}</Table.Cell>
+                    <Table.Cell>{hook.hook.system}</Table.Cell>
+                    <Table.Cell width={1}>
 
-                  <Checkbox toggle
-                    disabled={loading}
-                    checked={hook.active}
-                    title={
-                      (hook.active ? loc.deactivate : loc.activate)
-                      + ' ' + loc.policy 
-                    }
-                    size='mini'
-                    onClick={this.toggleHook.bind(this, hook)}
-                  />
+                      <Checkbox toggle
+                        disabled={loading}
+                        checked={hook.active}
+                        title={
+                          (hook.active ? t('deactivate') : t('activate'))
+                          + ' ' + t('policy')
+                        }
+                        size='mini'
+                        onClick={this.toggleHook.bind(this, hook)}
+                      />
 
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
 
-        </Table>
+            </Table>
 
-      </React.Fragment>
+          </React.Fragment>
+        )}
+      </I18n>
     )
   }
 }

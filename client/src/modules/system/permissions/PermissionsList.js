@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissions, savePermission } from './actions';
-import loc from '../../../locales/en/translations';
+import { I18n } from 'react-i18next';
 
 class PermissionsList extends Component {
 
@@ -89,69 +89,73 @@ class PermissionsList extends Component {
 
     // Render
     return (
-      <Layout>
-        <Header as='h1'>{loc.permissions}</Header>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
+            <Header as='h1'>{t('permissions')}</Header>
 
-        { errors && <Message error size='mini'
-          icon='exclamation triangle'
-          list={errors.map(e => e.message)}
-        /> }
+            { errors && <Message error size='mini'
+              icon='exclamation triangle'
+              list={errors.map(e => e.message)}
+            /> }
 
-        <Table size='small'>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>{loc.id}</Table.HeaderCell>
-                <Table.HeaderCell>
-                  <Select
-                    style={{ fontSize: '0.8rem'}}
-                    placeholder={loc.filter_by_role}
-                    value={roleFilter}
-                    options={roleOptions}
-                    onChange={(e, { value }) => this.onFilter('roleFilter', value)}
-                  />
-                </Table.HeaderCell>
-              <Table.HeaderCell>
-                {loc.resource}
-                <Input style={{fontSize: '.8rem', float: 'right'}}
-                  placeholder={loc.filter_by_resource}
-                  value={resourceFilter}
-                  loading={loading}
-                  onChange={e => this.onFilter('resourceFilter', e.target.value)}
-                />
-              </Table.HeaderCell>
-              <Table.HeaderCell width={3}>
-                { !loading ? loc.allowed :
-                  <Loader size='mini' active inline='centered' />
-                }
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+            <Table size='small'>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                    <Table.HeaderCell>
+                      <Select
+                        style={{ fontSize: '0.8rem'}}
+                        placeholder={t('filter_by_role')}
+                        value={roleFilter}
+                        options={roleOptions}
+                        onChange={(e, { value }) => this.onFilter('roleFilter', value)}
+                      />
+                    </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    {t('resource')}
+                    <Input style={{fontSize: '.8rem', float: 'right'}}
+                      placeholder={t('filter_by_resource')}
+                      value={resourceFilter}
+                      loading={loading}
+                      onChange={e => this.onFilter('resourceFilter', e.target.value)}
+                    />
+                  </Table.HeaderCell>
+                  <Table.HeaderCell width={3}>
+                    { !loading ? t('allowed') :
+                      <Loader size='mini' active inline='centered' />
+                    }
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-          <Table.Body>
-            { filtered.map(permission => (
-              <Table.Row key={permission.id}>
-                <Table.Cell>{permission.id}</Table.Cell>
-                <Table.Cell>{permission.role.label}</Table.Cell>
-                <Table.Cell>{permission.resource.system}</Table.Cell>
-                <Table.Cell width={3}>
+              <Table.Body>
+                { filtered.map(permission => (
+                  <Table.Row key={permission.id}>
+                    <Table.Cell>{permission.id}</Table.Cell>
+                    <Table.Cell>{permission.role.label}</Table.Cell>
+                    <Table.Cell>{permission.resource.system}</Table.Cell>
+                    <Table.Cell width={3}>
 
-                  <Checkbox toggle
-                    disabled={loading}
-                    checked={permission.access}
-                    title={permission.access ? loc.deny : loc.allow}
-                    className='mini'
-                    onClick={this.toggleAccess.bind(this, permission)}
-                    style={{ marginTop: '0.5rem' }}
-                  />
+                      <Checkbox toggle
+                        disabled={loading}
+                        checked={permission.access}
+                        title={permission.access ? t('deny') : t('allow')}
+                        className='mini'
+                        onClick={this.toggleAccess.bind(this, permission)}
+                        style={{ marginTop: '0.5rem' }}
+                      />
 
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
 
-        </Table>
+            </Table>
 
-      </Layout>
+          </Layout>
+        )}
+      </I18n>
     )
   }
 }

@@ -11,7 +11,8 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleUsersList from './RoleUsersList';
 import { getUserById, saveUser, uploadAvatar } from './actions';
-import loc from '../../../locales/en/translations';
+import { t } from 'i18next';
+import { I18n } from 'react-i18next';
 
 const endpoint = process.env.REACT_APP_SERVER_URL;
 
@@ -60,7 +61,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: loc.user_saved_successfuly
+        success: t('user_saved_successfuly')
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -89,7 +90,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: loc.avatar_uploaded,
+        success: t('avatar_uploaded'),
         edit
       });
     }).catch(errors => {
@@ -100,109 +101,113 @@ class UsersForm extends Component {
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
-      <Layout>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
 
-        <Header as='h1'>
-        { (edit.id ? loc.edit : loc.create) + ' ' + loc.user }
-          <Button primary
-            floated='right'
-            onClick={e => this.onSubmit(e)}
-            type='submit'>
-            {loc.save}
-          </Button>
-        </Header>
+            <Header as='h1'>
+            { (edit.id ? t('edit') : t('create')) + ' ' + t('user') }
+              <Button primary
+                floated='right'
+                onClick={e => this.onSubmit(e)}
+                type='submit'>
+                {t('save')}
+              </Button>
+            </Header>
 
-        { errors && <Message error size='mini'
-          icon='exclamation triangle'
-          list={errors[0].message.split(',')}
-        /> }
+            { errors && <Message error size='mini'
+              icon='exclamation triangle'
+              list={errors[0].message.split(',')}
+            /> }
 
-        { success && <Message success size='mini'
-          icon='bullhorn'
-          content={success}
-        /> }
+            { success && <Message success size='mini'
+              icon='bullhorn'
+              content={success}
+            /> }
 
-        { loading ? <Loader active inline='centered' /> : (
-          <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
+            { loading ? <Loader active inline='centered' /> : (
+              <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
 
-            <Grid>
-              <Grid.Column mobile={12}>
-                <Form.Field>
-                  <label>{loc.username}</label>
-                  <Form.Input value={edit.username}
-                    placeholder={loc.enter_username}
-                    onChange={e => this.onEdit('username', e.target.value)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-              <Grid.Column mobile={4}>
-                <Form.Field>
-                  <label>{loc.active}</label>
-                  <Form.Checkbox
-                    toggle
-                    checked={edit.active}
-                    onChange={e => this.onEdit('active', !edit.active)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-            </Grid>
+                <Grid>
+                  <Grid.Column mobile={12}>
+                    <Form.Field>
+                      <label>{t('username')}</label>
+                      <Form.Input value={edit.username}
+                        placeholder={t('enter_username')}
+                        onChange={e => this.onEdit('username', e.target.value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                  <Grid.Column mobile={4}>
+                    <Form.Field>
+                      <label>{t('active')}</label>
+                      <Form.Checkbox
+                        toggle
+                        checked={edit.active}
+                        onChange={e => this.onEdit('active', !edit.active)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid>
 
-            <Grid>
-              <Grid.Column computer={12} mobile={8} tablet={12}>
-                <Form.Field>
-                  <label>{loc.email}</label>
-                  <Form.Input value={edit.email}
-                    placeholder={loc.enter_email_address}
-                    onChange={e => this.onEdit('email', e.target.value)}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <label>{loc.password} { edit.id ? loc.opcional : ''}</label>
-                  <Form.Input
-                    type='password'
-                    value={edit.password}
-                    placeholder={loc.enter_password}
-                    onChange={e => this.onEdit('password', e.target.value)}
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <label>{loc.confirm_password}</label>
-                  <Form.Input
-                    type='password'
-                    value={edit.password_confirm}
-                    placeholder={loc.confirm_password}
-                    onChange={e => this.onEdit('password_confirm', e.target.value)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-              <Grid.Column computer={4} mobile={8} tablet={4}>
-                <Form.Field>
-                  <label>{loc.avatar}</label>
-                  <label htmlFor="avatar"
-                    title={loc.choose_file}
-                    className="ui primary button">
-                      <i className="ui upload icon"></i>
-                  </label>
-                  <input name="upload"
-                    id="avatar"
-                    placeholder={loc.choose_file}
-                    type="file"
-                    accept="image/jpeg,image/png"
-                    onChange={e => this.onUpload(edit.id, e.target.files)}
-                    style={{display: 'none'}}
-                    disabled={loading || !edit.id}
-                  />
-                  { edit.avatar && <Image fluid src={this.getAvatarUrl()} /> }
-                </Form.Field>
-              </Grid.Column>
-            </Grid>
+                <Grid>
+                  <Grid.Column computer={12} mobile={8} tablet={12}>
+                    <Form.Field>
+                      <label>{t('email')}</label>
+                      <Form.Input value={edit.email}
+                        placeholder={t('enter_email_address')}
+                        onChange={e => this.onEdit('email', e.target.value)}
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <label>{t('password')} { edit.id ? t('opcional') : ''}</label>
+                      <Form.Input
+                        type='password'
+                        value={edit.password}
+                        placeholder={t('enter_password')}
+                        onChange={e => this.onEdit('password', e.target.value)}
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <label>{t('confirm_password')}</label>
+                      <Form.Input
+                        type='password'
+                        value={edit.password_confirm}
+                        placeholder={t('confirm_password')}
+                        onChange={e => this.onEdit('password_confirm', e.target.value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                  <Grid.Column computer={4} mobile={8} tablet={4}>
+                    <Form.Field>
+                      <label>{t('avatar')}</label>
+                      <label htmlFor="avatar"
+                        title={t('choose_file')}
+                        className="ui primary button">
+                          <i className="ui upload icon"></i>
+                      </label>
+                      <input name="upload"
+                        id="avatar"
+                        placeholder={t('choose_file')}
+                        type="file"
+                        accept="image/jpeg,image/png"
+                        onChange={e => this.onUpload(edit.id, e.target.files)}
+                        style={{display: 'none'}}
+                        disabled={loading || !edit.id}
+                      />
+                      { edit.avatar && <Image fluid src={this.getAvatarUrl()} /> }
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid>
 
-            <RoleUsersList user={edit} />
+                <RoleUsersList user={edit} />
 
-          </Form>
+              </Form>
+            )}
+
+          </Layout>
         )}
-
-      </Layout>
+      </I18n>
     )
   }
 }

@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getUsers } from './actions';
-import loc from '../../../locales/en/translations';
+import { I18n } from 'react-i18next';
 
 class UsersList extends Component {
 
@@ -38,69 +38,73 @@ class UsersList extends Component {
   render() {
     const { loading, errors, users } = this.state;
     return (
-      <Layout>
-        <Header as='h1'>
-          {loc.users}
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
+            <Header as='h1'>
+              {t('users')}
 
-          <Button floated='right' primary
-            as={Link} to='/users/edit'>
-            {loc.create}
-          </Button>
-        </Header>
+              <Button floated='right' primary
+                as={Link} to='/users/edit'>
+                {t('create')}
+              </Button>
+            </Header>
 
-        { errors && <Message error size='mini'
-          icon='exclamation triangle'
-          list={errors.map(e => e.message)}
-        /> }
+            { errors && <Message error size='mini'
+              icon='exclamation triangle'
+              list={errors.map(e => e.message)}
+            /> }
 
-        { loading ? <Loader active inline='centered' /> : (
-          <Table size='small'>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
-                <Table.HeaderCell>{loc.username}</Table.HeaderCell>
-                <Table.HeaderCell>{loc.email}</Table.HeaderCell>
-                <Table.HeaderCell>{loc.active}</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+            { loading ? <Loader active inline='centered' /> : (
+              <Table size='small'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                    <Table.HeaderCell>{t('username')}</Table.HeaderCell>
+                    <Table.HeaderCell>{t('email')}</Table.HeaderCell>
+                    <Table.HeaderCell>{t('active')}</Table.HeaderCell>
+                    <Table.HeaderCell></Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
 
-            <Table.Body>
-              { users.map(user => (
-                <Table.Row key={user.id}>
-                  <Table.Cell>{user.id}</Table.Cell>
-                  <Table.Cell>{user.username}</Table.Cell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>
+                <Table.Body>
+                  { users.map(user => (
+                    <Table.Row key={user.id}>
+                      <Table.Cell>{user.id}</Table.Cell>
+                      <Table.Cell>{user.username}</Table.Cell>
+                      <Table.Cell>{user.email}</Table.Cell>
+                      <Table.Cell>
 
-                    { user.active ? (
-                      <React.Fragment>
-                        <Icon circular color='green' name="check" />{loc.active}
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <Icon circular color='red' name="remove" />{loc.inactive}
-                      </React.Fragment>
-                    )}
+                        { user.active ? (
+                          <React.Fragment>
+                            <Icon circular color='green' name="check" />{t('active')}
+                          </React.Fragment>
+                        ) : (
+                          <React.Fragment>
+                            <Icon circular color='red' name="remove" />{t('inactive')}
+                          </React.Fragment>
+                        )}
 
-                  </Table.Cell>
-                  <Table.Cell width={1}>
-                    <Button.Group>
-                      <Button primary icon
-                        size='mini'
-                        as={Link} to={'/users/edit/'+user.id}>
-                        <Icon name="pencil" />
-                      </Button>
-                    </Button.Group>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
+                      </Table.Cell>
+                      <Table.Cell width={1}>
+                        <Button.Group>
+                          <Button primary icon
+                            size='mini'
+                            as={Link} to={'/users/edit/'+user.id}>
+                            <Icon name="pencil" />
+                          </Button>
+                        </Button.Group>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
 
-          </Table>
+              </Table>
+            )}
+
+          </Layout>
         )}
-
-      </Layout>
+      </I18n>
     )
   }
 }

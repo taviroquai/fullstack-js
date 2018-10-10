@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
 import Layout from '../../share/AdminLayoutExample';
-import loc from '../../locales/en/translations.json';
+import { I18n } from 'react-i18next';
 
 class Dashboard extends Component {
   render() {
     return (
-      <Layout>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
 
-        <Header as='h1'>{loc.dashboard}</Header>
-        <p>{loc.welcome}</p>
+            <Header as='h1'>{t('dashboard')}</Header>
+            <p>{t('welcome')}</p>
 
-        <p>{loc.visit} <a href="https://github.com/taviroquai/FullstackJavascriptFramework">Github</a>
-          {' '}{loc.for_documentation}
-        </p>
+            <p>{t('visit')} <a href="https://github.com/taviroquai/FullstackJavascriptFramework">Github</a>
+              {' '}{t('for_documentation')}
+            </p>
 
-      </Layout>
+          </Layout>
+        )}
+      </I18n>
     )
   }
 }

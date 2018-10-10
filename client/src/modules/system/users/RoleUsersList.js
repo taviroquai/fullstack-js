@@ -7,7 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getRoleUsers, updateRoleUser } from './actions';
-import loc from '../../../locales/en/translations';
+import { I18n } from 'react-i18next';
 
 class RoleUsersList extends Component {
 
@@ -59,51 +59,55 @@ class RoleUsersList extends Component {
     const { loading, errors, roles } = this.state;
     if (!user.id) return null;
     return (
-      <React.Fragment>
-        <Header as='h3'>
-          {loc.user} {loc.roles}
-        </Header>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <React.Fragment>
+            <Header as='h3'>
+              {t('user')} {t('roles')}
+            </Header>
 
-        { errors && <Message negative size='mini'
-          icon='exclamation triangle'
-          list={errors.map(e => e.message)}
-        /> }
+            { errors && <Message negative size='mini'
+              icon='exclamation triangle'
+              list={errors.map(e => e.message)}
+            /> }
 
-        { loading ? <Loader active inline='centered' /> : (
-          <Table size='small'>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>{loc.id}</Table.HeaderCell>
-                <Table.HeaderCell>{loc.username}</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+            { loading ? <Loader active inline='centered' /> : (
+              <Table size='small'>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                    <Table.HeaderCell>{t('username')}</Table.HeaderCell>
+                    <Table.HeaderCell></Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
 
-            <Table.Body>
-              { roles.map(role => (
-                <Table.Row key={role.id}>
-                  <Table.Cell>{role.id}</Table.Cell>
-                  <Table.Cell>{role.role.label}</Table.Cell>
-                  <Table.Cell width={1}>
+                <Table.Body>
+                  { roles.map(role => (
+                    <Table.Row key={role.id}>
+                      <Table.Cell>{role.id}</Table.Cell>
+                      <Table.Cell>{role.role.label}</Table.Cell>
+                      <Table.Cell width={1}>
 
-                    <Checkbox toggle
-                      disabled={loading}
-                      checked={role.active}
-                      title={role.active ? loc.remove : loc.add}
-                      size='mini'
-                      onClick={this.toggleRole.bind(this, role)}
-                      style={{ marginTop: '0.5rem' }}
-                    />
+                        <Checkbox toggle
+                          disabled={loading}
+                          checked={role.active}
+                          title={role.active ? t('remove') : t('add')}
+                          size='mini'
+                          onClick={this.toggleRole.bind(this, role)}
+                          style={{ marginTop: '0.5rem' }}
+                        />
 
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
 
-          </Table>
+              </Table>
+            )}
+
+          </React.Fragment>
         )}
-
-      </React.Fragment>
+      </I18n>
     )
   }
 }

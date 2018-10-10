@@ -9,7 +9,8 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissionById, savePermission } from './actions';
-import loc from '../../../locales/en/translations';
+import { t } from 'i18next';
+import { I18n } from 'react-i18next';
 
 class PermissionsForm extends Component {
 
@@ -54,7 +55,7 @@ class PermissionsForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: loc.permission_saved
+        success: t('permission_saved')
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -64,61 +65,63 @@ class PermissionsForm extends Component {
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
-      <Layout>
+      <I18n ns="translations">
+        { (t, { i18n }) => (
+          <Layout>
 
-        <Header as='h1'>
-          { edit.id ? loc.edit + ' ' + loc.permission
-            : loc.create + ' ' + loc.permission
-          }
-          <Button primary
-            floated='right'
-            onClick={e => this.onSubmit(e)}
-            type='submit'>
-            {loc.save}
-          </Button>
-        </Header>
+            <Header as='h1'>
+              { (edit.id ? t('edit') : t('create')) + ' ' + t('permission') }
+              <Button primary
+                floated='right'
+                onClick={e => this.onSubmit(e)}
+                type='submit'>
+                {t('save')}
+              </Button>
+            </Header>
 
-        { errors && <Message error size='mini'
-          icon='exclamation triangle'
-          list={errors[0].message.split(',')}
-        /> }
+            { errors && <Message error size='mini'
+              icon='exclamation triangle'
+              list={errors[0].message.split(',')}
+            /> }
 
-        { success && <Message success size='mini'
-          icon='bullhorn'
-          content={success}
-        /> }
+            { success && <Message success size='mini'
+              icon='bullhorn'
+              content={success}
+            /> }
 
-        { loading ? <Loader active inline='centered' /> : (
-          <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
+            { loading ? <Loader active inline='centered' /> : (
+              <Form loading={loading} onSubmit={this.onSubmit.bind(this)}>
 
-            <Grid>
-              <Grid.Column mobile={12}>
-                <Form.Field>
-                  <label>{loc.label}</label>
-                  <Form.Input value={edit.label}
-                    placeholder={loc.enter_label}
-                    onChange={e => this.onEdit('label', e.target.value)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-            </Grid>
+                <Grid>
+                  <Grid.Column mobile={12}>
+                    <Form.Field>
+                      <label>{t('label')}</label>
+                      <Form.Input value={edit.label}
+                        placeholder={t('enter_label')}
+                        onChange={e => this.onEdit('label', e.target.value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid>
 
-            <Grid>
-              <Grid.Column computer={12} mobile={12} tablet={12}>
-                <Form.Field>
-                  <label>{loc.system_keyword}</label>
-                  <Form.Input value={edit.system}
-                    placeholder={loc.enter_system_keyword}
-                    onChange={e => this.onEdit('system', e.target.value)}
-                  />
-                </Form.Field>
-              </Grid.Column>
-            </Grid>
+                <Grid>
+                  <Grid.Column computer={12} mobile={12} tablet={12}>
+                    <Form.Field>
+                      <label>{t('system_keyword')}</label>
+                      <Form.Input value={edit.system}
+                        placeholder={t('enter_system_keyword')}
+                        onChange={e => this.onEdit('system', e.target.value)}
+                      />
+                    </Form.Field>
+                  </Grid.Column>
+                </Grid>
 
-          </Form>
+              </Form>
+            )}
+
+          </Layout>
         )}
-
-      </Layout>
+      </I18n>
     )
   }
 }
