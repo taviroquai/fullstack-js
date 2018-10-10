@@ -1,5 +1,4 @@
 const Role = require('./Role');
-const User = require('../user/User');
 const errors = require('../../errors.json');
 
 /**
