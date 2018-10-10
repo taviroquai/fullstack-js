@@ -1,12 +1,5 @@
 const Permission = require('./Permission');
 
-// Fetch helper
-const getPermissionById = async (id) => {
-  id = parseInt(id, 10);
-  const permission = await Permission.query().findById(id);
-  return permission;
-}
-
 /**
  * Graphql resolvers
  */
@@ -57,7 +50,7 @@ const resolvers = {
       await Permission.query()
         .update({ access: args.access })
         .where('id', args.id)
-      return await getPermissionById(args.id);
+      return await Permission.query().findById(args.id);
     }
 
   }

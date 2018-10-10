@@ -5,9 +5,7 @@ const ResourceHook = require('../models/resourcehook/ResourceHook');
 const RoleHook = require('../models/rolehook/RoleHook');
 const { gql } = require('apollo-server-koa');
 const HooksAvailable = require('../hooks');
-const Types = require('../models/types');
-const combinedResolvers = require('../models/resolvers');
-const schema = require('./schema');
+const merge = require('lodash.merge');
 const locales = require('../locales/en/translations.json');
 
 /**
@@ -25,9 +23,41 @@ class Manager {
    * Composes complete type definitions schema + models
    */
   static getTypeDefs() {
-    let definitions = schema;
-    Object.keys(Types).map(key => definitions += Types[key]);
-    const typeDefs = gql`${definitions}`;
+    let queriesCombined = '';
+    let mutationsCombined = '';
+    let typesCombined = '';
+    const modelsList = process.env.FSTACK_MODELS.split(',');
+    for (let m of modelsList) {
+      queriesCombined += require('../models/' + m + '/queries');
+    }
+    for (let m of modelsList) {
+      mutationsCombined += require('../models/' + m + '/mutations');
+    }
+    for (let m of modelsList) {
+      typesCombined += require('../models/' + m + '/types');
+    }
+    const t = `
+
+  type Query {
+    ${queriesCombined}
+  }
+
+  type Mutation {
+    ${mutationsCombined}
+  }
+
+  ${typesCombined}
+`;
+
+    const typeDefs = gql`
+      type Query {
+        ${queriesCombined}
+      }
+      type Mutation {
+        ${mutationsCombined}
+      }
+      ${typesCombined}
+      `;
     return typeDefs;
   }
 
@@ -36,6 +66,12 @@ class Manager {
    * adds permissions and hooks configuration
    */
   static getResolvers() {
+    let combinedResolvers = {};
+    const modelsList = process.env.FSTACK_MODELS.split(',');
+    for (let m of modelsList) {
+      let modelResolvers = require('../models/' + m + '/resolvers');
+      combinedResolvers = merge(combinedResolvers, modelResolvers);
+    }
     const finalResolvers = {};
     Object.keys(combinedResolvers).map(type => {
       finalResolvers[type] = finalResolvers[type] || {};
@@ -60,6 +96,14 @@ class Manager {
       const roles = await Manager.getRolesFromUser(user);
       const resource = await Manager.getResourceFromTypeName(type, name);
       const denied = resource ? await Manager.getAccessDenied(roles, resource) : false;
+      console.log(
+        '\nRequest:',
+        user ? user.username : user,
+        roles.map(r => r.role.system).join(','),
+        resource ? resource.system : 'none',
+        !denied,
+        '(' + context.ctx.request.ip + ')'
+      );
       if (!!denied) throw new Error(locales.error_access_denied);
 
       // Wrap hooks in sequence (before and after)
@@ -75,11 +119,9 @@ class Manager {
    * Get user roles
    */
   static async getRolesFromUser(user) {
-    console.log('\nrequest by user:', user ? user.username : user);
     let roles = [];
     if (!user) roles = await RoleUser.query().eager('role').where('role_id', '1');
     else roles = await RoleUser.query().eager('role').where('user_id', user.id).where('active', true);
-    console.log('roles:', roles.map(r => r.role.system).join(','));
     return roles;
   }
 
@@ -88,7 +130,6 @@ class Manager {
    */
   static async getResourceFromTypeName(type, name) {
     const resource = await Resource.query().where('system', type+'.'+name).first();
-    console.log('Resource found:', resource ? resource.system : 'none');
     return resource;
   }
 
@@ -101,7 +142,6 @@ class Manager {
       .where('resource_id', resource.id)
       .where('access', false)
       .first();
-    console.log('access denied:', !!denied);
     return denied;
   }
 
@@ -124,7 +164,7 @@ class Manager {
           .where('hook_id', k.hook.id)
           .where('bypass', true)
           .first();
-        console.log('bypass before ' + k.hook.system + ':', !!bypass);
+        console.log('Bypass:', hookType, k.hook.system, !!bypass);
         if (!bypass) {
           if (HooksAvailable[k.hook.system]) {
             data = await HooksAvailable[k.hook.system](context.ctx, type, name, data);

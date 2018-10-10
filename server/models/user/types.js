@@ -14,4 +14,11 @@ module.exports = `
     avatar: String
     role_id: ID
   }
+
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+  
 `

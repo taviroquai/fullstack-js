@@ -6,6 +6,10 @@ const Model = require('../Model');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
 const pick = require('lodash.pick');
+
+/**
+ * User model
+ */
 class User extends Model {
 
   /**

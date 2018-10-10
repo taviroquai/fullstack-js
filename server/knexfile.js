@@ -1,5 +1,7 @@
-// Update with your config settings.
+// Load enviroment if not loaded yet
+!process.env.FSTACK_APP_NAME && require('dotenv').config();
 
+// Update with your config settings.
 module.exports = {
 
   development: {

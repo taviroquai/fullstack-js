@@ -2,15 +2,6 @@ const User = require('./User');
 const locales = require('../../locales/en/translations.json');
 
 /**
- * Fetch helper
- */
-const getUserById = async (id) => {
-  id = parseInt(id, 10);
-  const user = await User.query().findById(id);
-  return user;
-}
-
-/**
  * Graphql resolvers
  */
 const resolvers = {
@@ -59,7 +50,7 @@ const resolvers = {
      * Get user by id
      */
     getUserById: async (root, args, context) => {
-      const user = await getUserById(args.id);
+      const user = await User.query().findById(args.id);
       if (!user) throw new Error(locales.error_user_not_found);
       return user;
     }

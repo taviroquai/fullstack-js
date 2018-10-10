@@ -2,13 +2,6 @@ const Role = require('./Role');
 const User = require('../user/User');
 const locales = require('../../locales/en/translations.json');
 
-// Fetch helper
-const getRoleById = async (id) => {
-  id = parseInt(id, 10);
-  const role = await Role.query().findById(id);
-  return role;
-}
-
 /**
  * Graphql resolvers
  */
@@ -37,17 +30,9 @@ const resolvers = {
      * Get role by id
      */
     getRoleById: async (root, args, context) => {
-      const role = await getRoleById(args.id);
+      const role = await Role.query().findById(args.id);
       if (!role) throw new Error(locales.error_role_not_found);
       return role;
-    },
-
-    /**
-     * Get assign users to role
-     */
-    getRoleUsers: async (root, args, context) => {
-      const items = await User.query().where('role_id', args.id);
-      return items;
     }
   },
 
@@ -61,20 +46,19 @@ const resolvers = {
       const role = await Role.query()
         .insert(data)
         .returning('id');
-      return await getRoleById(role.id);
+      return await Role.query().findById(role.id);
     },
 
     /**
      * Update role
      */
     updateRole: async (root, args, context) => {
-      const data = User.filterInput(args);
+      const data = Role.filterInput(args);
       await Role.query()
         .update(data)
         .where('id', args.id)
-      return await getRoleById(args.id);
+      return await Role.query().findById(args.id);
     }
-
   }
 }
 

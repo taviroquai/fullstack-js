@@ -1,24 +1,30 @@
+// Load enviroment variables
+require('dotenv').config();
+
 const Koa = require('koa');
-const send = require('koa-send');
 const Router = require('koa-router');
-const JwtDatabaseUser = require('./middleware/JwtDatabaseUser');
 const apolloServer = require('./graphql/server');
-const User = require('./models/user/User');
+
+// Load models from enviroment
+const modelsList = process.env.FSTACK_MODELS.split(',');
 
 // Create koa app
 const app = new Koa();
 
+// Load middleware
+const middlewareList = process.env.FSTACK_MIDDLEWARE.split(',');
+const middleware = {};
+for (let name of middlewareList) middleware[name] = require('./middleware/' + name);
+
 // Apply middleware
-app.use(JwtDatabaseUser); // Required for apollo hooks
+for (let name in middleware) app.use(middleware[name]);
 apolloServer.applyMiddleware({ app });
 
-// Add non-Apollo routes
+// Load routes
 const router = new Router();
-router.get('/avatar/:id/:filename', async (ctx, next) => {
-  const { id, filename } = ctx.params;
-  const path = User.getAvatarPath(id, filename);
-  await send(ctx, path);
-});
+const routes = {};
+for (let name of modelsList) routes[name] = require('./models/' + name + '/routes');
+for (let name in routes) routes[name](app, router);
 app.use(router.routes()).use(router.allowedMethods());
 
 // Finally, listen to HTTP

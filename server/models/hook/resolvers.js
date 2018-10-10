@@ -1,13 +1,6 @@
 const Hook = require('./Hook');
 const locales = require('../../locales/en/translations.json');
 
-// Fetch helper
-const getHookById = async (id) => {
-  id = parseInt(id, 10);
-  const hook = await Hook.query().findById(id);
-  return hook;
-}
-
 /**
  * Graphql resolvers
  */
@@ -36,7 +29,7 @@ const resolvers = {
      * Get hook by id
      */
     getHookById: async (root, args, context) => {
-      const hook = await getHookById(args.id);
+      const hook = await Hook.query().findById(args.id);
       if (!hook) throw new Error(locales.error_hook_not_found);
       return hook;
     }
@@ -51,7 +44,7 @@ const resolvers = {
       const hook = await Hook.query()
         .insert(args)
         .returning('id');
-      return await getHookById(hook.id);
+      return await Hook.query().findById(hook.id);;
     },
 
     /**
@@ -61,7 +54,7 @@ const resolvers = {
       await Hook.query()
         .update(args)
         .where('id', args.id)
-      return await getHookById(args.id);
+      return await Hook.query().findById(args.id);
     }
   }
 }

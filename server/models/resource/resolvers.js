@@ -39,7 +39,7 @@ const resolvers = {
      * Get resource by id
      */
     getResourceById: async (root, args, context) => {
-      const resource = await getResourceById(args.id);
+      const resource = await Resource.query().findById(args.id);
       if (!resource) throw new Error(locales.error_resource_not_found);
       return resource;
     }
@@ -55,7 +55,7 @@ const resolvers = {
       const resource = await Resource.query()
         .insert(data)
         .returning('id');
-      return await getResourceById(resource.id);
+      return await Resource.query().findById(resource.id);
     },
 
     /**
@@ -66,9 +66,8 @@ const resolvers = {
       await Resource.query()
         .update(data)
         .where('id', args.id)
-      return await getResourceById(args.id);
+      return await Resource.query().findById(args.id);
     }
-
   }
 }
 

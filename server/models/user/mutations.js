@@ -1,0 +1,22 @@
+module.exports = `
+
+  createUser(
+    username: String!
+    email: String!
+    password: String!
+    password_confirm: String!
+    active: Boolean
+  ): User
+
+  updateUser(
+    id: ID!
+    username: String!
+    email: String!
+    password: String
+    password_confirm: String
+    active: Boolean
+  ): User
+
+  uploadAvatar(id: ID!, file: Upload!): File!
+
+`
