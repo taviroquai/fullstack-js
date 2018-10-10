@@ -1,4 +1,5 @@
-const User = require('../models/user/User');
+const User = require('../modules/user/User');
+const errors = require('../errors.json');
 
 /**
  * Check whether there is a user in state or not
@@ -10,7 +11,7 @@ const User = require('../models/user/User');
  */
 const hook = async (ctx, type, action, args) => {
   const { user } = ctx.state;
-  if (!user) throw new Error('Authentication required');
+  if (!user) throw new Error(errors['043']);
   return args;
 }
 

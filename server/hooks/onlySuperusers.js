@@ -1,4 +1,5 @@
-const RoleUser = require('../models/roleuser/RoleUser');
+const RoleUser = require('../modules/roleuser/RoleUser');
+const errors = require('../errors.json');
 
 /**
  * Check whether there is a user in state or not
@@ -20,7 +21,7 @@ const hook = async (ctx, type, action, args) => {
     .count();
 
   // Check only superuser
-  if (parseInt(result[0].count, 10) < 1) throw new Error('Access denied');
+  if (parseInt(result[0].count, 10) < 1) throw new Error(errors['001']);
   return args;
 }
 

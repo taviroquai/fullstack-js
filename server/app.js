@@ -23,7 +23,7 @@ apolloServer.applyMiddleware({ app });
 // Load routes
 const router = new Router();
 const routes = {};
-for (let name of modelsList) routes[name] = require('./models/' + name + '/routes');
+for (let name of modelsList) routes[name] = require('./modules/' + name + '/routes');
 for (let name in routes) routes[name](app, router);
 app.use(router.routes()).use(router.allowedMethods());
 

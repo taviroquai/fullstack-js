@@ -1,9 +1,9 @@
-const User = require('../models/user/User');
+const User = require('../modules/user/User');
 
 /**
  * Parse JWT from HTTP headers
- * 
- * @param {Object} header 
+ *
+ * @param {Object} header
  */
 const parseJwtHeader = (header) => {
   let token = '';
@@ -18,8 +18,8 @@ const parseJwtHeader = (header) => {
 
 /**
  * Load user into request if found
- * 
- * @param {Object} ctx 
+ *
+ * @param {Object} ctx
  */
 const middleware = async (ctx, next) => {
   const authtoken = parseJwtHeader(ctx.request.header);

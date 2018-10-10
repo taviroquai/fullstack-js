@@ -63,5 +63,6 @@
   "ERROR_NOT_FOUND": "The requested object was not found",
   "ERROR_AT_LEAST_ONE_ROLE": "User must have at least 1 role",
   "ERROR_ACCOUNT_IS_DISABLED": "The account is disabled",
-  "ERROR_INVALID_CREDENTIALS": "Invalid credentials"
+  "ERROR_INVALID_CREDENTIALS": "Invalid credentials",
+  "ERROR_AUTHENTICATION_REQUIRED": "Authentication is required"
 }

@@ -1,8 +1,8 @@
-const RoleUser = require('../models/roleuser/RoleUser');
-const Resource = require('../models/resource/Resource');
-const Permission = require('../models/permission/Permission');
-const ResourceHook = require('../models/resourcehook/ResourceHook');
-const RoleHook = require('../models/rolehook/RoleHook');
+const RoleUser = require('../modules/roleuser/RoleUser');
+const Resource = require('../modules/resource/Resource');
+const Permission = require('../modules/permission/Permission');
+const ResourceHook = require('../modules/resourcehook/ResourceHook');
+const RoleHook = require('../modules/rolehook/RoleHook');
 const { gql } = require('apollo-server-koa');
 const HooksAvailable = require('../hooks');
 const merge = require('lodash.merge');
@@ -28,13 +28,13 @@ class Manager {
     let typesCombined = '';
     const modelsList = process.env.FSTACK_MODELS.split(',');
     for (let m of modelsList) {
-      queriesCombined += require('../models/' + m + '/queries');
+      queriesCombined += require('../modules/' + m + '/queries');
     }
     for (let m of modelsList) {
-      mutationsCombined += require('../models/' + m + '/mutations');
+      mutationsCombined += require('../modules/' + m + '/mutations');
     }
     for (let m of modelsList) {
-      typesCombined += require('../models/' + m + '/types');
+      typesCombined += require('../modules/' + m + '/types');
     }
     const t = `
 
@@ -69,7 +69,7 @@ class Manager {
     let combinedResolvers = {};
     const modelsList = process.env.FSTACK_MODELS.split(',');
     for (let m of modelsList) {
-      let modelResolvers = require('../models/' + m + '/resolvers');
+      let modelResolvers = require('../modules/' + m + '/resolvers');
       combinedResolvers = merge(combinedResolvers, modelResolvers);
     }
     const finalResolvers = {};
