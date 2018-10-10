@@ -12,8 +12,8 @@ class TopMenuItem extends Component {
           <React.Fragment>
 
             <Menu.Item as={Link} to='/'>
-              <Icon name="chart line" className="mob-only" />
-              <span className="desk-only">{t('dashboard')}</span>
+              <Icon name="smile" className="mob-only" />
+              <span className="desk-only">{t('welcome')}</span>
             </Menu.Item>
 
           </React.Fragment>

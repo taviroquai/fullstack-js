@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { Container, Image, List, Menu, Segment } from 'semantic-ui-react';
+import ModuleLoader from '../ModuleLoader';
 
-import TopMenuLeft from '../modules/topmenuleft';
-import TopMenuRight from '../modules/topmenuright';
 import logoImg from '../assets/logo.svg';
 import { I18n } from 'react-i18next';
 
@@ -24,13 +23,12 @@ class Layout extends Component {
                   />
                 <span className="desk-only">{t('brand')}</span>
                 </Menu.Item>
-                <TopMenuLeft />
 
+                <ModuleLoader path="TopMenuLeft" />
                 <Menu.Item position='right'>
-
-                  <TopMenuRight />
-
+                  <ModuleLoader path="TopMenuRight" />
                 </Menu.Item>
+
               </Container>
             </Menu>
 

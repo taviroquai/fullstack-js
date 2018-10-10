@@ -33,10 +33,7 @@ class SplashScreenExample extends Component {
                   <Image src={imgLogo} style={{width: '200px'}} />
                 </Header>
 
-                <Message
-                  header=""
-                  content={t('loading')}
-                />
+                <Message header="" content={t('loading')} />
 
               </Grid.Column>
             </Grid>

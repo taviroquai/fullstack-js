@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Switch } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
-import ModulesRoutes from './modules/routes';
+import ModuleLoader from './ModuleLoader';
 import './assets/dist/semantic.min.css';
 import './assets/index.css';
 
@@ -13,7 +13,7 @@ class App extends Component {
           <Switch>
             <React.Fragment>
 
-              <ModulesRoutes />
+              <ModuleLoader path="Routes" />
 
             </React.Fragment>
           </Switch>

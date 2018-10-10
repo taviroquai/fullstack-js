@@ -10,8 +10,8 @@ class Dashboard extends Component {
         { (t, { i18n }) => (
           <Layout>
 
-            <Header as='h1'>{t('dashboard')}</Header>
-            <p>{t('welcome')}</p>
+            <Header as='h1'>{t('welcome')}</Header>
+            <p>{t('slogan')}</p>
 
             <p>{t('visit')} <a href="https://github.com/taviroquai/FullstackJavascriptFramework">Github</a>
               {' '}{t('for_documentation')}
