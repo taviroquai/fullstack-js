@@ -3,17 +3,11 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('resource_hooks', table => {
     table.increments('id').primary();
 
-    // Resource relation
-    table.integer('resource_id').unsigned()
-      .references('id')
-      .inTable('resources')
-      .onDelete('CASCADE');
+    // Resource
+    table.string('resource');
 
-    // Role relation
-    table.integer('hook_id').unsigned()
-      .references('id')
-      .inTable('hooks')
-      .onDelete('CASCADE');
+    // Hook
+    table.string('hook');
 
     // Active
     table.boolean('active').default(false);

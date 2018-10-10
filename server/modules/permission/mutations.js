@@ -2,7 +2,7 @@ module.exports = `
 
   updatePermission(
     id: ID!
-    resource_id: ID!
+    resource: String!
     role_id: ID!
     access: Boolean!
   ): Permission

@@ -1,7 +1,7 @@
 module.exports = `
 
   getRoleHooks(
-    hook_id: ID
+    hook: String
     role_id: ID
     bypass: Boolean
     limit: Int

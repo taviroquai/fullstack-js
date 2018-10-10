@@ -62,7 +62,13 @@ class PermissionsList extends Component {
   }
 
   render() {
-    const { loading, errors, permissions, resourceFilter, roleFilter } = this.state;
+    const {
+      loading,
+      errors,
+      permissions,
+      resourceFilter,
+      roleFilter
+    } = this.state;
     let filtered = permissions;
 
     // Role options
@@ -78,7 +84,7 @@ class PermissionsList extends Component {
     // Filter by resource
     if (resourceFilter) {
       const regex = new RegExp(resourceFilter, 'ig');
-      filtered = filtered.filter(i => regex.test(i.resource.system));
+      filtered = filtered.filter(i => regex.test(i.resource));
     }
 
     // Filter by role
@@ -134,7 +140,7 @@ class PermissionsList extends Component {
                   <Table.Row key={permission.id}>
                     <Table.Cell>{permission.id}</Table.Cell>
                     <Table.Cell>{permission.role.label}</Table.Cell>
-                    <Table.Cell>{permission.resource.system}</Table.Cell>
+                    <Table.Cell>{permission.resource}</Table.Cell>
                     <Table.Cell width={3}>
 
                       <Checkbox toggle

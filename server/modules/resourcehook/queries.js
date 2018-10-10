@@ -1,8 +1,8 @@
 module.exports = `
 
   getResourceHooks(
-    resource_id: ID
-    hook_id: ID
+    resource: String
+    hook: String
     active: Boolean
     type: String
     limit: Int

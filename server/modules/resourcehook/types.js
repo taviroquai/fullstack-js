@@ -7,12 +7,10 @@ module.exports = `
 
   type ResourceHook {
     id: ID!
-    hook_id: ID!
-    resource_id: ID!
+    hook: String!
+    resource: String!
     active: Boolean
     type: String
     order: Int
-    hook: Hook
-    resource: Resource
   }
 `

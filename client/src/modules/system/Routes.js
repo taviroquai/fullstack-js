@@ -7,8 +7,6 @@ import RolesList from './roles/RolesList';
 import RolesForm from './roles/RolesForm';
 import ResourcesList from './resources/ResourcesList';
 import ResourcesForm from './resources/ResourcesForm';
-import HooksList from './hooks/HooksList';
-import HooksForm from './hooks/HooksForm';
 import PermissionsList from './permissions/PermissionsList';
 import PermissionsForm from './permissions/PermissionsForm';
 
@@ -26,8 +24,6 @@ class App extends Component {
         <Route path="/resources/edit/:id?" component={ResourcesForm} />
         <Route exact path="/permissions" component={PermissionsList} />
         <Route path="/permissions/edit/:id?" component={PermissionsForm} />
-        <Route exact path="/hooks" component={HooksList} />
-        <Route path="/hooks/edit/:id?" component={HooksForm} />
       </RedirectNotAuthenticated>
     );
   }

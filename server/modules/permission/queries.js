@@ -1,7 +1,7 @@
 module.exports = `
 
   getPermissions(
-    resource_id: ID
+    resource: String
     role_id: ID
     access: Boolean
     limit: Int

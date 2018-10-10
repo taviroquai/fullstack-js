@@ -15,17 +15,13 @@ const resolvers = {
       const page = args.page || 0;
 
       // Load relations
-      query.eager('[role, resource]');
+      query.eager('role');
 
       // Filter by role
-      if (args.role_id) {
-        query.where('role_id', args.role_id)
-      }
+      if (args.role_id) query.where('role_id', args.role_id)
 
       // Filter by resource
-      if (args.resource_id) {
-        query.where('resource_id', args.role_id)
-      }
+      if (args.resource) query.where('resource', args.resource)
 
       // Filter by access
       if (args.access) {

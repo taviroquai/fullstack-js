@@ -2,8 +2,8 @@ module.exports = `
 
   updateResourceHook(
     id: ID!
-    resource_id: ID!
-    hook_id: ID!
+    resource: String!
+    hook: String!
     active: Boolean!
     order: Int!
   ): Boolean

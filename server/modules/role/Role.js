@@ -16,8 +16,6 @@ class Role extends Model {
   async $afterInsert() {
     const Permission = require('../permission/Permission');
     await Permission.populateWithRole(this);
-    const RoleHook = require('../rolehook/RoleHook');
-    await RoleHook.populateWithRole(this)
     const RoleUser = require('../roleuser/RoleUser');
     await RoleUser.populateWithRole(this)
   }

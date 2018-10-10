@@ -1,11 +1,12 @@
+const fs = require('fs');
+const path = require('path');
 const merge = require('lodash.merge');
+const errors = require('./errors.json');
+const RoleHook = require('./modules/rolehook/RoleHook');
 const RoleUser = require('./modules/roleuser/RoleUser');
-const Resource = require('./modules/resource/Resource');
+const { ApolloServer, gql } = require('apollo-server-koa');
 const Permission = require('./modules/permission/Permission');
 const ResourceHook = require('./modules/resourcehook/ResourceHook');
-const RoleHook = require('./modules/rolehook/RoleHook');
-const { ApolloServer, gql } = require('apollo-server-koa');
-const errors = require('./errors.json');
 
 /**
  * Graphql configuration manager
@@ -19,10 +20,14 @@ const errors = require('./errors.json');
 class Manager {
 
   /**
-   * Get modules list
+   * Get modules names
    */
-  static getModules() {
-    const modules = process.env.FSTACK_MODULES.split(',');
+  static getModulesNames() {
+    const path = './modules';
+    let modules = fs.readdirSync(path)
+    .filter(file => {
+      return fs.statSync(path+'/'+file).isDirectory();
+    });
     return modules;
   }
 
@@ -30,7 +35,7 @@ class Manager {
    * Load middleware
    */
   static loadMiddleware() {
-    const middlewareList = process.env.FSTACK_MIDDLEWARE.split(',');
+    const middlewareList = Manager.getMiddlewareNames();
     const middleware = {};
     for (let name of middlewareList) {
       middleware[name] = require('./middleware/' + name);
@@ -39,11 +44,23 @@ class Manager {
   }
 
   /**
+   * Get middleware names
+   */
+  static getMiddlewareNames() {
+    const path = './middleware';
+    let names = fs.readdirSync(path)
+    .filter(file => {
+      return !fs.statSync(path+'/'+file).isDirectory();
+    });
+    return names;
+  }
+
+  /**
    * Load routes
    */
   static loadRoutes() {
     const routes = {};
-    const modules = Manager.getModules();
+    const modules = Manager.getModulesNames();
     for (let name of modules) {
       routes[name] = require('./modules/' + name + '/routes');
     }
@@ -68,7 +85,7 @@ class Manager {
    * Load hooks
    */
   static loadHooks() {
-    const hooksList = process.env.FSTACK_HOOKS.split(',');
+    const hooksList = Manager.getHooksNames();
     const hooks = {};
     for (let name of hooksList) {
       hooks[name] = require('./hooks/' + name);
@@ -82,8 +99,8 @@ class Manager {
    */
   static getResolvers() {
     let combinedResolvers = {};
-    const modelsList = process.env.FSTACK_MODULES.split(',');
-    for (let m of modelsList) {
+    const modulesList = Manager.getModulesNames();
+    for (let m of modulesList) {
       let modelResolvers = require('./modules/' + m + '/resolvers');
       combinedResolvers = merge(combinedResolvers, modelResolvers);
     }
@@ -100,6 +117,42 @@ class Manager {
     return finalResolvers;
   }
 
+  /**
+   * Get resources names
+   */
+  static getResourcesNames() {
+    let combinedResolvers = {};
+    const modulesList = Manager.getModulesNames();
+    for (let m of modulesList) {
+      let modelResolvers = require('./modules/' + m + '/resolvers');
+      combinedResolvers = merge(combinedResolvers, modelResolvers);
+    }
+    let resources = [];
+    Object.keys(combinedResolvers).map(type => {
+      Object.keys(combinedResolvers[type]).map(name => {
+        resources.push(type + '.' +name);
+      });
+    });
+
+    // Return resources
+    return resources;
+  }
+
+  /**
+   * Get hooks names
+   */
+  static getHooksNames() {
+    let hooks = [];
+    fs.readdirSync('./hooks').forEach(filename => {
+      const regex = new RegExp("\.([^/.]+)$", "ig");
+      let result = regex.exec(filename);
+      if (result && result[1].toLowerCase() === 'js') {
+        hooks.push(filename.replace(/\.[^/.]+$/, ""));
+      }
+    });
+    return hooks;
+  }
+
   /*
    * Inject permissions for resolver
    */
@@ -109,13 +162,13 @@ class Manager {
       // Check permissions
       const user = context.ctx.state.user;
       const roles = await Manager.getRolesFromUser(user);
-      const resource = await Manager.getResourceFromTypeName(type, name);
+      const resource = type + '.' + name;
       const denied = resource ? await Manager.getAccessDenied(roles, resource) : false;
       console.log(
         'Request:',
         user ? user.username : user,
         roles.map(r => r.role.system).join(','),
-        resource ? resource.system : 'none',
+        resource,
         !denied,
         '(' + context.ctx.request.ip + ')'
       );
@@ -151,24 +204,13 @@ class Manager {
   }
 
   /*
-   * Get resource from resolver type and name
-   */
-  static async getResourceFromTypeName(type, name) {
-    const resource = await Resource
-      .query()
-      .where('system', type+'.'+name)
-      .first();
-    return resource;
-  }
-
-  /*
    * Get access denied
    */
   static async getAccessDenied(roles, resource) {
     const denied = await Permission
       .query()
       .whereIn('role_id', roles.map(r => r.role_id))
-      .where('resource_id', resource.id)
+      .where('resource', resource)
       .where('access', false)
       .first();
     return denied;
@@ -180,8 +222,7 @@ class Manager {
   static async runHooks(roles, resource, hookType, context, type, name, data) {
     if (resource) {
       const before = await ResourceHook.query()
-        .eager('hook')
-        .where('resource_id', resource.id)
+        .where('resource', resource)
         .where('active', true)
         .where('type', hookType)
         .orderBy('order');
@@ -190,14 +231,14 @@ class Manager {
         // Find hooks bypass
         const bypass = await RoleHook.query()
           .whereIn('role_id', roles.map(r => r.role_id))
-          .where('hook_id', k.hook.id)
+          .where('hook', k.hook)
           .where('bypass', true)
           .first();
-        console.log('Bypass:', hookType, k.hook.system, !!bypass);
+        console.log('Bypass:', hookType, k.hook, !!bypass);
         if (!bypass) {
           const hooks = Manager.loadHooks();
-          if (hooks[k.hook.system]) {
-            data = await hooks[k.hook.system](context.ctx, type, name, data);
+          if (hooks[k.hook]) {
+            data = await hooks[k.hook](context.ctx, type, name, data);
           }
         }
       }
@@ -212,14 +253,14 @@ class Manager {
     let queriesCombined = '';
     let mutationsCombined = '';
     let typesCombined = '';
-    const modelsList = process.env.FSTACK_MODULES.split(',');
-    for (let m of modelsList) {
+    const modulesList = Manager.getModulesNames();
+    for (let m of modulesList) {
       queriesCombined += require('./modules/' + m + '/queries');
     }
-    for (let m of modelsList) {
+    for (let m of modulesList) {
       mutationsCombined += require('./modules/' + m + '/mutations');
     }
-    for (let m of modelsList) {
+    for (let m of modulesList) {
       typesCombined += require('./modules/' + m + '/types');
     }
     const t = `

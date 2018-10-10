@@ -84,7 +84,7 @@ class RoleHooksList extends Component {
                 { hooks.map(hook => (
                   <Table.Row key={hook.id}>
                     <Table.Cell>{hook.id}</Table.Cell>
-                    <Table.Cell>{hook.hook.system}</Table.Cell>
+                    <Table.Cell>{hook.hook}</Table.Cell>
                     <Table.Cell width={1}>
 
                       <Checkbox toggle

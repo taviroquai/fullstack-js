@@ -2,11 +2,7 @@ module.exports = `
 
   type HookList {
     total: Int
-    results: [Hook]
+    results: [String]
   }
 
-  type Hook {
-    id: ID!
-    system: String
-  }
 `

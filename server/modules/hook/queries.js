@@ -6,6 +6,4 @@ module.exports = `
     page: Int
   ): HookList
 
-  getHookById(id: ID!): Hook
-
 `

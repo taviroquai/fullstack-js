@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import debounce from 'lodash.debounce';
 import { Link } from 'react-router-dom';
 import {
   Header,
@@ -26,13 +25,7 @@ class ResourcesList extends Component {
       resources: [],
       errors: null
     };
-
-    // Create search debounce
-    this.searchDebounce = debounce(() => {
-      this.reload();
-    }, 300);
   }
-
 
   reload() {
     const { query } = this.state;
@@ -54,25 +47,24 @@ class ResourcesList extends Component {
   }
 
   onSearch(query) {
-    this.setState({...this.state, query }, () => {
-      this.searchDebounce();
-    });
+    this.setState({...this.state, query });
   }
 
   render() {
     const { loading, errors, resources, query } = this.state;
+    let filtered = resources;
+
+    // Filter by resource
+    if (query) {
+      const regex = new RegExp(query, 'ig');
+      filtered = filtered.filter(r => regex.test(r));
+    }
+
     return (
       <I18n ns="translations">
         { (t, { i18n }) => (
           <Layout>
-            <Header as='h1'>
-              {t('resources')}
-
-              <Button floated='right' primary
-                as={Link} to='/resources/edit'>
-                {t('create')}
-              </Button>
-            </Header>
+            <Header as='h1'>{t('resources')}</Header>
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
@@ -83,7 +75,6 @@ class ResourcesList extends Component {
               <Table size='small'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>{t('id')}</Table.HeaderCell>
                     <Table.HeaderCell>
                       {t('system_keyword')}
                       <Input style={{fontSize: '.8rem', float: 'right'}}
@@ -100,16 +91,15 @@ class ResourcesList extends Component {
                 </Table.Header>
 
                 <Table.Body>
-                  { resources.map(resource => (
-                    <Table.Row key={resource.id}>
-                      <Table.Cell>{resource.id}</Table.Cell>
-                      <Table.Cell>{resource.system}</Table.Cell>
+                  { filtered.map((resource, i) => (
+                    <Table.Row key={i}>
+                      <Table.Cell>{resource}</Table.Cell>
                       <Table.Cell width={1}>
                         <Button.Group size='mini'>
                           <Button primary icon
                             size='mini'
-                            as={Link} to={'/resources/edit/'+resource.id}>
-                            <Icon name="pencil" />
+                            as={Link} to={'/resources/edit/'+resource}>
+                            <Icon name="list" />
                           </Button>
                         </Button.Group>
                       </Table.Cell>

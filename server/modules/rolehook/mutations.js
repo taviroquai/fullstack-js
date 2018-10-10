@@ -2,7 +2,7 @@ module.exports = `
 
   updateRoleHook(
     id: ID!
-    hook_id: ID!
+    hook: String!
     role_id: ID!
     bypass: Boolean!
   ): Boolean

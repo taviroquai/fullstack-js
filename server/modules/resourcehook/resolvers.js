@@ -14,14 +14,11 @@ const resolvers = {
       const limit = args.limit || 999;
       const page = args.page || 0;
 
-      // Load relations
-      query.eager('[resource, hook]');
-
       // Filter by resource
-      if (args.resource_id) query.where('resource_id', args.resource_id)
+      if (args.resource) query.where('resource', args.resource)
 
       // Filter by hook
-      if (args.hook_id) query.where('hook_id', args.resource_id)
+      if (args.hook) query.where('hook', args.resource)
 
       // Filter by active
       if (args.active) query.where('active', args.active)

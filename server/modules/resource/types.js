@@ -2,11 +2,7 @@ module.exports = `
 
   type ResourceList {
     total: Int
-    results: [Resource]
+    results: [String]
   }
 
-  type Resource {
-    id: ID!
-    system: String
-  }
 `

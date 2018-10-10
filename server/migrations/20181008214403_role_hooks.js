@@ -9,11 +9,8 @@ exports.up = function(knex, Promise) {
       .inTable('roles')
       .onDelete('CASCADE');
 
-    // Hook relation
-    table.integer('hook_id').unsigned()
-      .references('id')
-      .inTable('hooks')
-      .onDelete('CASCADE');
+    // Hook
+    table.string('hook');
 
     // Active
     table.boolean('bypass').default(false);

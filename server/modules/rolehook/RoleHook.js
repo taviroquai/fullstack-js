@@ -1,6 +1,5 @@
 const Model = require('../Model');
 const Role = require('../role/Role');
-const Hook = require('../hook/Hook');
 
 class RoleHook extends Model {
 
@@ -17,7 +16,7 @@ class RoleHook extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['role_id', 'hook_id', 'bypass'],
+      required: ['role_id', 'hook', 'bypass'],
       properties: {
         bypass: { type: 'boolean' }
       }
@@ -36,14 +35,6 @@ class RoleHook extends Model {
           from: 'role_hooks.role_id',
           to: 'roles.id'
         }
-      },
-      hook: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Hook,
-        join: {
-          from: 'role_hooks.hook_id',
-          to: 'hooks.id'
-        }
       }
     }
   }
@@ -52,27 +43,12 @@ class RoleHook extends Model {
    * Populate with role
    */
   static async populateWithRole(role) {
-    const Hook = require('../hook/Hook');
-    const hooks = await Hook.query();
+    const Manager = require('../../Manager');
+    const hooks = Manager.getHooksNames();
     const items = [];
-    for (let i of hooks) items.push({
+    for (let h of hooks) items.push({
       role_id: role.id,
-      hook_id: i.id,
-      bypass: false
-    });
-    await RoleHook.query().insert(items)
-  }
-
-  /**
-   * Populate with hook
-   */
-  static async populateWithHook(hook) {
-    const Role = require('../role/Role');
-    const roles = await Role.query();
-    const items = [];
-    for (let i of roles) items.push({
-      role_id: i.id,
-      hook_id: hook.id,
+      hook: h,
       bypass: false
     });
     await RoleHook.query().insert(items)

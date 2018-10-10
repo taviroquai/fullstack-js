@@ -56,7 +56,7 @@ mutation updateRole(
 
 export const getRoleHooks = gql`
 query getRoleHooks(
-  $hook_id: ID
+  $hook: String
   $role_id: ID
   $bypass: Boolean
   $limit: Int
@@ -64,7 +64,7 @@ query getRoleHooks(
 ) {
   getRoleHooks(
     role_id: $role_id
-    hook_id: $hook_id
+    hook: $hook
     bypass: $bypass
     limit: $limit
     page: $page
@@ -73,15 +73,11 @@ query getRoleHooks(
     results {
       id
       role_id
-      hook_id
+      hook
       bypass
       role {
         id
         label
-      }
-      hook {
-        id
-        system
       }
     }
   }
@@ -91,13 +87,13 @@ export const updateRoleHook = gql`
 mutation updateRoleHook(
   $id: ID!
   $role_id: ID!
-  $hook_id: ID!
+  $hook: String!
   $bypass: Boolean!
 ) {
   updateRoleHook(
     id: $id
     role_id: $role_id
-    hook_id: $hook_id
+    hook: $hook
     bypass: $bypass
   )
 }`;

@@ -19,7 +19,7 @@ class ResourceHooksList extends Component {
   }
 
   reload(resource) {
-    const variables = { resource_id: resource.id }
+    const variables = { resource }
     this.setState({ ...this.state, loading: true});
     getResourceHooks(variables).then(result => {
       this.setState({
@@ -34,7 +34,7 @@ class ResourceHooksList extends Component {
 
   componentDidMount() {
     const { resource } = this.props;
-    if (!resource.id) return;
+    if (!resource) return;
     this.reload(resource);
   }
 
@@ -52,7 +52,7 @@ class ResourceHooksList extends Component {
   render() {
     const { resource } = this.props;
     const { loading, errors, hooks } = this.state;
-    if (!resource.id) return null;
+    if (!resource) return null;
     return (
       <I18n ns="translations">
         { (t, { i18n }) => (
@@ -81,7 +81,7 @@ class ResourceHooksList extends Component {
                 { hooks.map(hook => (
                   <Table.Row key={hook.id}>
                     <Table.Cell>{hook.id}</Table.Cell>
-                    <Table.Cell>{hook.hook.system}</Table.Cell>
+                    <Table.Cell>{hook.hook}</Table.Cell>
                     <Table.Cell width={1}>
 
                       <Checkbox toggle

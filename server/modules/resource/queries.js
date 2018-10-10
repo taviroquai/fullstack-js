@@ -6,6 +6,4 @@ module.exports = `
     page: Int
   ): ResourceList
 
-  getResourceById(id: ID!): Resource
-
 `

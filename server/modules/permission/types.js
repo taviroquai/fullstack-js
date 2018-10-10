@@ -7,10 +7,9 @@ module.exports = `
 
   type Permission {
     id: ID!
-    resource_id: ID!
+    resource: String!
     role_id: ID!
     access: Boolean
-    resource: Resource
     role: Role
   }
 `
