@@ -10,8 +10,8 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleHooksList from './RoleHooksList';
 import { getRoleById, saveRole } from './actions';
-import { t } from 'i18next';
 import { I18n } from 'react-i18next';
+import Objection from '../../../share/Objection';
 
 class RolesForm extends Component {
 
@@ -61,7 +61,7 @@ class RolesForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: t('role_saved_successfully')
+        success: 'role_saved_successfully'
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -89,12 +89,12 @@ class RolesForm extends Component {
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
-              list={errors[0].message.split(',')}
+              list={Objection.formatErrors(errors[0].message, t)}
             /> }
 
             { success && <Message success size='mini'
               icon='bullhorn'
-              content={success}
+              content={t(success)}
             /> }
 
             { loading && <Loader active inline='centered' /> }

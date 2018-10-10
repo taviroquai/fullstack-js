@@ -11,8 +11,8 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleUsersList from './RoleUsersList';
 import { getUserById, saveUser, uploadAvatar } from './actions';
-import { t } from 'i18next';
 import { I18n } from 'react-i18next';
+import Objection from '../../../share/Objection';
 
 const endpoint = process.env.REACT_APP_SERVER_URL;
 
@@ -61,7 +61,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: t('user_saved_successfuly')
+        success: 'user_saved_successfuly'
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -90,7 +90,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: t('avatar_uploaded'),
+        success: 'avatar_uploaded',
         edit
       });
     }).catch(errors => {
@@ -117,12 +117,12 @@ class UsersForm extends Component {
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
-              list={errors[0].message.split(',')}
+              list={Objection.formatErrors(errors[0].message, t)}
             /> }
 
             { success && <Message success size='mini'
               icon='bullhorn'
-              content={success}
+              content={t(success)}
             /> }
 
             { loading ? <Loader active inline='centered' /> : (

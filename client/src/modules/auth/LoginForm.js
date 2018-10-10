@@ -72,7 +72,7 @@ class LoginForm extends Component {
 
                 { errors && <Message error size='mini'
                   icon='exclamation triangle'
-                  list={errors.map(e => e.message)}
+                  list={errors.map(e => t(e.message))}
                 /> }
 
                 <Button type="submit" color='teal' fluid size='large'>

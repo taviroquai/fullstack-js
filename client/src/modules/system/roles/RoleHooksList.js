@@ -66,7 +66,7 @@ class RoleHooksList extends Component {
 
             { errors ? <Message negative size='mini'
               icon='exclamation triangle'
-              list={errors.map(e => e.message)}
+              list={errors.map(e => t(e.message))}
             /> : null }
 
             <Table celled>

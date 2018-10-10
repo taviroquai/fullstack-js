@@ -9,8 +9,8 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissionById, savePermission } from './actions';
-import { t } from 'i18next';
 import { I18n } from 'react-i18next';
+import Objection from '../../../share/Objection';
 
 class PermissionsForm extends Component {
 
@@ -55,7 +55,7 @@ class PermissionsForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: t('permission_saved')
+        success: 'permission_saved'
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -81,12 +81,12 @@ class PermissionsForm extends Component {
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
-              list={errors[0].message.split(',')}
+              list={Objection.formatErrors(errors[0].message, t)}
             /> }
 
             { success && <Message success size='mini'
               icon='bullhorn'
-              content={success}
+              content={t(success)}
             /> }
 
             { loading ? <Loader active inline='centered' /> : (

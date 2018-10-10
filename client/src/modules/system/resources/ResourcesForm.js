@@ -10,8 +10,8 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import ResourceHooksList from './ResourceHooksList';
 import { getResourceById, saveResource } from './actions';
-import { t } from 'i18next';
 import { I18n } from 'react-i18next';
+import Objection from '../../../share/Objection';
 
 class ResourcesForm extends Component {
 
@@ -55,7 +55,7 @@ class ResourcesForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: t('resource_saved_successfully')
+        success: 'resource_saved_successfully'
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -83,7 +83,7 @@ class ResourcesForm extends Component {
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
-              list={errors[0].message.split(',')}
+              list={Objection.format(errors[0].message, t)}
             /> }
 
             { success && <Message success size='mini'

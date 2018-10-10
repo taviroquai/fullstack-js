@@ -76,7 +76,7 @@ class ResourcesList extends Component {
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
-              list={errors.map(e => e.message)}
+              list={errors.map(e => t(e.message))}
             /> }
 
             { !!resources.length && (

@@ -9,8 +9,8 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getHookById, saveHook } from './actions';
-import { t } from 'i18next';
 import { I18n } from 'react-i18next';
+import Objection from '../../../share/Objection';
 
 class HooksForm extends Component {
 
@@ -54,7 +54,7 @@ class HooksForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: t('hook_saved')
+        success: 'hook_saved'
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
@@ -82,7 +82,7 @@ class HooksForm extends Component {
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
-              list={errors[0].message.split(',')}
+              list={Objection.formatErrors(errors[0].message, t)}
             /> }
 
             { success && <Message success size='mini'
