@@ -3,27 +3,22 @@ require('dotenv').config();
 
 const Koa = require('koa');
 const Router = require('koa-router');
-const apolloServer = require('./graphql/server');
-
-// Load models from enviroment
-const modelsList = process.env.FSTACK_MODELS.split(',');
+const Manager = require('./Manager');
 
 // Create koa app
 const app = new Koa();
 
-// Load middleware
-const middlewareList = process.env.FSTACK_MIDDLEWARE.split(',');
-const middleware = {};
-for (let name of middlewareList) middleware[name] = require('./middleware/' + name);
-
-// Apply middleware
+// Load and use middleware
+const middleware = Manager.loadMiddleware();
 for (let name in middleware) app.use(middleware[name]);
+
+// Use apollo server middleware
+const apolloServer = Manager.getGraphqlServer(); 
 apolloServer.applyMiddleware({ app });
 
 // Load routes
 const router = new Router();
-const routes = {};
-for (let name of modelsList) routes[name] = require('./modules/' + name + '/routes');
+const routes = Manager.loadRoutes();
 for (let name in routes) routes[name](app, router);
 app.use(router.routes()).use(router.allowedMethods());
 
