@@ -1,71 +1,27 @@
 // Load enviroment if not loaded yet
 !process.env.FSTACK_APP_NAME && require('dotenv').config();
 
-// Update with your config settings.
+// Load config from enviroment
 module.exports = {
-
   development: {
-    client: 'pg',
-    debug: false,
-    version: '7.2',
+    client: process.env.FSTACK_KNEX_CLIENT,
+    debug: process.env.FSTACK_KNEX_DEBUG,
+    version: process.env.FSTACK_KNEX_CLIENT_VERSION,
     connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'postgres',
-      database : 'fullstackjs'
+      host : process.env.FSTACK_KNEX_HOST,
+      user : process.env.FSTACK_KNEX_USER,
+      password : process.env.FSTACK_KNEX_PASS,
+      database : process.env.FSTACK_KNEX_DBNAME
     },
     pool: {
-      min: 2,
-      max: 10
+      min: parseInt(process.env.FSTACK_KNEX_POOL_MIN, 10),
+      max: parseInt(process.env.FSTACK_KNEX_POOL_MAX, 10)
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: process.env.FSTACK_KNEX_MIGRATIONS_TABLE
     },
     seeds: {
-      directory: './seeds'
-    }
-  },
-
-  staging: {
-    client: 'pg',
-    version: '7.2',
-    connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'postgres',
-      database : 'objkoagraph'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    },
-    seeds: {
-      directory: './seeds'
-    }
-  },
-
-  production: {
-    client: 'pg',
-    version: '7.2',
-    connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'postgres',
-      database : 'objkoagraph'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    },
-    seeds: {
-      directory: './seeds'
+      directory: process.env.FSTACK_KNEX_SEED_DIRECTORY
     }
   }
-
 };

@@ -6,7 +6,8 @@ const Knex = require('knex');
 const knexfile = require('../knexfile');
 
 // Initialize knex.
-const knex = Knex(knexfile.development);
+const key = process.env.FSTACK_KNEX_CONFIG_KEY;
+const knex = Knex(knexfile[key]);
 
 // Give the knex object to objection.
 Model.knex(knex);
