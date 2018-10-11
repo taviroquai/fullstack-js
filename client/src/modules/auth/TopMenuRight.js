@@ -5,19 +5,29 @@ import { getUser } from '../auth/actions';
 import { I18n } from 'react-i18next';
 
 class TopMenuItem extends Component {
+
+  state = { user: null }
+
+  componentDidMount() {
+    getUser().then(user => {
+      console.log('menu get user', user);
+      this.setState({ user });
+    })
+  }
+
   render() {
-    const logged = getUser();
+    const { user } = this.state;
     return (
       <I18n ns="translations">
         { (t, { i18n }) => (
           <React.Fragment>
 
-            { !logged ? (
+            { !user ? (
               <Button as={Link} to='/login'>
                 {t('login')}
               </Button>
             ) : (
-              <Dropdown item simple text={logged.username}>
+              <Dropdown item simple text={user.username}>
                 <Dropdown.Menu>
                   <Dropdown.Item as={Link} to='/logout'>{t('logout')}</Dropdown.Item>
                 </Dropdown.Menu>

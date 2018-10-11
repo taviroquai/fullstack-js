@@ -11,18 +11,22 @@ const resolvers = {
      * Get access token
      */
     getAccessToken: async (root, args, context) => {
-      const user = await User.query()
-        .findOne({ email: args.email });
+      const user = await User.query().findOne({ email: args.email });
       if (user) {
-        if (user.active && user.verifyPassword(args.password)) {
-          await user.regenerateJwt();
-          return user;
-        }
-        if (!user.active) {
-          throw new Error(errors['041']);
-        }
+        if (!user.active) throw new Error(errors['041']);
+        if (!user.verifyPassword(args.password)) throw new Error(errors['042']);
+        user.authtoken = await user.regenerateJwt();
+        return user;
       }
-      throw new Error(errors['042']);
+    },
+
+    /**
+     * Get user by access token
+     */
+    getUserByAccessToken: async (root, args, context) => {
+      const user = await User.getUserFromJwt(args.authtoken);
+      if (!user) throw new Error(errors['010']);
+      return user;
     },
 
     /**

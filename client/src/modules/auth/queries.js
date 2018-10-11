@@ -11,3 +11,15 @@ query getAccessToken($email: String!, $password: String!) {
         avatar
     }
 }`;
+
+export const getUserByAccessToken = gql`
+query getUserByAccessToken($authtoken: String!) {
+    getUserByAccessToken(authtoken: $authtoken) {
+        id
+        username
+        email
+        authtoken
+        active
+        avatar
+    }
+}`;

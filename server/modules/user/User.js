@@ -100,48 +100,25 @@ class User extends Model {
   }
 
   /**
-   * Set validation schema
+   * Regenerate Jwt
    */
-  static get jsonSchema() {
-    return {
-      type: 'object',
-      required: ['username', 'email'],
-      properties: {
-        username: { type: 'string', minLength: 8, maxLength: 255 },
-        email: { type: 'string', minLength: 1, maxLength: 255 },
-        password: { type: 'string', minLength: 8, maxLength: 255 },
-        avatar: { type: 'string', minLength: 0, maxLength: 255 },
-        active: { type: 'boolean' }
-      }
-    }
-  };
-
-  /**
-   * Role relation
-   */
-  static get relationMappings() {
-    const Role = require('../role/Role');
-    return {
-      role: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Role,
-        join: {
-          from: 'users.role_id',
-          to: 'roles.id'
-        }
-      }
-    }
+  async regenerateJwt() {
+    const options = {
+      expiresIn: parseInt(process.env.FSTACK_AUTH_EXPIRES, 10)
+    };
+    return jwt.sign({ id: this.id }, authSecret, options);
   }
 
   /**
-   * Regenerate Jwt
-   * TODO: add expire date
+   * Get user from jwt
    */
-  async regenerateJwt() {
-    this.authtoken = jwt.sign({ username: this.username }, authSecret);
-    await User.query()
-      .patch({ authtoken: this.authtoken })
-      .where('id', this.id);
+  static async getUserFromJwt(jwttoken) {
+    try {
+      const decoded = jwt.verify(jwttoken, authSecret);
+      return await User.query().findOne({ id: decoded.id });
+    } catch (err) {
+      return null;
+    }
   }
 
   /**
@@ -175,6 +152,40 @@ class User extends Model {
     const dir = storagePath + '/users/avatar';
     const path = `${dir}/${filename}`;
     return path;
+  }
+
+  /**
+   * Set validation schema
+   */
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['username', 'email'],
+      properties: {
+        username: { type: 'string', minLength: 8, maxLength: 255 },
+        email: { type: 'string', minLength: 1, maxLength: 255 },
+        password: { type: 'string', minLength: 8, maxLength: 255 },
+        avatar: { type: 'string', minLength: 0, maxLength: 255 },
+        active: { type: 'boolean' }
+      }
+    }
+  };
+
+  /**
+   * Role relation
+   */
+  static get relationMappings() {
+    const Role = require('../role/Role');
+    return {
+      role: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Role,
+        join: {
+          from: 'users.role_id',
+          to: 'roles.id'
+        }
+      }
+    }
   }
 }
 

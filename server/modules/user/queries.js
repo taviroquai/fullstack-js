@@ -5,6 +5,8 @@ module.exports = `
     password: String!
   ): User
 
+  getUserByAccessToken(authtoken: String!): User
+
   getUsers(
     query: String
     limit: Int,

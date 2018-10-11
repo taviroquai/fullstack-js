@@ -25,13 +25,29 @@ export const login = (email, password) => {
   })
 }
 
+/**
+ * Get user from cookies
+ */
 export const getUser = () => {
   const cookies = new Cookies();
-  return cookies.get('user');
+  const client = getClient();
+  return new Promise((resolve, reject) => {
+    const user = cookies.get('user');
+    if (!user) resolve(null);
+    client.query({
+      query: Queries.getUserByAccessToken,
+      variables: { authtoken: user.authtoken }
+    }).then(r => {
+        resolve(user);
+    })
+    .catch(error => {
+      reject(error.graphQLErrors)
+    });
+  });
 }
 
 export const isAuthenticated = () => {
-  return !!getUser();
+  return getUser();
 }
 
 export const logout = () => {

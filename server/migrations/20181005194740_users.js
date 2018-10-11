@@ -5,7 +5,6 @@ exports.up = function(knex, Promise) {
     table.string('username').unique();
     table.string('email').unique();
     table.string('password');
-    table.string('authtoken');
     table.string('avatar');
     table.boolean('active').default(false);
   });
