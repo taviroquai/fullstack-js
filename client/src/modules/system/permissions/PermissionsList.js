@@ -41,7 +41,7 @@ class PermissionsList extends Component {
         total
        });
     }).catch(errors => {
-      put({ loading: false, errors, permissions: null });
+      put({ loading: false, errors, permissions: [] });
     });
   }
 

@@ -1,4 +1,4 @@
-import { getUploadClient, put, get } from '../../../graphql';
+import { getUploadClient, put, get, formatErrors } from '../../../graphql';
 import * as Queries from './queries';
 
 /**
@@ -56,7 +56,8 @@ export const uploadAvatar = (id, file) => {
       resolve(r.data.uploadAvatar);
     })
     .catch(error => {
-      reject(error.graphQLErrors);
+      const errors = formatErrors(error);
+      reject(errors);
     })
   })
 }

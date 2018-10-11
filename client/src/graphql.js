@@ -7,14 +7,25 @@ const cookies = new Cookies();
 const endpoint = process.env.REACT_APP_API_URL;
 
 /**
+ * Format error
+ * @param {Object} error 
+ */
+export const formatErrors = (error) => {
+  let errors = [];
+  if (error.graphQLErrors) errors = error.graphQLErrors;
+  if (error.networkError) errors = [error.networkError];
+  return errors.map(e => ({ message: e.message }));
+}
+
+/**
  * Run query
  * @param {Object} Queries
  * @param {String} modelName
  * @param {Object} model
  */
 export const get = (query, dataName, variables) => {
-  const client = getClient();
   return new Promise((resolve, reject) => {
+    const client = getClient();
     client.query({
       query,
       variables
@@ -22,20 +33,21 @@ export const get = (query, dataName, variables) => {
       resolve(r.data[dataName]);
     })
     .catch(error => {
-      reject(error.graphQLErrors);
+      const errors = formatErrors(error);
+      reject(errors);
     })
   })
 }
 
 /**
- * Run query
+ * Run mutation
  * @param {Object} Queries
  * @param {String} dataName
  * @param {Object} variables
  */
 export const put = (mutation, dataName, variables) => {
-  const client = getClient();
   return new Promise((resolve, reject) => {
+    const client = getClient();
     client.mutate({
       mutation,
       variables
@@ -43,11 +55,15 @@ export const put = (mutation, dataName, variables) => {
       resolve(r.data[dataName]);
     })
     .catch(error => {
-      reject(error.graphQLErrors);
+      const errors = formatErrors(error);
+      reject(errors);
     })
   })
 }
 
+/**
+ * Get apollo client
+ */
 export const getClient = () => {
   const client = new ApolloBoost({
     uri: endpoint,
@@ -56,7 +72,7 @@ export const getClient = () => {
       if (user) {
         operation.setContext({
           headers: {
-              authorization: 'Bearer ' + user.authtoken
+            authorization: 'Bearer ' + user.authtoken
           }
         });
       }
@@ -65,6 +81,9 @@ export const getClient = () => {
   return client
 }
 
+/**
+ * Get upload client
+ */
 export const getUploadClient = () => {
   const user = cookies.get('user');
   const client = new ApolloClient({
