@@ -71,7 +71,9 @@ class RolesList extends Component {
               <Table size='small'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                    <Table.HeaderCell width={1}>
+                      {t('id')}
+                    </Table.HeaderCell>
                     <Table.HeaderCell>{t('label')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('system_keyword')}</Table.HeaderCell>
                     <Table.HeaderCell width={1}>
@@ -92,14 +94,16 @@ class RolesList extends Component {
                 <Table.Body>
                   { roles.map(role => (
                     <Table.Row key={role.id}>
-                      <Table.Cell>{role.id}</Table.Cell>
+                      <Table.Cell width={1}>
+                        {role.id}
+                      </Table.Cell>
                       <Table.Cell>{role.label}</Table.Cell>
                       <Table.Cell>{role.system}</Table.Cell>
                       <Table.Cell width={1}>
                         <Button.Group size='mini'>
                           <Button primary icon
                             disabled={loading}
-                            as={Link} to={'/roles/edit/'+role.id}>
+                            as={Link} to={'/system/roles/edit/'+role.id}>
                             <Icon name="pencil" />
                           </Button>
                         </Button.Group>

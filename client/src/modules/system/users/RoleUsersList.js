@@ -75,7 +75,9 @@ class RoleUsersList extends Component {
               <Table size='small'>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                    <Table.HeaderCell width={1}>
+                      {t('id')}
+                    </Table.HeaderCell>
                     <Table.HeaderCell>{t('username')}</Table.HeaderCell>
                     <Table.HeaderCell></Table.HeaderCell>
                   </Table.Row>
@@ -84,7 +86,9 @@ class RoleUsersList extends Component {
                 <Table.Body>
                   { roles.map(role => (
                     <Table.Row key={role.id}>
-                      <Table.Cell>{role.id}</Table.Cell>
+                      <Table.Cell width={1}>
+                        {role.id}
+                      </Table.Cell>
                       <Table.Cell>{role.role.label}</Table.Cell>
                       <Table.Cell width={1}>
 

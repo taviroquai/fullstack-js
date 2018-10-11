@@ -103,7 +103,9 @@ class UsersList extends Component {
                 <Table size='small'>
                   <Table.Header>
                     <Table.Row>
-                      <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                      <Table.HeaderCell width={1}>
+                        {t('id')}
+                      </Table.HeaderCell>
                       <Table.HeaderCell>
                         {t('username')}
                         <Input style={{fontSize: '.8rem', float: 'right'}}
@@ -134,7 +136,7 @@ class UsersList extends Component {
                   <Table.Body>
                     { users.map(user => (
                       <Table.Row key={user.id}>
-                        <Table.Cell>{user.id}</Table.Cell>
+                        <Table.Cell width={1}>{user.id}</Table.Cell>
                         <Table.Cell>{user.username}</Table.Cell>
                         <Table.Cell>{user.email}</Table.Cell>
                         <Table.Cell>
