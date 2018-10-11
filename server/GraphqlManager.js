@@ -15,14 +15,14 @@ const ResourceHook = require('./modules/resourcehook/ResourceHook');
  *
  * TODO: cache permissions instead of check from database in every request
  */
-class GraphqlServer {
+class GraphqlManager {
 
   /**
    * Get apollo server
    */
   static getApolloServer() {
-    const typeDefs = GraphqlServer.getTypeDefs();
-    const resolvers = GraphqlServer.getResolvers();
+    const typeDefs = GraphqlManager.getTypeDefs();
+    const resolvers = GraphqlManager.getResolvers();
     const server = new ApolloServer({
       typeDefs,
       resolvers,
@@ -59,7 +59,7 @@ class GraphqlServer {
       finalResolvers[type] = finalResolvers[type] || {};
       Object.keys(combinedResolvers[type]).map(name => {
         const resolver = combinedResolvers[type][name];
-        finalResolvers[type][name] = GraphqlServer.getResolverWithAuthorization(type, name, resolver);
+        finalResolvers[type][name] = GraphqlManager.getResolverWithAuthorization(type, name, resolver);
       });
     });
 
@@ -75,9 +75,9 @@ class GraphqlServer {
 
       // Check permissions
       const user = context.ctx.state.user;
-      const roles = await GraphqlServer.getRolesFromUser(user);
+      const roles = await GraphqlManager.getRolesFromUser(user);
       const resource = type + '.' + name;
-      const denied = resource ? await GraphqlServer.getAccessDenied(roles, resource) : false;
+      const denied = resource ? await GraphqlManager.getAccessDenied(roles, resource) : false;
       console.log(
         'Request:',
         user ? user.username : user,
@@ -89,9 +89,9 @@ class GraphqlServer {
       if (!!denied) throw new Error(errors['001']);
 
       // Wrap hooks in sequence (before and after)
-      args = await GraphqlServer.runHooks(roles, resource, 'before', context, type, name, args);
+      args = await GraphqlManager.runHooks(roles, resource, 'before', context, type, name, args);
       let data = await resolver(root, args, context);
-      data = await GraphqlServer.runHooks(roles, resource, 'after', context, type, name, data);
+      data = await GraphqlManager.runHooks(roles, resource, 'after', context, type, name, data);
       return data;
     }
     return fn;
@@ -150,7 +150,7 @@ class GraphqlServer {
           .first();
         console.log('Bypass:', hookType, k.hook, !!bypass);
         if (!bypass) {
-          const hooks = GraphqlServer.loadHooks();
+          const hooks = GraphqlManager.loadHooks();
           if (hooks[k.hook]) {
             data = await hooks[k.hook](context.ctx, type, name, data);
           }
@@ -169,13 +169,13 @@ class GraphqlServer {
     let typesCombined = '';
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      queriesCombined += require('./modules/' + m + '/queries');
+      queriesCombined += fs.readFileSync('./modules/' + m + '/gql/queries.gql')
     }
     for (let m of modulesList) {
-      mutationsCombined += require('./modules/' + m + '/mutations');
+      mutationsCombined += fs.readFileSync('./modules/' + m + '/gql/mutations.gql')
     }
     for (let m of modulesList) {
-      typesCombined += require('./modules/' + m + '/types');
+      typesCombined += fs.readFileSync('./modules/' + m + '/gql/types.gql')
     }
     const t = `
 
@@ -202,4 +202,4 @@ class GraphqlServer {
   }
 }
 
-module.exports = GraphqlServer;
+module.exports = GraphqlManager;

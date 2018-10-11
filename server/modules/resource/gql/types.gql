@@ -1,0 +1,5 @@
+
+type ResourceList {
+  total: Int
+  results: [String]
+}

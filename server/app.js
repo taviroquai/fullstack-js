@@ -4,7 +4,7 @@ require('dotenv').config();
 const Koa = require('koa');
 const Router = require('koa-router');
 const ModuleManager = require('./ModuleManager');
-const GraphqlServer = require('./GraphqlServer');
+const GraphqlManager = require('./GraphqlManager');
 
 // Create koa app
 const app = new Koa();
@@ -14,7 +14,7 @@ const middleware = ModuleManager.loadMiddleware();
 for (let name in middleware) app.use(middleware[name]);
 
 // Use apollo server middleware
-const apolloServer = GraphqlServer.getApolloServer(); 
+const apolloServer = GraphqlManager.getApolloServer(); 
 apolloServer.applyMiddleware({ app });
 
 // Load routes

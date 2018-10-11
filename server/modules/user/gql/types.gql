@@ -1,0 +1,21 @@
+
+type UserList {
+  total: Int,
+  results: [User]
+}
+
+type User {
+  id: ID!
+  username: String
+  email: String
+  authtoken: String
+  active: Boolean
+  avatar: String
+  role_id: ID
+}
+
+type File {
+  filename: String!
+  mimetype: String!
+  encoding: String!
+}
