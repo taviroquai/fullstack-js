@@ -32,11 +32,11 @@ class ResourcesList extends Component {
   reload() {
     const { query } = this.props;
     put({ loading: true});
-    getResources({ query }).then((resources, total) => {
+    getResources({ query }).then(({ results, total}) => {
       put({
         loading: false,
         errors: null,
-        resources,
+        resources: results,
         total
        });
     }).catch(errors => {

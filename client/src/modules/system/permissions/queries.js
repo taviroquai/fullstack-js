@@ -29,16 +29,6 @@ query getPermissions(
   }
 }`;
 
-export const getPermissionById = gql`
-query getPermissionById($id: ID!) {
-  getPermissionById(id: $id) {
-    id
-    resource
-    role_id
-    access
-  }
-}`;
-
 export const updatePermission = gql`
 mutation updatePermission(
   $id: ID!

@@ -1,33 +1,17 @@
-import { getModelList, getById, saveModel } from '../../../graphql';
+import { get, put } from '../../../graphql';
 import * as Queries from './queries';
 
 /**
  * Get permissions list
  */
-export const getPermissions = () => {
-  return getModelList(Queries, 'Permissions');
-}
-
-/**
- * Get permission by id
- * @param {Number} id
- */
-export const getPermissionById = (id) => {
-  return getById(Queries, 'getPermissionById', id);
+export const getPermissions = (variables) => {
+  return get(Queries.getPermissions, 'getPermissions', variables);
 }
 
 /**
  * Save permission
  * @param {Object} permission
  */
-export const savePermission = (permission) => {
-  return saveModel(Queries, 'Permission', permission);
-}
-
-/**
- * Get users that belongs to permission
- * @param {String} id
- */
-export const getPermissionUsers = (id) => {
-  return getById(Queries, 'getPermissionUsers', id);
+export const updatePermission = (variables) => {
+  return put(Queries.updatePermission, 'updatePermission', variables);
 }

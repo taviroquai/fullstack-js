@@ -18,6 +18,8 @@ class Role extends Model {
     await Permission.populateWithRole(this);
     const RoleUser = require('../roleuser/RoleUser');
     await RoleUser.populateWithRole(this)
+    const RoleHook = require('../rolehook/RoleHook');
+    await RoleHook.populateWithRole(this)
   }
 
   /**

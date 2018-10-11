@@ -11,7 +11,7 @@ import {
   Icon
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
-import { getPermissions, savePermission } from './actions';
+import { getPermissions, updatePermission } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
 
@@ -33,11 +33,11 @@ class PermissionsList extends Component {
 
   reload() {
     put({ loading: true });
-    getPermissions().then((permissions, total) => {
+    getPermissions({}).then(({ results, total}) => {
       put({
         loading: false,
         errors: null,
-        permissions,
+        permissions: results,
         total
        });
     }).catch(errors => {
@@ -53,7 +53,7 @@ class PermissionsList extends Component {
   toggleAccess(permission) {
     put({ loading: true});
     const variables = { ...permission, access: !permission.access };
-    savePermission(variables).then(() => {
+    updatePermission(variables).then(() => {
       this.reload();
     }).catch(errors => {
       put({ loading: false, errors });

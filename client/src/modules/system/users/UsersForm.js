@@ -76,7 +76,7 @@ class UsersForm extends Component {
         ...this.state,
         loading: false,
         errors: false,
-        success: 'user_saved_successfuly'
+        success: 'user_saved_successfully'
       });
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });

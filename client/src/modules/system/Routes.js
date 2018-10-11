@@ -8,7 +8,6 @@ import RolesForm from './roles/RolesForm';
 import ResourcesList from './resources/ResourcesList';
 import ResourcesForm from './resources/ResourcesForm';
 import PermissionsList from './permissions/PermissionsList';
-import PermissionsForm from './permissions/PermissionsForm';
 
 import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
 
@@ -23,7 +22,6 @@ class ProtectedRoutes extends Component {
         <Route exact path="/system/resources" component={ResourcesList} />
         <Route path="/system/resources/edit/:id?" component={ResourcesForm} />
         <Route exact path="/system/permissions" component={PermissionsList} />
-        <Route path="/system/permissions/edit/:id?" component={PermissionsForm} />
       </RedirectNotAuthenticated>
     );
   }

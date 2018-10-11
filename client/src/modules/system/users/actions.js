@@ -1,4 +1,4 @@
-import { getById, saveModel, getUploadClient, put, get } from '../../../graphql';
+import { getUploadClient, put, get } from '../../../graphql';
 import * as Queries from './queries';
 
 /**
@@ -13,7 +13,7 @@ export const getUsers = (variables) => {
  * @param {Number} id
  */
 export const getUserById = (id) => {
-  return getById(Queries, 'getUserById', id);
+  return get(Queries.getUserById, 'getUserById', {id});
 }
 
 /**
@@ -21,18 +21,26 @@ export const getUserById = (id) => {
  * @param {Object} user
  */
 export const saveUser = (user) => {
-  return saveModel(Queries, 'User', user);
+  return user.id ? put(Queries.updateUser, 'updateUser', user)
+    : put(Queries.createUser, 'createUser', user)
 }
 
 /**
- * Update model
- * @param {Object} Queries
- * @param {String} modelName
- * @param {Object} model
+ * Get users that belongs to role
+ * @param {String} id
  */
-export const changeUserRole = (id, role_id) => {
-  return put(Queries.changeUserRole, 'changeUserRole', { id, role_id });
+export const getRoleUsers = (variables) => {
+  return get(Queries.getRoleUsers, 'getRoleUsers', variables);
 }
+
+/**
+ * Update role hook
+ * @param {Object} variables
+ */
+export const updateRoleUser = (variables) => {
+  return put(Queries.updateRoleUser, 'updateRoleUser', variables);
+}
+
 
 /**
  * Upload avatar image
@@ -51,20 +59,4 @@ export const uploadAvatar = (id, file) => {
       reject(error.graphQLErrors);
     })
   })
-}
-
-/**
- * Get users that belongs to role
- * @param {String} id
- */
-export const getRoleUsers = (variables) => {
-  return get(Queries.getRoleUsers, 'getRoleUsers', variables);
-}
-
-/**
- * Update role hook
- * @param {Object} variables
- */
-export const updateRoleUser = (variables) => {
-  return put(Queries.updateRoleUser, 'updateRoleUser', variables);
 }

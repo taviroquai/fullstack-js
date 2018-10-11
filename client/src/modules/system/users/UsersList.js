@@ -55,12 +55,12 @@ class UsersList extends Component {
   reload() {
     put({ loading: true });
     const { query, page, limit } = get();
-    getUsers({ query, page, limit }).then(result => {
+    getUsers({ query, page, limit }).then(({ total, results }) => {
       put({
         loading: false,
         errors: false,
-        users: result.results,
-        total: result.total
+        users: results,
+        total
        });
     }).catch(errors => {
       put({ loading: false, errors, users: null });

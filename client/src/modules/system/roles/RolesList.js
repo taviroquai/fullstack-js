@@ -34,11 +34,11 @@ class RolesList extends Component {
 
   reload() {
     put({ loading: true});
-    getRoles().then((roles, total) => {
+    getRoles({}).then(({ total, results }) => {
       put({
         loading: false,
         errors: null,
-        roles,
+        roles: results,
         total
        });
     }).catch(errors => {
