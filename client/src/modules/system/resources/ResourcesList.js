@@ -11,47 +11,48 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getResources } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
+import Store, { withStore } from 'react-observable-store';
+
+Store.add('sysresourceslist', {
+  sysresourceslist: {
+    loading: false,
+    total: 0,
+    resources: [],
+    errors: null
+  }
+});
+
+// Helpers
+const put = (data) => Store.update('sysresourceslist', data);
 
 class ResourcesList extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      query: '',
-      total: 0,
-      resources: [],
-      errors: null
-    };
-  }
-
   reload() {
-    const { query } = this.state;
-    this.setState({ ...this.state, loading: true});
+    const { query } = this.props;
+    put({ loading: true});
     getResources({ query }).then((resources, total) => {
-      this.setState({
-        ...this.state,
+      put({
         loading: false,
         resources,
         total
        });
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      put({ loading: false, errors });
     });
   }
 
   componentDidMount() {
-    this.reload();
+    const { resources } = this.props;
+    if (!resources.length) this.reload();
   }
 
   onSearch(query) {
-    this.setState({...this.state, query });
+    put({ query });
   }
 
   render() {
-    const { loading, errors, resources, query } = this.state;
+    const { loading, errors, resources, query } = this.props;
     let filtered = resources;
 
     // Filter by resource
@@ -61,7 +62,7 @@ class ResourcesList extends Component {
     }
 
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
             <Header as='h1'>{t('resources')}</Header>
@@ -85,7 +86,14 @@ class ResourcesList extends Component {
                       />
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                      { loading && <Loader active inline='centered' /> }
+                      { loading ? <Loader active inline='centered' /> : (
+                        <Button color='orange' icon
+                          size='mini'
+                          title={t('refresh')}
+                          onClick={e => this.reload()}>
+                          <Icon name="redo" />
+                        </Button>
+                      ) }
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -98,7 +106,7 @@ class ResourcesList extends Component {
                         <Button.Group size='mini'>
                           <Button primary icon
                             size='mini'
-                            as={Link} to={'/resources/edit/'+resource}>
+                            as={Link} to={'/system/resources/edit/'+resource}>
                             <Icon name="list" />
                           </Button>
                         </Button.Group>
@@ -112,9 +120,9 @@ class ResourcesList extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }
 
-export default ResourcesList;
+export default withStore('sysresourceslist', ResourcesList);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Switch } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
 import ModuleLoader from './ModuleLoader';
+import './InitStore';
 import './assets/dist/semantic.min.css';
 import './assets/index.css';
 

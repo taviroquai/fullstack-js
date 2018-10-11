@@ -4,14 +4,14 @@ import { Container, Image, List, Menu, Segment } from 'semantic-ui-react';
 import ModuleLoader from '../ModuleLoader';
 
 import logoImg from '../assets/logo.svg';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 
 class Layout extends Component {
 
   render() {
     const { children } = this.props;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <div>
             <Menu fixed='top' inverted>
@@ -54,7 +54,7 @@ class Layout extends Component {
 
           </div>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

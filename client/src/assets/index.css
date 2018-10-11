@@ -69,8 +69,10 @@ code {
   height: 1rem;
 }
 
-.ui.table td {
-  padding: .5em .5em;
+.ui.table td,
+.ui.table th
+{
+  padding: .5em .5em !important;
 }
 
 .ui.menu .item {

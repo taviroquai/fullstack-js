@@ -11,7 +11,7 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleHooksList from './RoleHooksList';
 import { getRoleById, saveRole } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
 
 class RolesForm extends Component {
@@ -71,7 +71,7 @@ class RolesForm extends Component {
 
   /**
    * On cancel form, go back
-   * @param {Object} e 
+   * @param {Object} e
    */
   onCancel(e) {
     e.preventDefault();
@@ -82,7 +82,7 @@ class RolesForm extends Component {
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
 
@@ -151,7 +151,7 @@ class RolesForm extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

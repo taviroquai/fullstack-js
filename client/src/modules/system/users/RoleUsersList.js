@@ -7,60 +7,62 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getRoleUsers, updateRoleUser } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 
-class RoleUsersList extends Component {
+import Store, { withStore } from 'react-observable-store';
 
-  state = {
+// Global store namespace
+Store.add('sysroleuserslist', {
+  sysroleuserslist: {
     loading: false,
     total: 0,
     roles: [],
     current: [],
     errors: null
   }
+});
+
+// Helpers
+const put = (data) => Store.update('sysroleuserslist', data);
+
+class RoleUsersList extends Component {
 
   reload(user) {
     const variables = { user_id: user.id }
-    this.setState({ ...this.state, loading: true});
+    put({ loading: true});
     getRoleUsers(variables).then(result => {
-      this.setState({
-        ...this.state,
+      put({
         loading: false,
         errors: null,
         roles: result.results
       });
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      put({ loading: false, errors });
     });
   }
 
   componentDidMount() {
     const { user } = this.props;
-    console.log('userrole did mount', user);
     if (!user.id) return;
     this.reload(user);
   }
 
   toggleRole(role) {
     const { user } = this.props;
-    this.setState({ ...this.state, loading: true});
-    const variables = {
-      ...role,
-      active: !role.active,
-    }
+    put({ loading: true});
+    const variables = { ...role, active: !role.active };
     updateRoleUser(variables).then(() => {
       this.reload(user);
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      put({ loading: false, errors });
     });
   }
 
   render() {
-    const { user } = this.props;
-    const { loading, errors, roles } = this.state;
+    const { loading, user, errors, roles } = this.props;
     if (!user.id) return null;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <React.Fragment>
             <Header as='h3'>
@@ -108,9 +110,9 @@ class RoleUsersList extends Component {
 
           </React.Fragment>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }
 
-export default RoleUsersList;
+export default withStore('sysroleuserslist', RoleUsersList);

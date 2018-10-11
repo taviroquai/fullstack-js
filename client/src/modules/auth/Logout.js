@@ -6,13 +6,10 @@ import { logout } from './actions';
 class Logout extends Component {
 
   componentDidMount() {
-    let { redirect } = this.props;
+    let { redirect, history } = this.props;
     redirect = redirect || '/login';
     setTimeout(() => {
-      logout().then(() => {
-        const { history } = this.props;
-        if (history.location.pathname !== redirect) history.push(redirect);
-      });
+      logout(history, redirect);
     }, 1000);
   }
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'semantic-ui-react';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 
 class TopMenuItem extends Component {
 
   render() {
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <React.Fragment>
 
@@ -18,7 +18,7 @@ class TopMenuItem extends Component {
 
           </React.Fragment>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

@@ -1,8 +1,16 @@
 import gql from 'graphql-tag';
 
 export const getUsers = gql`
-query getUsers {
-  getUsers {
+query getUsers(
+  $query: String
+  $page: Int
+  $limit: Int
+) {
+  getUsers(
+    query: $query
+    page: $page
+    limit: $limit
+  ) {
     total
     results {
       id

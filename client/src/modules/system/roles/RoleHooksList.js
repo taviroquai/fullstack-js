@@ -7,7 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getRoleHooks, updateRoleHook } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 
 class RoleHooksList extends Component {
 
@@ -57,7 +57,7 @@ class RoleHooksList extends Component {
     const { loading, errors, hooks } = this.state;
     if (!role.id) return null;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <React.Fragment>
             <Header as='h3'>
@@ -107,7 +107,7 @@ class RoleHooksList extends Component {
 
           </React.Fragment>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

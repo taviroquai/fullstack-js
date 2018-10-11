@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Header, Message } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import ResourceHooksList from './ResourceHooksList';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
 
 class ResourcesForm extends Component {
@@ -24,7 +24,7 @@ class ResourcesForm extends Component {
   render() {
     const { errors, success, edit } = this.state;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
 
@@ -48,7 +48,7 @@ class ResourcesForm extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

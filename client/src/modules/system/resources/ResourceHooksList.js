@@ -7,7 +7,7 @@ import {
   Checkbox
 } from 'semantic-ui-react';
 import { getResourceHooks, updateResourceHook } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 
 class ResourceHooksList extends Component {
 
@@ -54,7 +54,7 @@ class ResourceHooksList extends Component {
     const { loading, errors, hooks } = this.state;
     if (!resource) return null;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <React.Fragment>
             <Header as='h3'>
@@ -104,7 +104,7 @@ class ResourceHooksList extends Component {
 
           </React.Fragment>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

@@ -12,7 +12,7 @@ import {
 import Layout from '../../../share/AdminLayoutExample';
 import RoleUsersList from './RoleUsersList';
 import { getUserById, saveUser, uploadAvatar } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
 
 const endpoint = process.env.REACT_APP_SERVER_URL;
@@ -52,8 +52,8 @@ class UsersForm extends Component {
 
   /**
    * Edit form field
-   * @param {String} field 
-   * @param {String} value 
+   * @param {String} field
+   * @param {String} value
    */
   onEdit(field, value) {
     const { edit } = this.state;
@@ -63,7 +63,7 @@ class UsersForm extends Component {
 
   /**
    * On submit form
-   * @param {Object} e 
+   * @param {Object} e
    */
   onSubmit(e) {
     e.preventDefault();
@@ -115,7 +115,7 @@ class UsersForm extends Component {
 
   /**
    * On cancel form, go back
-   * @param {Object} e 
+   * @param {Object} e
    */
   onCancel(e) {
     e.preventDefault();
@@ -126,7 +126,7 @@ class UsersForm extends Component {
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
 
@@ -246,7 +246,7 @@ class UsersForm extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

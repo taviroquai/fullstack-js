@@ -6,15 +6,17 @@ import {
   Message,
   Checkbox,
   Input,
-  Select
+  Select,
+  Button,
+  Icon
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissions, savePermission } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
+import Store, { withStore } from 'react-observable-store';
 
-class PermissionsList extends Component {
-
-  state = {
+Store.add('syspermissionslist', {
+  syspermissionslist: {
     loading: false,
     total: 0,
     permissions: [],
@@ -22,43 +24,43 @@ class PermissionsList extends Component {
     resourceFilter: '',
     errors: null
   }
+});
+
+// Helpers
+const put = (data) => Store.update('syspermissionslist', data);
+
+class PermissionsList extends Component {
 
   reload() {
-    this.setState({ ...this.state, loading: true});
+    put({ loading: true });
     getPermissions().then((permissions, total) => {
-      this.setState({
-        ...this.state,
+      put({
         loading: false,
         permissions,
         total
        });
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      put({ loading: false, errors });
     });
   }
 
   componentDidMount() {
-    this.reload();
+    const { permissions } = this.props;
+    if (!permissions.length) this.reload();
   }
 
   toggleAccess(permission) {
-    this.setState({ ...this.state, loading: true});
-    const variables = {
-      ...permission,
-      access: !permission.access
-    }
+    put({ loading: true});
+    const variables = { ...permission, access: !permission.access };
     savePermission(variables).then(() => {
       this.reload();
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      put({ loading: false, errors });
     });
   }
 
   onFilter(name, value) {
-    this.setState({
-      ...this.state,
-      [name]: value
-    });
+    put({ [name]: value });
   }
 
   render() {
@@ -68,18 +70,14 @@ class PermissionsList extends Component {
       permissions,
       resourceFilter,
       roleFilter
-    } = this.state;
+    } = this.props;
     let filtered = permissions;
 
     // Role options
     const roleOptions = permissions.reduce((acc, i) => {
       if (acc.indexOf(i.role.label) < 0) acc.push(i.role.label);
       return acc;
-    }, []).map((opt, i) => ({
-      key: i,
-      value: opt,
-      text: opt
-    }));
+    }, []).map((opt, i) => ({ key: i, value: opt, text: opt }));
 
     // Filter by resource
     if (resourceFilter) {
@@ -95,7 +93,7 @@ class PermissionsList extends Component {
 
     // Render
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
             <Header as='h1'>{t('permissions')}</Header>
@@ -127,10 +125,15 @@ class PermissionsList extends Component {
                       onChange={e => this.onFilter('resourceFilter', e.target.value)}
                     />
                   </Table.HeaderCell>
-                  <Table.HeaderCell width={3}>
-                    { !loading ? t('allowed') :
-                      <Loader size='mini' active inline='centered' />
-                    }
+                  <Table.HeaderCell width={1}>
+                    { loading ? <Loader size='mini' active inline='centered' /> : (
+                      <Button color='orange' icon
+                        title={t('refresh')}
+                        size='mini'
+                        onClick={e => this.reload()}>
+                        <Icon name="redo" />
+                      </Button>
+                    ) }
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -141,7 +144,7 @@ class PermissionsList extends Component {
                     <Table.Cell>{permission.id}</Table.Cell>
                     <Table.Cell>{permission.role.label}</Table.Cell>
                     <Table.Cell>{permission.resource}</Table.Cell>
-                    <Table.Cell width={3}>
+                    <Table.Cell width={1}>
 
                       <Checkbox toggle
                         disabled={loading}
@@ -161,9 +164,9 @@ class PermissionsList extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }
 
-export default PermissionsList;
+export default withStore('syspermissionslist', PermissionsList);

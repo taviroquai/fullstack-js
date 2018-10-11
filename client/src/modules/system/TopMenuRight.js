@@ -15,10 +15,10 @@ class TopMenuItem extends Component {
             </React.Fragment>
           )}>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to='/users'>Users</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/roles'>Roles</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/permissions'>Permissions</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/resources'>Resources</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/system/users'>Users</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/system/roles'>Roles</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/system/permissions'>Permissions</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/system/resources'>Resources</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
 

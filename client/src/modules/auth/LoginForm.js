@@ -5,43 +5,37 @@ import { Button, Form, Header, Image, Segment, Message } from 'semantic-ui-react
 import Layout from './Layout';
 import { login } from './actions';
 import logoImg from '../../assets/logo.svg';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
+import Store, { withStore } from 'react-observable-store';
 
 class LoginForm extends Component {
-
-  state = {
-    loading: false,
-    errors: ''
-  }
 
   /**
    * Submit login form
    * @param {Event} e
    */
   submit(e) {
-    const { redirect } = this.props;
+    const { history, redirect } = this.props;
     e.preventDefault();
     const { email, password } = e.target.elements;
-    this.setState({ loading: true, errors: null });
-    login(email.value, password.value).then(data => {
+    Store.update('app', { loading: true, errors: null });
 
-      // Success
-      this.setState({ errors: null, loading: false }, () => {
-        const { history } = this.props;
-        history.push(redirect);
-      });
+    // Login
+    login(email.value, password.value).then(user => {
+      Store.update('app', { loading: false, user });
+      history.push(redirect);
     })
 
     // Fail
     .catch(errors => {
-      this.setState({ errors, loading: false });
+      Store.update('app', { errors, loading: false });
     });
   }
 
   render() {
-    const { loading, errors } = this.state;
+    const { loading, errors } = this.props;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
             <Header as='h2' color='teal' textAlign='center'>
@@ -83,9 +77,9 @@ class LoginForm extends Component {
             </Form>
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }
 
-export default withRouter(withCookies(LoginForm));
+export default withRouter(withCookies(withStore('app', LoginForm)));

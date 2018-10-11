@@ -12,21 +12,29 @@ import PermissionsForm from './permissions/PermissionsForm';
 
 import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
 
-class App extends Component {
+class ProtectedRoutes extends Component {
   render() {
     return (
       <RedirectNotAuthenticated to='/login'>
-        <Route exact path="/users" component={UsersList} />
-        <Route path="/users/edit/:id?" component={UsersForm} />
-        <Route exact path="/roles" component={RolesList} />
-        <Route path="/roles/edit/:id?" component={RolesForm} />
-        <Route exact path="/resources" component={ResourcesList} />
-        <Route path="/resources/edit/:id?" component={ResourcesForm} />
-        <Route exact path="/permissions" component={PermissionsList} />
-        <Route path="/permissions/edit/:id?" component={PermissionsForm} />
+        <Route exact path="/system/users" component={UsersList} />
+        <Route path="/system/users/edit/:id?" component={UsersForm} />
+        <Route exact path="/system/roles" component={RolesList} />
+        <Route path="/system/roles/edit/:id?" component={RolesForm} />
+        <Route exact path="/system/resources" component={ResourcesList} />
+        <Route path="/system/resources/edit/:id?" component={ResourcesForm} />
+        <Route exact path="/system/permissions" component={PermissionsList} />
+        <Route path="/system/permissions/edit/:id?" component={PermissionsForm} />
       </RedirectNotAuthenticated>
     );
   }
 }
 
-export default App;
+class Routes extends Component {
+  render() {
+    return (
+      <Route path="/system" component={ProtectedRoutes} />
+    );
+  }
+}
+
+export default Routes;

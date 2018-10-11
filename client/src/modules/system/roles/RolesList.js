@@ -10,42 +10,52 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getRoles } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
+import Store, { withStore } from 'react-observable-store';
 
-class RolesList extends Component {
-
-  state = {
+Store.add('sysroleslist', {
+  sysroleslist: {
     loading: false,
     total: 0,
     roles: [],
     errors: null
   }
+});
+
+// Helpers
+const put = (data) => Store.update('sysroleslist', data);
+
+class RolesList extends Component {
 
   componentDidMount() {
-    this.setState({ ...this.state, loading: true});
+    const { roles } = this.props;
+    if (!roles.length) this.reload();
+  }
+
+  reload() {
+    put({ loading: true});
     getRoles().then((roles, total) => {
-      this.setState({
-        ...this.state,
+      put({
         loading: false,
         roles,
         total
        });
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      put({ loading: false, errors });
     });
   }
 
   render() {
-    const { loading, errors, roles } = this.state;
+    const { loading, errors, roles } = this.props;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
             <Header as='h1'>
               {t('roles')}
 
               <Button floated='right' primary
-                as={Link} to='/roles/edit'>
+                as={Link} to='/system/roles/edit'>
                 {t('create')}
               </Button>
             </Header>
@@ -62,7 +72,14 @@ class RolesList extends Component {
                     <Table.HeaderCell>{t('id')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('label')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('system_keyword')}</Table.HeaderCell>
-                    <Table.HeaderCell></Table.HeaderCell>
+                    <Table.HeaderCell>
+                      <Button color='orange' icon
+                        title={t('refresh')}
+                        size='mini'
+                        onClick={e => this.reload()}>
+                        <Icon name="redo" />
+                      </Button>
+                    </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
 
@@ -89,9 +106,9 @@ class RolesList extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }
 
-export default RolesList;
+export default withStore('sysroleslist', RolesList);

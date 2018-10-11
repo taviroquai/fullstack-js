@@ -7,6 +7,7 @@ class Layout extends Component {
     return (
       <div className='login-form'>
         <style>{`
+          body,
           body > div,
           body > div > div,
           body > div > div > div.login-form {

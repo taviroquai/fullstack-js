@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
+import { NamespacesConsumer } from 'react-i18next';
 import Layout from '../../share/AdminLayoutExample';
-import { I18n } from 'react-i18next';
 
 class Dashboard extends Component {
   render() {
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
 
@@ -19,7 +19,7 @@ class Dashboard extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

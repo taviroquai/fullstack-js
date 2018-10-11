@@ -1,11 +1,11 @@
-import { getModelList, getById, saveModel, getUploadClient, put, get } from '../../../graphql';
+import { getById, saveModel, getUploadClient, put, get } from '../../../graphql';
 import * as Queries from './queries';
 
 /**
  * Get users list
  */
-export const getUsers = () => {
-  return getModelList(Queries, 'Users');
+export const getUsers = (variables) => {
+  return get(Queries.getUsers, 'getUsers', variables);
 }
 
 /**

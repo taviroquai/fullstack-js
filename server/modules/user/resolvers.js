@@ -34,8 +34,8 @@ const resolvers = {
      */
     getUsers: async (root, args, context) => {
       const query = User.query();
-      const limit = args.limit || 25;
-      const page = args.page || 0;
+      const limit = args.limit || 1;
+      const page = args.page ? args.page - 1 : 0;
 
       // Filter by query
       if (args.query) {

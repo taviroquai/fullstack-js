@@ -6,12 +6,12 @@ import {
   Grid
  } from 'semantic-ui-react';
 import imgLogo from '../assets/logo.svg';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 
 class SplashScreenExample extends Component {
   render() {
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <div className="login-form">
             <style>{`
@@ -39,7 +39,7 @@ class SplashScreenExample extends Component {
             </Grid>
           </div>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }

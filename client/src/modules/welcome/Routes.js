@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-
 import Welcome from './Welcome';
-
 import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
 
 class Routes extends Component {

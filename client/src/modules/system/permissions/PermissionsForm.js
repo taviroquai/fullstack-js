@@ -9,7 +9,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getPermissionById, savePermission } from './actions';
-import { I18n } from 'react-i18next';
+import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
 
 class PermissionsForm extends Component {
@@ -65,7 +65,7 @@ class PermissionsForm extends Component {
   render() {
     const { loading, errors, success, edit } = this.state;
     return (
-      <I18n ns="translations">
+      <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
           <Layout>
 
@@ -121,7 +121,7 @@ class PermissionsForm extends Component {
 
           </Layout>
         )}
-      </I18n>
+      </NamespacesConsumer>
     )
   }
 }
