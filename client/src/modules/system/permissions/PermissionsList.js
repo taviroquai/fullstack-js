@@ -36,11 +36,12 @@ class PermissionsList extends Component {
     getPermissions().then((permissions, total) => {
       put({
         loading: false,
+        errors: null,
         permissions,
         total
        });
     }).catch(errors => {
-      put({ loading: false, errors });
+      put({ loading: false, errors, permissions: null });
     });
   }
 
@@ -106,16 +107,18 @@ class PermissionsList extends Component {
             <Table size='small'>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>{t('id')}</Table.HeaderCell>
-                    <Table.HeaderCell>
-                      <Select
-                        style={{ fontSize: '0.8rem' }}
-                        placeholder={t('filter_by_role')}
-                        value={roleFilter}
-                        options={roleOptions}
-                        onChange={(e, { value }) => this.onFilter('roleFilter', value)}
-                      />
-                    </Table.HeaderCell>
+                  <Table.HeaderCell width={1}>
+                    {t('id')}
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <Select
+                      style={{ fontSize: '0.8rem' }}
+                      placeholder={t('filter_by_role')}
+                      value={roleFilter}
+                      options={roleOptions}
+                      onChange={(e, { value }) => this.onFilter('roleFilter', value)}
+                    />
+                  </Table.HeaderCell>
                   <Table.HeaderCell>
                     {t('resource')}
                     <Input style={{fontSize: '.8rem', float: 'right'}}
@@ -126,7 +129,9 @@ class PermissionsList extends Component {
                     />
                   </Table.HeaderCell>
                   <Table.HeaderCell width={1}>
-                    { loading ? <Loader size='mini' active inline='centered' /> : (
+                    { loading ? (
+                      <Loader size='mini' active inline='centered' />
+                    ) : (
                       <Button color='orange' icon
                         title={t('refresh')}
                         size='mini'
@@ -141,7 +146,7 @@ class PermissionsList extends Component {
               <Table.Body>
                 { filtered.map(permission => (
                   <Table.Row key={permission.id}>
-                    <Table.Cell>{permission.id}</Table.Cell>
+                    <Table.Cell width={1}>{permission.id}</Table.Cell>
                     <Table.Cell>{permission.role.label}</Table.Cell>
                     <Table.Cell>{permission.resource}</Table.Cell>
                     <Table.Cell width={1}>
@@ -159,7 +164,6 @@ class PermissionsList extends Component {
                   </Table.Row>
                 ))}
               </Table.Body>
-
             </Table>
 
           </Layout>

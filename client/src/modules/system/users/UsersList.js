@@ -9,7 +9,8 @@ import {
   Icon,
   Input,
   Segment,
-  Pagination
+  Pagination,
+  Loader
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import { getUsers } from './actions';
@@ -32,7 +33,9 @@ Store.add('sysuserslist', {
 const put = (data) => Store.update('sysuserslist', data);
 const get = () => Store.get('sysuserslist');
 
-
+/**
+ * Component for list of users
+ */
 class UsersList extends Component {
 
   constructor(props) {
@@ -60,7 +63,7 @@ class UsersList extends Component {
         total: result.total
        });
     }).catch(errors => {
-      put({ loading: false, errors, users: [] });
+      put({ loading: false, errors, users: null });
     });
   }
 
@@ -84,6 +87,7 @@ class UsersList extends Component {
               {t('users')}
 
               <Button floated='right' primary
+                disabled={loading}
                 as={Link} to='/system/users/edit'>
                 {t('create')}
               </Button>
@@ -112,12 +116,17 @@ class UsersList extends Component {
                       <Table.HeaderCell>{t('email')}</Table.HeaderCell>
                       <Table.HeaderCell>{t('active')}</Table.HeaderCell>
                       <Table.HeaderCell width={1}>
-                        <Button color='orange' icon
-                          title={t('refresh')}
-                          size='mini'
-                          onClick={e => this.reload()}>
-                          <Icon name="redo" />
-                        </Button>
+                        { loading ? (
+                          <Loader size='mini' active inline='centered' />
+                        ) : (
+                          <Button color='orange' icon
+                            title={t('refresh')}
+                            size='mini'
+                            disabled={loading}
+                            onClick={e => this.reload()}>
+                            <Icon name="redo" />
+                          </Button>
+                        ) }
                       </Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
@@ -145,6 +154,7 @@ class UsersList extends Component {
                           <Button.Group>
                             <Button primary icon
                               size='mini'
+                              disabled={loading}
                               as={Link} to={'/system/users/edit/'+user.id}>
                               <Icon name="pencil" />
                             </Button>

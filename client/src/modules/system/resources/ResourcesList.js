@@ -18,6 +18,7 @@ Store.add('sysresourceslist', {
   sysresourceslist: {
     loading: false,
     total: 0,
+    query: '',
     resources: [],
     errors: null
   }
@@ -34,11 +35,12 @@ class ResourcesList extends Component {
     getResources({ query }).then((resources, total) => {
       put({
         loading: false,
+        errors: null,
         resources,
         total
        });
     }).catch(errors => {
-      put({ loading: false, errors });
+      put({ loading: false, errors, resources: [] });
     });
   }
 
@@ -72,7 +74,7 @@ class ResourcesList extends Component {
               list={errors.map(e => t(e.message))}
             /> }
 
-            { !!resources.length && (
+            { resources && (
               <Table size='small'>
                 <Table.Header>
                   <Table.Row>
@@ -85,8 +87,10 @@ class ResourcesList extends Component {
                         onChange={e => this.onSearch(e.target.value)}
                       />
                     </Table.HeaderCell>
-                    <Table.HeaderCell>
-                      { loading ? <Loader active inline='centered' /> : (
+                    <Table.HeaderCell width={1}>
+                      { loading ? (
+                        <Loader size='mini' active inline='centered' />
+                      ) : (
                         <Button color='orange' icon
                           size='mini'
                           title={t('refresh')}
@@ -106,6 +110,7 @@ class ResourcesList extends Component {
                         <Button.Group size='mini'>
                           <Button primary icon
                             size='mini'
+                            disabled={loading}
                             as={Link} to={'/system/resources/edit/'+resource}>
                             <Icon name="list" />
                           </Button>

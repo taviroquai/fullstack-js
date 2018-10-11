@@ -9,35 +9,31 @@ import {
 import { getRoleUsers, updateRoleUser } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 
-import Store, { withStore } from 'react-observable-store';
+/**
+ * Component for user's roles list
+ */
+class RoleUsersList extends Component {
 
-// Global store namespace
-Store.add('sysroleuserslist', {
-  sysroleuserslist: {
+  state = {
     loading: false,
     total: 0,
     roles: [],
     current: [],
     errors: null
   }
-});
-
-// Helpers
-const put = (data) => Store.update('sysroleuserslist', data);
-
-class RoleUsersList extends Component {
 
   reload(user) {
     const variables = { user_id: user.id }
-    put({ loading: true});
+    this.setState({ ...this.state, loading: true});
     getRoleUsers(variables).then(result => {
-      put({
+      this.setState({
+        ...this.state,
         loading: false,
         errors: null,
         roles: result.results
       });
     }).catch(errors => {
-      put({ loading: false, errors });
+      this.setState({ ...this.state, loading: false, errors });
     });
   }
 
@@ -49,17 +45,18 @@ class RoleUsersList extends Component {
 
   toggleRole(role) {
     const { user } = this.props;
-    put({ loading: true});
+    this.setState({ ...this.state, loading: true});
     const variables = { ...role, active: !role.active };
     updateRoleUser(variables).then(() => {
       this.reload(user);
     }).catch(errors => {
-      put({ loading: false, errors });
+      this.setState({ ...this.state, loading: false, errors });
     });
   }
 
   render() {
-    const { loading, user, errors, roles } = this.props;
+    const { loading, errors, roles } = this.state;
+    const { user } = this.props;
     if (!user.id) return null;
     return (
       <NamespacesConsumer ns="translations">
@@ -115,4 +112,4 @@ class RoleUsersList extends Component {
   }
 }
 
-export default withStore('sysroleuserslist', RoleUsersList);
+export default RoleUsersList;

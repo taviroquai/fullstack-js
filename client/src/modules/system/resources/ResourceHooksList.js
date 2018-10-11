@@ -24,11 +24,17 @@ class ResourceHooksList extends Component {
     getResourceHooks(variables).then(result => {
       this.setState({
         ...this.state,
+        errors: null,
         loading: false,
         hooks: result.results
       });
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      this.setState({
+        ...this.state,
+        loading: false,
+        errors,
+        hooks: []
+      });
     });
   }
 
@@ -69,10 +75,10 @@ class ResourceHooksList extends Component {
             <Table celled>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell>{t('id')}</Table.HeaderCell>
+                  <Table.HeaderCell width={1}>{t('id')}</Table.HeaderCell>
                   <Table.HeaderCell>{t('system_keyword')}</Table.HeaderCell>
-                  <Table.HeaderCell>
-                    { loading && <Loader inline active /> }
+                  <Table.HeaderCell width={1}>
+                    { loading && <Loader size='mini' inline active /> }
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>

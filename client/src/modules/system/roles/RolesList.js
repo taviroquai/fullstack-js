@@ -37,11 +37,12 @@ class RolesList extends Component {
     getRoles().then((roles, total) => {
       put({
         loading: false,
+        errors: null,
         roles,
         total
        });
     }).catch(errors => {
-      put({ loading: false, errors });
+      put({ loading: false, errors, roles: [] });
     });
   }
 
@@ -55,6 +56,7 @@ class RolesList extends Component {
               {t('roles')}
 
               <Button floated='right' primary
+                disabled={loading}
                 as={Link} to='/system/roles/edit'>
                 {t('create')}
               </Button>
@@ -65,20 +67,24 @@ class RolesList extends Component {
               list={errors.map(e => t(e.message))}
             /> }
 
-            { loading ? <Loader active inline='centered' /> : (
+            { roles && (
               <Table size='small'>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell>{t('id')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('label')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('system_keyword')}</Table.HeaderCell>
-                    <Table.HeaderCell>
-                      <Button color='orange' icon
-                        title={t('refresh')}
-                        size='mini'
-                        onClick={e => this.reload()}>
-                        <Icon name="redo" />
-                      </Button>
+                    <Table.HeaderCell width={1}>
+                      { loading ? (
+                        <Loader size='mini' active inline='centered' />
+                      ) : (
+                        <Button color='orange' icon
+                          title={t('refresh')}
+                          size='mini'
+                          onClick={e => this.reload()}>
+                          <Icon name="redo" />
+                        </Button>
+                      ) }
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -92,6 +98,7 @@ class RolesList extends Component {
                       <Table.Cell width={1}>
                         <Button.Group size='mini'>
                           <Button primary icon
+                            disabled={loading}
                             as={Link} to={'/roles/edit/'+role.id}>
                             <Icon name="pencil" />
                           </Button>

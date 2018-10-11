@@ -24,11 +24,17 @@ class RoleHooksList extends Component {
     getRoleHooks(variables).then(result => {
       this.setState({
         ...this.state,
+        errors: null,
         loading: false,
         hooks: result.results
       });
     }).catch(errors => {
-      this.setState({ ...this.state, loading: false, errors });
+      this.setState({
+        ...this.state,
+        loading: false,
+        errors,
+        hooks: []
+      });
     });
   }
 
