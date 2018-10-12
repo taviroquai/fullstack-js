@@ -1,6 +1,16 @@
-const jwt = require('jsonwebtoken');
 const User = require('../modules/05_user/User');
-const authSecret = process.env.FSTACK_AUTH_SECRET;
+
+/**
+ * Load user into request if found
+ *
+ * @param {Object} ctx
+ */
+const middleware = async (ctx, next) => {
+  const jwttoken = parseJwtHeader(ctx.request.header);
+  const user = await User.getUserFromJwt(jwttoken);
+  ctx.state['user'] = user;
+  return await next();
+}
 
 /**
  * Parse JWT from HTTP headers
@@ -16,18 +26,6 @@ const parseJwtHeader = (header) => {
     }
   }
   return token;
-}
-
-/**
- * Load user into request if found
- *
- * @param {Object} ctx
- */
-const middleware = async (ctx, next) => {
-  const jwttoken = parseJwtHeader(ctx.request.header);
-  const user = await User.getUserFromJwt(jwttoken);
-  ctx.state['user'] = user;
-  return await next();
 }
 
 module.exports = middleware;
