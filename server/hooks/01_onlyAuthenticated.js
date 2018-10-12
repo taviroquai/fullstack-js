@@ -1,7 +1,8 @@
 const errors = require('../errors.json');
 
 /**
- * Check whether there is a user in state or not
+ * Check whether there is a user in state
+ * or not
  *
  * @param {Object} ctx
  * @param {String} type
