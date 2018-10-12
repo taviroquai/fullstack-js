@@ -1,4 +1,3 @@
-const User = require('../modules/user/User');
 const errors = require('../errors.json');
 
 /**
