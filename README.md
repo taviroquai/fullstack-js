@@ -26,7 +26,7 @@ Role based + Policy based authorization using:
 4. React Semantic UI - CSS framework for React
 5. Backend starter with authorization UI
 
-## Install & Run
+## Install
 ```
 $ cd server
 $ npm install
@@ -34,12 +34,21 @@ $ npm i knex -g
 $ cp .env.example .env # Edit .env with your configuration
 $ knex migrate:latest
 $ knex seed:run
-$ node app.js &
 
-$ cd ../client
+$ cd client
 $ npm install
 $ cp .env.example .env # Edit .env with your configuration
 $ npm run start
 ```
 
+## Build & Deploy & Run
+```
+$ cd server
+$ nohup node app.js &
+$ cd client
+$ npm run build
+$ npm run deploy
+```
 Login with ([look at the code](./server/seeds/02_users.js#L14))
+
+## Tutorial (TODO)

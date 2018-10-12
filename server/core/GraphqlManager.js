@@ -51,8 +51,12 @@ class GraphqlManager {
     let combinedResolvers = {};
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      let modelResolvers = require('../modules/' + m + '/resolvers');
-      combinedResolvers = merge(combinedResolvers, modelResolvers);
+      let filePath = './modules/' + m + '/resolvers.js';
+      let requirePath = '../modules/' + m + '/resolvers';
+      if (fs.existsSync(filePath)) {
+        let modelResolvers = require(requirePath);
+        combinedResolvers = merge(combinedResolvers, modelResolvers);
+      }
     }
     const finalResolvers = {};
     Object.keys(combinedResolvers).map(type => {

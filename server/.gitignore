@@ -1,4 +1,5 @@
 /node_modules
-storage/**/*.*
+/storage/**/*.*
+/public/**/*.*
 .env
 !*.gitkeep
