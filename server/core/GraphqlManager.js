@@ -63,7 +63,14 @@ class GraphqlManager {
       finalResolvers[type] = finalResolvers[type] || {};
       Object.keys(combinedResolvers[type]).map(name => {
         const resolver = combinedResolvers[type][name];
-        finalResolvers[type][name] = GraphqlManager.getResolverWithAuthorization(type, name, resolver);
+
+        // Use authorization
+        console.log(!!process.env.FSTACK_AUTHORIZATION);
+        if (!!process.env.FSTACK_AUTHORIZATION)
+          finalResolvers[type][name] = GraphqlManager.getResolverWithAuthorization(type, name, resolver);
+        else
+          finalResolvers[type][name] = resolver;
+        
       });
     });
 
@@ -83,7 +90,7 @@ class GraphqlManager {
       const resource = type + '.' + name;
       const denied = resource ? await GraphqlManager.getAccessDenied(roles, resource) : false;
       if (process.env.FSTACK_DEBUG) console.log(
-        'Request:',
+        'Authorization:',
         user ? user.username : user,
         roles.map(r => r.role.system).join(','),
         resource,
