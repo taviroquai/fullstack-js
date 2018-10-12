@@ -1,5 +1,3 @@
-const HelloWorld = require('./HelloWorld');
-
 /*
  * Routes loader
  */
