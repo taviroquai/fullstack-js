@@ -1,7 +1,6 @@
 /**
- * Demo class. You probably will want to access your database using models.
- *
- * Look at Objection ORM for how to create models
+ * Demo model.
+ * Look at Objection ORM for how to create models.
  */
 class HelloWorld {
 
