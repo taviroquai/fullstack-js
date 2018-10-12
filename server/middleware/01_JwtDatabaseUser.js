@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../modules/user/User');
+const User = require('../modules/05_user/User');
 const authSecret = process.env.FSTACK_AUTH_SECRET;
 
 /**

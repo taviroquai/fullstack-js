@@ -49,7 +49,8 @@ class ModuleManager {
     const routes = {};
     const modules = ModuleManager.getModulesNames();
     for (let name of modules) {
-      routes[name] = require('../modules/' + name + '/routes');
+      let path = '../modules/' + name + '/routes';
+      if (fs.existsSync(path)) routes[name] = require(path);
     }
     return routes;
   }
@@ -61,8 +62,11 @@ class ModuleManager {
     let combinedResolvers = {};
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      let modelResolvers = require('../modules/' + m + '/resolvers');
-      combinedResolvers = merge(combinedResolvers, modelResolvers);
+      let path = '../modules/' + m + '/resolvers';
+      if (fs.existsSync(path)) {
+        let modelResolvers = require(path);
+        combinedResolvers = merge(combinedResolvers, modelResolvers);
+      }
     }
     let resources = [];
     Object.keys(combinedResolvers).map(type => {
@@ -80,10 +84,11 @@ class ModuleManager {
    */
   static getHooksNames() {
     let hooks = [];
+    const allowedExtensions = ['js'];
     fs.readdirSync('./hooks').forEach(filename => {
       const regex = new RegExp("\.([^/.]+)$", "ig");
       let result = regex.exec(filename);
-      if (result && result[1].toLowerCase() === 'js') {
+      if (result && (allowedExtensions.indexOf(result[1].toLowerCase()) > -1)) {
         hooks.push(filename.replace(/\.[^/.]+$/, ""));
       }
     });

@@ -22,7 +22,8 @@ class Framework {
     this.apolloServer = GraphqlManager.getApolloServer();
     this.router = new Router();
 
-    return {
+    // Protect private props/functions
+    const api = Object.freeze({
       addMiddleware: () => {
         this.addMiddleware();
       },
@@ -32,7 +33,10 @@ class Framework {
       start: () => {
         this.start();
       }
-    }
+    });
+
+    // Only public methods
+    return api;
   }
 
   /**
@@ -62,4 +66,4 @@ class Framework {
   }
 }
 
-module.exports = Framework
+module.exports = Object.freeze(Framework);

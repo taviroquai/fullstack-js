@@ -1,0 +1,2 @@
+
+setHello(name: String!): Hello

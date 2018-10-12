@@ -60,7 +60,7 @@ class User extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const RoleUser = require('../roleuser/RoleUser');
+    const RoleUser = require('../07_roleuser/RoleUser');
     await RoleUser.populateWithUser(this)
   }
 

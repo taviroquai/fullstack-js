@@ -1,0 +1,2 @@
+
+getHello(name: String!): Hello

@@ -26,7 +26,7 @@ class ResourceHook extends Model {
    * Populate with hook
    */
   static async populateWithHook(hook) {
-    const ModuleManager = require('../../ModuleManager');
+    const ModuleManager = require('../..core//ModuleManager');
     const resources = ModuleManager.getResourcesNames();
     const items = [];
     for (let r of resources) items.push({

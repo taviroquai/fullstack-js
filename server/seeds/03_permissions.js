@@ -1,4 +1,4 @@
-const ModuleManager = require('../ModuleManager');
+const ModuleManager = require('../core/ModuleManager');
 const resources = ModuleManager.getResourcesNames();
 
 exports.seed = function(knex, Promise) {
@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
             let permission = {
               resource: resources[j],
               role_id: roles[i].id,
-              access: roles[i].system === 'ANONYMOUS' 
+              access: roles[i].system === 'ANONYMOUS'
                 && (allowed.indexOf(resources[j]) === -1) ? false : true
             };
             permissions.push(permission);

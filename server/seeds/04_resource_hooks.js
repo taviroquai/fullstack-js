@@ -1,4 +1,4 @@
-const ModuleManager = require('../ModuleManager');
+const ModuleManager = require('../core/ModuleManager');
 const resources = ModuleManager.getResourcesNames();
 const hooks = ModuleManager.getHooksNames();
 

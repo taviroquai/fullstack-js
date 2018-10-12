@@ -2,11 +2,11 @@ const fs = require('fs');
 const merge = require('lodash.merge');
 const errors = require('../core/errors.json');
 const ModuleManager = require('../core/ModuleManager');
-const RoleHook = require('../modules/rolehook/RoleHook');
-const RoleUser = require('../modules/roleuser/RoleUser');
+const RoleHook = require('../modules/07_rolehook/RoleHook');
+const RoleUser = require('../modules/06_roleuser/RoleUser');
 const { ApolloServer, gql } = require('apollo-server-koa');
-const Permission = require('../modules/permission/Permission');
-const ResourceHook = require('../modules/resourcehook/ResourceHook');
+const Permission = require('../modules/04_permission/Permission');
+const ResourceHook = require('../modules/02_resourcehook/ResourceHook');
 
 /**
  * Graphql configuration server
@@ -78,7 +78,7 @@ class GraphqlManager {
       const roles = await GraphqlManager.getRolesFromUser(user);
       const resource = type + '.' + name;
       const denied = resource ? await GraphqlManager.getAccessDenied(roles, resource) : false;
-      console.log(
+      if (process.env.FSTACK_DEBUG) console.log(
         'Request:',
         user ? user.username : user,
         roles.map(r => r.role.system).join(','),
@@ -148,7 +148,7 @@ class GraphqlManager {
           .where('hook', k.hook)
           .where('bypass', true)
           .first();
-        console.log('Bypass:', hookType, k.hook, !!bypass);
+        if (process.env.FSTACK_DEBUG) console.log('Bypass:', hookType, k.hook, !!bypass);
         if (!bypass) {
           const hooks = GraphqlManager.loadHooks();
           if (hooks[k.hook]) {
@@ -164,41 +164,39 @@ class GraphqlManager {
    * Composes complete type definitions schema + models
    */
   static getTypeDefs() {
-    let queriesCombined = '';
-    let mutationsCombined = '';
-    let typesCombined = '';
+    let queries = '';
+    let mutations = '';
+    let types = '';
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      queriesCombined += fs.readFileSync('./modules/' + m + '/gql/queries.gql')
+      let filename = './modules/' + m + '/gql/queries.gql';
+      if (fs.existsSync(filename)) queries += fs.readFileSync(filename)
     }
     for (let m of modulesList) {
-      mutationsCombined += fs.readFileSync('./modules/' + m + '/gql/mutations.gql')
+      let filename = './modules/' + m + '/gql/mutations.gql';
+      if (fs.existsSync(filename)) mutations += fs.readFileSync(filename);
     }
     for (let m of modulesList) {
-      typesCombined += fs.readFileSync('./modules/' + m + '/gql/types.gql')
+      let filename = './modules/' + m + '/gql/types.gql';
+      if (fs.existsSync(filename)) types += fs.readFileSync(filename);
     }
-    const t = `
 
-  type Query {
-    ${queriesCombined}
-  }
+    // Combine all Graphql partials in one schema
+    const schema = `
+type Query {
+  ${queries}
+}
 
-  type Mutation {
-    ${mutationsCombined}
-  }
+type Mutation {
+  ${mutations}
+}
 
-  ${typesCombined}`;
+${types}
+`;
 
-    const typeDefs = gql`
-      type Query {
-        ${queriesCombined}
-      }
-      type Mutation {
-        ${mutationsCombined}
-      }
-      ${typesCombined}
-      `;
-    return typeDefs;
+    // Return schema
+    if (process.env.FSTACK_DEBUG) console.log(schema);
+    return gql`${schema}`;
   }
 }
 
