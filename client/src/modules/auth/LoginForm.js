@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { withCookies } from 'react-cookie';
-import { Button, Form, Header, Image, Segment, Message } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Header,
+  Image,
+  Segment,
+  Message,
+  Divider
+} from 'semantic-ui-react';
 import Layout from './Layout';
 import { login } from './actions';
 import logoImg from '../../assets/logo.svg';
@@ -70,8 +78,12 @@ class LoginForm extends Component {
                 /> }
 
                 <Button type="submit" color='teal' fluid size='large'>
-                  Login
+                  {t('login')}
                 </Button>
+
+                <Divider />
+
+                <Link to='/recover'>{t('forgot_password')}</Link>
 
               </Segment>
             </Form>

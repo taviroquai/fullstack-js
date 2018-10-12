@@ -17,3 +17,9 @@ updateUser(
 ): User
 
 uploadAvatar(id: ID!, file: Upload!): File!
+
+resetUserPassword(
+  token: String!
+  password: String!
+  password_confirm: String!
+): Boolean

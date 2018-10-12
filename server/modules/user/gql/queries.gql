@@ -13,3 +13,8 @@ getUsers(
 ): UserList
 
 getUserById(id: ID!): User
+
+recoverUserPassword(
+  email: String!
+  client_url: String!
+): Boolean

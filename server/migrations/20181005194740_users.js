@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
     table.string('password');
     table.string('avatar');
     table.boolean('active').default(false);
+    table.string('resettoken');
   });
 };
 

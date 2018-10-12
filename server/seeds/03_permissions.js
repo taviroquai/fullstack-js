@@ -9,6 +9,11 @@ exports.seed = function(knex, Promise) {
 
       return knex.select('id', 'system').from('roles').then(function(roles) {
 
+        const allowed = [
+          'Query.getAccessToken',
+          'Query.recoverUserPassword',
+          'Mutation.resetUserPassword'
+        ];
         let permissions = [];
         for (let i = 0; i < roles.length; i++) {
           for (let j = 0; j < resources.length; j++) {
@@ -16,7 +21,7 @@ exports.seed = function(knex, Promise) {
               resource: resources[j],
               role_id: roles[i].id,
               access: roles[i].system === 'ANONYMOUS' 
-                && resources[j] !== 'Query.getAccessToken' ? false : true
+                && (allowed.indexOf(resources[j]) === -1) ? false : true
             };
             permissions.push(permission);
           }

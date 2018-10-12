@@ -57,6 +57,22 @@ const resolvers = {
       const user = await User.query().findById(args.id);
       if (!user) throw new Error(errors['010']);
       return user;
+    },
+
+    /**
+     * Start recover password
+     */
+    recoverUserPassword: async (root, args, context) => {
+      const user = await User.query().where('email', args.email).first();
+      if (!user) throw new Error(errors['010']);
+
+      // Set reset token
+      const resettoken = User.createResetToken();
+      await User.query().patch({ resettoken }).where('email', args.email);
+
+      // Send email
+      const result = await User.recoverSendEmail(user, resettoken, args.client_url);
+      return result;
     }
   },
 
@@ -69,9 +85,7 @@ const resolvers = {
       User.validateInputEmail(args);
       User.validateInputPasswords(args);
       const data = User.filterInput(args);
-      const user = await User.query()
-        .insert(data)
-        .returning('id');
+      const user = await User.query().insert(data).returning('id');
       return await User.query().findById(user.id);
     },
 
@@ -82,10 +96,19 @@ const resolvers = {
       User.validateInputEmail(args);
       User.validateInputPasswords(args);
       const data = User.filterInput(args);
-      await User.query()
-        .update(data)
-        .where('id', args.id)
+      await User.query().update(data).where('id', args.id)
       return await User.query().findById(args.id);
+    },
+
+    /**
+     * Reset password
+     */
+    resetUserPassword: async (root, args, context) => {
+      const user = await User.validateResetToken(args);
+      User.validateInputPasswords(args);
+      const data = User.filterInput(args);
+      await User.query().patch(data).where('id', user.id)
+      return true;
     },
 
     /**
