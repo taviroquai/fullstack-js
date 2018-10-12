@@ -70,8 +70,9 @@ const resolvers = {
       const resettoken = User.createResetToken();
       await User.query().patch({ resettoken }).where('email', args.email);
 
-      // Send email
-      const result = await User.recoverSendEmail(user, resettoken, args.client_url);
+      // Send recover email
+      const result = await user.sendRecoverPasswordEmail(args.client_url);
+      if (!result) throw new Error(errors['023']);
       return result;
     }
   },

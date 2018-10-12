@@ -100,7 +100,7 @@ class User extends Model {
 
   /**
    * Validate reset token
-   * @param {Object} input 
+   * @param {Object} input
    */
   static async validateResetToken(input) {
     const user = await User.query().where('resettoken', input.token).first();
@@ -212,75 +212,13 @@ class User extends Model {
    * @param  {String} token       The reset token
    * @param  {String} client_url  The client url
    */
-  static recoverSendEmail(user, token, client_url) {
-
-    // Require dependencies
-    const nodemailer = require('nodemailer');
-    const HtmlEntities = require('html-entities').XmlEntities;
-
-    // Validate template
-    const dest = process.cwd()
-    const folder = dest + '/templates'
-    const filename = folder + '/reset_password.html';
-    if (!fs.existsSync(filename)) {
-        console.log('ERROR: missing template: ' + filename);
-        throw new Error('ERROR: missing template: ' + filename);
-    }
-
-    // Load template
-    let template = fs.readFileSync(filename, 'utf8')
-    let placeholders = {};
-    placeholders.url = client_url + token
-    placeholders.token = token
-
-    // Replace placeholders
-    var regex, emailText, emailHTML
-    for (var key in placeholders) {
-        regex = new RegExp('\\['+key+'\\]', "g")
-        template = template.replace(regex, placeholders[key])
-    }
-
-    // Convert all html entities
-    const entities = new HtmlEntities()
-    emailHTML = entities.decode(template)
-    emailHTML = emailHTML.replace(/\r?\n/g, "<br />")
-    emailText = entities.decode(template).replace(/<\/?[^>]+(>|$)/g, "")
-
-    // create reusable transporter object using the default SMTP transport
-    const transportConfig = {
-      host: process.env.FSTACK_MAIL_HOST,
-      port: parseInt(process.env.FSTACK_MAIL_PORT, 10),
-      tls: {
-        rejectUnauthorized: !!process.env.FSTACK_MAIL_REJECT_UNAUTH
-      },
-      secure: !!process.env.FSTACK_MAIL_SECURE,
-      auth: {
-        user: process.env.FSTACK_MAIL_USER,
-        pass: process.env.FSTACK_MAIL_PASS
-      }
-    };
-    const transporter = nodemailer.createTransport(transportConfig);
-
-    // setup email data with unicode symbols
-    const mailOptions = {
-        from: process.env.FSTACK_MAIL_FROM,
-        to: user.email,
-        subject: process.env.FSTACK_MAIL_RESET_SUBJECT,
-        text: emailText,
-        html: emailHTML
-    };
-
-    // send mail with defined transport object
-    return new Promise((resolve, reject) => {
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          reject();
-          return console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
-        resolve(true);
-      });
-    });
+  async sendRecoverPasswordEmail(client_url) {
+    const EmailClient = require('./EmailClient');
+    const client = new EmailClient();
+    const subject = process.env.FSTACK_MAIL_RESET_SUBJECT;
+    const data = { url: client_url + this.resettoken };
+    const message = client.composeMessage('reset_password.html', data);
+    return await client.send(this.email, message, subject);
   }
 }
 
