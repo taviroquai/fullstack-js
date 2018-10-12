@@ -49,8 +49,9 @@ class ModuleManager {
     const routes = {};
     const modules = ModuleManager.getModulesNames();
     for (let name of modules) {
-      let path = '../modules/' + name + '/routes';
-      if (fs.existsSync(path)) routes[name] = require(path);
+      let filePath = './modules/' + name + '/routes.js';
+      let requirePath = '../modules/' + name + '/routes';
+      if (fs.existsSync(filePath)) routes[name] = require(requirePath);
     }
     return routes;
   }
@@ -62,9 +63,10 @@ class ModuleManager {
     let combinedResolvers = {};
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      let path = '../modules/' + m + '/resolvers';
-      if (fs.existsSync(path)) {
-        let modelResolvers = require(path);
+      let filePath = './modules/' + m + '/resolvers.js';
+      let requirePath = '../modules/' + m + '/resolvers';
+      if (fs.existsSync(filePath)) {
+        let modelResolvers = require(requirePath);
         combinedResolvers = merge(combinedResolvers, modelResolvers);
       }
     }
