@@ -1,5 +1,5 @@
 const User = require('./User');
-const errors = require('../../errors.json');
+const errors = require('../../core/errors.json');
 
 /**
  * Graphql resolvers

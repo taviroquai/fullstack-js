@@ -1,12 +1,12 @@
 const fs = require('fs');
 const merge = require('lodash.merge');
-const errors = require('./errors.json');
-const ModuleManager = require('./ModuleManager');
-const RoleHook = require('./modules/rolehook/RoleHook');
-const RoleUser = require('./modules/roleuser/RoleUser');
+const errors = require('../core/errors.json');
+const ModuleManager = require('../core/ModuleManager');
+const RoleHook = require('../modules/rolehook/RoleHook');
+const RoleUser = require('../modules/roleuser/RoleUser');
 const { ApolloServer, gql } = require('apollo-server-koa');
-const Permission = require('./modules/permission/Permission');
-const ResourceHook = require('./modules/resourcehook/ResourceHook');
+const Permission = require('../modules/permission/Permission');
+const ResourceHook = require('../modules/resourcehook/ResourceHook');
 
 /**
  * Graphql configuration server
@@ -38,7 +38,7 @@ class GraphqlManager {
     const hooksList = ModuleManager.getHooksNames();
     const hooks = {};
     for (let name of hooksList) {
-      hooks[name] = require('./hooks/' + name);
+      hooks[name] = require('../hooks/' + name);
     }
     return hooks;
   }
@@ -51,7 +51,7 @@ class GraphqlManager {
     let combinedResolvers = {};
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      let modelResolvers = require('./modules/' + m + '/resolvers');
+      let modelResolvers = require('../modules/' + m + '/resolvers');
       combinedResolvers = merge(combinedResolvers, modelResolvers);
     }
     const finalResolvers = {};

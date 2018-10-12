@@ -1,7 +1,7 @@
 const Model = require('../Model');
 const Role = require('../role/Role');
 const User = require('../user/User');
-const errors = require('../../errors.json');
+const errors = require('../../core/errors.json');
 
 class RoleUser extends Model {
 

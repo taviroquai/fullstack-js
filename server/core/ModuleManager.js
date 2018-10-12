@@ -25,7 +25,7 @@ class ModuleManager {
     const middlewareList = ModuleManager.getMiddlewareNames();
     const middleware = {};
     for (let name of middlewareList) {
-      middleware[name] = require('./middleware/' + name);
+      middleware[name] = require('../middleware/' + name);
     }
     return middleware;
   }
@@ -49,7 +49,7 @@ class ModuleManager {
     const routes = {};
     const modules = ModuleManager.getModulesNames();
     for (let name of modules) {
-      routes[name] = require('./modules/' + name + '/routes');
+      routes[name] = require('../modules/' + name + '/routes');
     }
     return routes;
   }
@@ -61,7 +61,7 @@ class ModuleManager {
     let combinedResolvers = {};
     const modulesList = ModuleManager.getModulesNames();
     for (let m of modulesList) {
-      let modelResolvers = require('./modules/' + m + '/resolvers');
+      let modelResolvers = require('../modules/' + m + '/resolvers');
       combinedResolvers = merge(combinedResolvers, modelResolvers);
     }
     let resources = [];
