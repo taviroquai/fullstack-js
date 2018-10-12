@@ -60,7 +60,7 @@ class User extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const RoleUser = require('../07_roleuser/RoleUser');
+    const RoleUser = require('../06_roleuser/RoleUser');
     await RoleUser.populateWithUser(this)
   }
 
@@ -103,7 +103,10 @@ class User extends Model {
    * @param {Object} input
    */
   static async validateResetToken(input) {
-    const user = await User.query().where('resettoken', input.token).first();
+    const user = await User.query()
+      .where('resettoken', input.token)
+      .first();
+    console.log(input, user);
     if (!user) throw new Error('ERROR_NOT_FOUND');
     return user;
   }
@@ -193,7 +196,7 @@ class User extends Model {
    * Role relation
    */
   static get relationMappings() {
-    const Role = require('../role/Role');
+    const Role = require('../03_role/Role');
     return {
       role: {
         relation: Model.BelongsToOneRelation,
@@ -213,7 +216,7 @@ class User extends Model {
    * @param  {String} client_url  The client url
    */
   async sendRecoverPasswordEmail(client_url) {
-    const EmailClient = require('./EmailClient');
+    const EmailClient = require('../../core/EmailClient');
     const client = new EmailClient();
     const subject = process.env.FSTACK_MAIL_RESET_SUBJECT;
     const data = { url: client_url + this.resettoken };

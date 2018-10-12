@@ -12,7 +12,8 @@ exports.seed = function(knex, Promise) {
         const allowed = [
           'Query.getAccessToken',
           'Query.recoverUserPassword',
-          'Mutation.resetUserPassword'
+          'Mutation.resetUserPassword',
+          'Query.getHello'
         ];
         let permissions = [];
         for (let i = 0; i < roles.length; i++) {
