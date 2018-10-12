@@ -11,7 +11,7 @@ export default ({ path }) => {
       { modules.map(key => {
         let ModuleItem = Loadable({
           loader: () => import('./modules/' + key + '/' + path),
-          loading: () => <div>Loading...</div>
+          loading: () => null
         });
         return <ModuleItem key={key} />
       }) }

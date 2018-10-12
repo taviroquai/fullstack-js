@@ -6,12 +6,19 @@ import Logout from './Logout';
 import RecoverForm from './RecoverForm';
 import ResetPasswordForm from './ResetPasswordForm';
 
+const loginRedirect = process.env.REACT_APP_LOGIN_REDIRECT;
+const logoutRedirect = process.env.REACT_APP_LOGOUT_REDIRECT;
+
 class Routes extends Component {
   render() {
     return (
       <React.Fragment>
-        <Route exact path="/login" render={(props) => <LoginForm redirect="/" />} />
-        <Route exact path="/logout" render={(props) => <Logout redirect="/login" />} />
+        <Route exact path="/login" render={() =>
+          <LoginForm redirect={loginRedirect} />
+        } />
+        <Route exact path="/logout" render={() =>
+          <Logout redirect={logoutRedirect} />
+        } />
         <Route exact path="/recover" component={RecoverForm} />
         <Route exact path="/reset" component={ResetPasswordForm} />
       </React.Fragment>

@@ -10,7 +10,7 @@ class HelloWorld {
    */
   static async talkTo(name) {
     return new Promise(resolve => {
-      resolve('Hello' + name);
+      resolve(`Hello ${name}!`);
     });
   }
 }

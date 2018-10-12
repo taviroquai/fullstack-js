@@ -1,27 +1,62 @@
 import React, { Component } from 'react';
-import { Header } from 'semantic-ui-react';
-import { NamespacesConsumer } from 'react-i18next';
-import Layout from '../../share/AdminLayoutExample';
+import { Link } from 'react-router-dom';
+import { Grid, Divider } from 'semantic-ui-react';
+import { get } from '../../graphql';
+import { getHello } from './queries.js';
 
-class Dashboard extends Component {
+class Welcome extends Component {
+
+  state = { name: 'Wait...' }
+
+  /**
+   * Use Graphql demo
+   */
+  componentDidMount() {
+    get(getHello, 'getHello', { name: 'FullstackJS' })
+    .then(result => {
+      this.setState(result);
+    })
+  }
+
+  /**
+   * Render our Hello World!
+   */
   render() {
+    const { name } = this.state;
     return (
-      <NamespacesConsumer ns="translations">
-        { (t, { i18n }) => (
-          <Layout>
+      <React.Fragment>
+        <style>{`
+          body, #root, #root > div
+          {
+            height: 100%;
+          }
+        `}</style>
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 766 }}>
 
-            <Header as='h1'>{t('welcome')}</Header>
-            <p>{t('slogan')}</p>
+            <h1>{ name }</h1>
+            <Link to='/demo'>Backoffice</Link>
 
-            <p>{t('visit')} <a href="https://github.com/taviroquai/FullstackJavascriptFramework">Github</a>
-              {' '}{t('for_documentation')}
-            </p>
+            <Divider />
 
-          </Layout>
-        )}
-      </NamespacesConsumer>
+            <p><small><em>
+              SemanticUI &lt;&gt;
+              React &lt;&gt;
+              Apollo Client &lt;&gt;
+              Koa &lt;&gt;
+              Middleware &lt;&gt;
+              Authorization &lt;&gt;
+              ApolloServer &lt;&gt;
+              Module &lt;&gt;
+              ObjectionJS &lt;&gt;
+              Database
+            </em></small></p>
+
+          </Grid.Column>
+        </Grid>
+      </React.Fragment>
     )
   }
 }
 
-export default Dashboard;
+export default Welcome;
