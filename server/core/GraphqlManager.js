@@ -69,43 +69,28 @@ class GraphqlManager {
   }
 
   /**
-   * Composes complete type definitions schema + models
-   * TODO: create cache instead of generate each time
+   * Get graphql schema from cache
    */
   static getTypeDefs() {
-    let queries = '';
-    let mutations = '';
-    let types = '';
-    const modulesList = ModuleManager.getModulesNames();
-    for (let m of modulesList) {
-      let filename = './modules/' + m + '/gql/queries.gql';
-      if (fs.existsSync(filename)) queries += fs.readFileSync(filename)
-    }
-    for (let m of modulesList) {
-      let filename = './modules/' + m + '/gql/mutations.gql';
-      if (fs.existsSync(filename)) mutations += fs.readFileSync(filename);
-    }
-    for (let m of modulesList) {
-      let filename = './modules/' + m + '/gql/types.gql';
-      if (fs.existsSync(filename)) types += fs.readFileSync(filename);
+
+    // Build cache if does not exists
+    const filename = GraphqlManager.getCacheFilename();
+    if (!fs.existsSync(filename)) {
+      const schema = ModuleManager.generateGraphqlSchema();
+      fs.writeFileSync(filename, schema, 'utf-8');
     }
 
-    // Combine all Graphql partials in one schema
-    const schema = `
-type Query {
-  ${queries}
-}
-
-type Mutation {
-  ${mutations}
-}
-
-${types}
-`;
-
-    // Return schema
-    if (process.env.FSTACK_DEBUG) console.log(schema);
+    // Get schema
+    const schema = fs.readFileSync(filename);
     return gql`${schema}`;
+  }
+
+  /**
+   * Get cached filename
+   */
+  static getCacheFilename() {
+    return (process.env.FSTACK_CACHE_PATH || "./cache")
+      + '/schema.gql';
   }
 }
 

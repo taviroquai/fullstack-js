@@ -1,3 +1,5 @@
+// Load enviroment variables
+require('dotenv').config();
 
 // Require framework
 const Framework = require('./core/Framework');

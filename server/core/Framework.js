@@ -1,7 +1,3 @@
-// Load enviroment variables
-require('dotenv').config();
-
-// Require dependencies
 const Koa = require('koa');
 const Router = require('koa-router');
 const ModuleManager = require('./ModuleManager');

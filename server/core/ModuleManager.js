@@ -96,6 +96,45 @@ class ModuleManager {
     });
     return hooks;
   }
+
+  /**
+   * Composes complete type definitions schema from modules
+   */
+  static generateGraphqlSchema() {
+    let queries = '';
+    let mutations = '';
+    let types = '';
+    const modulesList = ModuleManager.getModulesNames();
+    for (let m of modulesList) {
+      let filename = './modules/' + m + '/gql/queries.gql';
+      if (fs.existsSync(filename)) queries += fs.readFileSync(filename)
+    }
+    for (let m of modulesList) {
+      let filename = './modules/' + m + '/gql/mutations.gql';
+      if (fs.existsSync(filename)) mutations += fs.readFileSync(filename);
+    }
+    for (let m of modulesList) {
+      let filename = './modules/' + m + '/gql/types.gql';
+      if (fs.existsSync(filename)) types += fs.readFileSync(filename);
+    }
+
+    // Combine all Graphql partials in one schema
+    const schema = `
+type Query {
+  ${queries}
+}
+
+type Mutation {
+  ${mutations}
+}
+
+${types}
+`;
+
+    // Return schema
+    return schema;
+  }
+
 }
 
 module.exports = ModuleManager;

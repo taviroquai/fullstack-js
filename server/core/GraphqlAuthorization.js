@@ -50,7 +50,7 @@ class GraphqlAuthorization {
    * Get cached filename
    * @param {String} name 
    */
-  static getCacheFile(name) {
+  static getCacheFilename(name) {
     return (process.env.FSTACK_CACHE_PATH || "./cache")
       + '/' + name + '.json';
   }
@@ -64,20 +64,20 @@ class GraphqlAuthorization {
     // Update permissions
     const permissions = await Permission.query()
       .select('role_id', 'resource', 'access');
-    filename = GraphqlAuthorization.getCacheFile('permissions');
+    filename = GraphqlAuthorization.getCacheFilename('permissions');
     fs.writeFileSync(filename, JSON.stringify(permissions, null, 2), 'utf-8');
     
     // Update resource hooks
     const resourcehooks = await ResourceHook.query()
       .select('resource', 'hook', 'active', 'type')
       .orderBy('order');
-    filename = GraphqlAuthorization.getCacheFile('resourcehooks');
+    filename = GraphqlAuthorization.getCacheFilename('resourcehooks');
     fs.writeFileSync(filename, JSON.stringify(resourcehooks, null, 2), 'utf-8');
 
     // Update role hooks
     const rolehooks = await RoleHook.query()
       .select('role_id', 'hook', 'bypass');
-    filename = GraphqlAuthorization.getCacheFile('rolehooks');
+    filename = GraphqlAuthorization.getCacheFilename('rolehooks');
     fs.writeFileSync(filename, JSON.stringify(rolehooks, null, 2), 'utf-8');
   }
 
@@ -106,7 +106,7 @@ class GraphqlAuthorization {
    */
   static async getAccessDenied(roles, resource) {
     const roleIds = roles.map(r => r.role_id);
-    const permissions = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFile('permissions')));
+    const permissions = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFilename('permissions')));
     const access = permissions.reduce((access, p) => {
       if (p.resource === resource && roleIds.indexOf(p.role_id) > -1) {
         access = access && p.access;
@@ -121,7 +121,7 @@ class GraphqlAuthorization {
    */
   static async runHooks(roles, resource, hookType, context, type, name, data) {
     const roleIds = roles.map(r => r.role_id);
-    const rolehooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFile('rolehooks')));
+    const rolehooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFilename('rolehooks')));
     let hooksConfig = GraphqlAuthorization.getResourceHooks(resource, hookType);
     for (let k of hooksConfig) {
 
@@ -142,7 +142,7 @@ class GraphqlAuthorization {
    * @param {String} hookType
    */
   static getResourceHooks(resource, hookType) {
-    let hooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFile('resourcehooks')));
+    let hooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFilename('resourcehooks')));
     hooks = hooks.filter(h => {
       return h.resource === resource && h.active === true && h.type === hookType;
     });
