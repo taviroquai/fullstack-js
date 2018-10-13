@@ -59,7 +59,7 @@ class ResourcesList extends Component {
 
     // Filter by resource
     if (query) {
-      const regex = new RegExp(query, 'ig');
+      const regex = new RegExp(query, 'i');
       filtered = filtered.filter(r => regex.test(r));
     }
 

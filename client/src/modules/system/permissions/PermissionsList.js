@@ -20,7 +20,7 @@ Store.add('syspermissionslist', {
     loading: false,
     total: 0,
     permissions: [],
-    roleFilter: 'Registered',
+    roleFilter: '2',
     resourceFilter: '',
     errors: null
   }
@@ -75,23 +75,19 @@ class PermissionsList extends Component {
     let filtered = permissions;
 
     // Role options
-    const roleOptions = permissions.reduce((acc, i) => {
-      if (acc.indexOf(i.role.label) < 0) acc.push(i.role.label);
-      return acc;
-    }, []).map((opt, i) => ({ key: i, value: opt, text: opt }));
-
-    // Filter by resource
-    if (resourceFilter) {
-      const regex = new RegExp(resourceFilter, 'ig');
-      filtered = filtered.filter(i => regex.test(i.resource));
-    }
+    let roleOptions = this.getRoleOptionsFromPermissions(permissions);
 
     // Filter by role
     if (roleFilter) {
-      const regex = new RegExp(roleFilter, 'ig');
-      filtered = filtered.filter(i => regex.test(i.role.label));
+      filtered = filtered.filter(i => roleFilter === i.role_id);
     }
 
+    // Filter by resource
+    if (resourceFilter) {
+      const regex = new RegExp(resourceFilter, 'i');
+      filtered = filtered.filter(i => regex.test(i.resource));
+    }
+    
     // Render
     return (
       <NamespacesConsumer ns="translations">
@@ -170,6 +166,29 @@ class PermissionsList extends Component {
         )}
       </NamespacesConsumer>
     )
+  }
+
+  /**
+   * Get role options from permissions list
+   * @param {Array} permissions 
+   */
+  getRoleOptionsFromPermissions(permissions) {
+    let roleOptions = {};
+    for (let p of permissions) {
+      if (Object.keys(roleOptions).indexOf(p.role_id === 0)) {
+        roleOptions[p.role_id] = {
+          key: p.role_id,
+          value: p.role_id,
+          text: p.role.label
+        }
+      }
+    }
+    roleOptions = Object.keys(roleOptions).map((id, i) => ({
+      key: i,
+      value: roleOptions[id].value,
+      text: roleOptions[id].text
+    }));
+    return roleOptions;
   }
 }
 
