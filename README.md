@@ -2,7 +2,7 @@
 
 > *"By the power combined I am... FullstackJS"* :boom: :sunglasses:
 
-WARNING: this is an ongoing work. don't use in production yet!
+**WARNING: this is an ongoing work. Don't use in production yet!**
 
 ## Featuring Advanced Authorization for Graphql
 Role based + Policy based authorization using:
@@ -12,21 +12,17 @@ Role based + Policy based authorization using:
 4. Permission - Access (allow/deny) for Role/Resource
 5. Policy (or hook) - IN-code function, allows to compare database attributes for fine-grained permissions
 6. Policy Bypass - Allows to bypass/enforce policies for given roles
-7. Batteries included: React backend UI (Semantic UI) to manage all this!
 
 ## Server
 1. KnexJS - For database connections and migrations
 2. ObjectionJS - ORM
 3. Apollo Server - GraphQL server
 4. Koa - NodeJS web framework
-5. (only tested with PostgreSQL)
 
 ## Client
 1. ReactJS - React app created with CRA
-2. React Router DOM - Managing routing in client side
-3. React Cookie - Handling cookies
-4. React Semantic UI - CSS framework for React
-5. Backend starter with authorization UI
+2. Semantic UI - CSS framework
+3. Batteries included: Backend starter with Authorization Management UI
 
 ## Install
 ```shell
