@@ -1,3 +1,4 @@
+const fs = require('fs');
 const errors = require('../core/errors.json');
 const ModuleManager = require('../core/ModuleManager');
 const RoleHook = require('../modules/07_rolehook/RoleHook');
@@ -46,6 +47,41 @@ class GraphqlAuthorization {
   }
 
   /**
+   * Get cached filename
+   * @param {String} name 
+   */
+  static getCacheFile(name) {
+    return (process.env.FSTACK_CACHE_PATH || "./cache")
+      + '/' + name + '.json';
+  }
+
+  /**
+   * Update authorization cache
+   */
+  static async updateCache() {
+    let filename = '';
+
+    // Update permissions
+    const permissions = await Permission.query()
+      .select('role_id', 'resource', 'access');
+    filename = GraphqlAuthorization.getCacheFile('permissions');
+    fs.writeFileSync(filename, JSON.stringify(permissions, null, 2), 'utf-8');
+    
+    // Update resource hooks
+    const resourcehooks = await ResourceHook.query()
+      .select('resource', 'hook', 'active', 'type')
+      .orderBy('order');
+    filename = GraphqlAuthorization.getCacheFile('resourcehooks');
+    fs.writeFileSync(filename, JSON.stringify(resourcehooks, null, 2), 'utf-8');
+
+    // Update role hooks
+    const rolehooks = await RoleHook.query()
+      .select('role_id', 'hook', 'bypass');
+    filename = GraphqlAuthorization.getCacheFile('rolehooks');
+    fs.writeFileSync(filename, JSON.stringify(rolehooks, null, 2), 'utf-8');
+  }
+
+  /**
    * Get user roles
    */
   static async getRolesFromUser(user) {
@@ -69,55 +105,63 @@ class GraphqlAuthorization {
    * Get access denied
    */
   static async getAccessDenied(roles, resource) {
-    const denied = await Permission
-      .query()
-      .whereIn('role_id', roles.map(r => r.role_id))
-      .where('resource', resource)
-      .where('access', false)
-      .first();
-    return denied;
+    const roleIds = roles.map(r => r.role_id);
+    const permissions = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFile('permissions')));
+    const access = permissions.reduce((access, p) => {
+      if (p.resource === resource && roleIds.indexOf(p.role_id) > -1) {
+        access = access && p.access;
+      }
+      return access;
+    }, true);
+    return !access;
   }
 
   /*
-   * Run before hooks
+   * Run hooks for roles and resource
    */
   static async runHooks(roles, resource, hookType, context, type, name, data) {
-    if (resource) {
-      const before = await ResourceHook.query()
-        .where('resource', resource)
-        .where('active', true)
-        .where('type', hookType)
-        .orderBy('order');
-      for (let k of before) {
+    const roleIds = roles.map(r => r.role_id);
+    const rolehooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFile('rolehooks')));
+    let hooksConfig = GraphqlAuthorization.getResourceHooks(resource, hookType);
+    for (let k of hooksConfig) {
 
-        // Find hooks bypass
-        const bypass = await RoleHook.query()
-          .whereIn('role_id', roles.map(r => r.role_id))
-          .where('hook', k.hook)
-          .where('bypass', true)
-          .first();
-        if (process.env.FSTACK_DEBUG) console.log('Bypass:', hookType, k.hook, !!bypass);
-        if (!bypass) {
-          const hooks = GraphqlAuthorization.loadHooks();
-          if (hooks[k.hook]) {
-            data = await hooks[k.hook](context.ctx, type, name, data);
-          }
-        }
+      // Find role hook bypass
+      const bypass = GraphqlAuthorization.getHookBypass(roleIds, rolehooks, k.hook);
+      if (process.env.FSTACK_DEBUG) console.log('Bypass:', hookType, k.hook, !!bypass);
+      if (!bypass) {
+        const hook = require('../hooks/' + hookType + '/' + k.hook);
+        data = await hook(context.ctx, type, name, data);
       }
     }
     return data;
   }
 
   /**
-   * Load hooks
+   * Get resource hooks
+   * @param {String} resource
+   * @param {String} hookType
    */
-  static loadHooks() {
-    const hooksList = ModuleManager.getHooksNames();
-    const hooks = {};
-    for (let name of hooksList) {
-      hooks[name] = require('../hooks/' + name);
-    }
+  static getResourceHooks(resource, hookType) {
+    let hooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFile('resourcehooks')));
+    hooks = hooks.filter(h => {
+      return h.resource === resource && h.active === true && h.type === hookType;
+    });
     return hooks;
+  }
+
+  /**
+   * Get hook bypass for user roles
+   * @param {Array} roleIds
+   * @param {Array} rolehooks 
+   */
+  static getHookBypass(roleIds, rolehooks, hook) {
+    const bypass = rolehooks.reduce((bypass, h) => {
+      if (h.hook === hook && roleIds.indexOf(h.role_id) > -1) {
+        bypass = bypass && h.bypass;
+      }
+      return bypass;
+    }, true);
+    return bypass;
   }
 }
 

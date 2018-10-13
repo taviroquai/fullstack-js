@@ -1,5 +1,6 @@
 const ModuleManager = require('../core/ModuleManager');
-const hooks = ModuleManager.getHooksNames();
+const hooksBefore = ModuleManager.getHooksNames('before');
+const hooksAfter = ModuleManager.getHooksNames('after');
 
 exports.seed = function(knex, Promise) {
 
@@ -10,11 +11,23 @@ exports.seed = function(knex, Promise) {
       return knex.select('id').from('roles').then(function(roles) {
 
         let items = [];
-        for (let i = 0; i < hooks.length; i++) {
+
+        // Hooks of type before
+        for (let i = 0; i < hooksBefore.length; i++) {
           for (let j = 0; j < roles.length; j++) {
             items.push({
               role_id: roles[j].id,
-              hook: hooks[i]
+              hook: hooksBefore[i]
+            });
+          }
+        }
+
+        // Hooks of type after
+        for (let i = 0; i < hooksAfter.length; i++) {
+          for (let j = 0; j < roles.length; j++) {
+            items.push({
+              role_id: roles[j].id,
+              hook: hooksAfter[i]
             });
           }
         }

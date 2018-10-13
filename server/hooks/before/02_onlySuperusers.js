@@ -1,5 +1,5 @@
-const RoleUser = require('../modules/roleuser/RoleUser');
-const errors = require('../errors.json');
+const RoleUser = require('../../modules/06_roleuser/RoleUser');
+const errors = require('../../core/errors.json');
 
 /**
  * Check whether there is a user in state or not

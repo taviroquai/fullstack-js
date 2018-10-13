@@ -77,6 +77,7 @@ class ResourceHooksList extends Component {
                 <Table.Row>
                   <Table.HeaderCell width={1}>{t('id')}</Table.HeaderCell>
                   <Table.HeaderCell>{t('system_keyword')}</Table.HeaderCell>
+                  <Table.HeaderCell>{t('hook_type')}</Table.HeaderCell>
                   <Table.HeaderCell width={1}>
                     { loading && <Loader size='mini' inline active /> }
                   </Table.HeaderCell>
@@ -88,6 +89,7 @@ class ResourceHooksList extends Component {
                   <Table.Row key={hook.id}>
                     <Table.Cell>{hook.id}</Table.Cell>
                     <Table.Cell>{hook.hook}</Table.Cell>
+                    <Table.Cell>{hook.type}</Table.Cell>
                     <Table.Cell width={1}>
 
                       <Checkbox toggle

@@ -43,8 +43,11 @@ class GraphqlManager {
     const finalResolvers = {};
 
     // Check if authorization is anabled
-    const GraphqlAuthorization = !!process.env.FSTACK_AUTHORIZATION ?
-      require('./GraphqlAuthorization') : null;
+    let GraphqlAuthorization = false;
+    if (!!process.env.FSTACK_AUTHORIZATION) {
+      GraphqlAuthorization = require('./GraphqlAuthorization');
+      GraphqlAuthorization.updateCache();
+    }
 
     // Iterate through module resolvers
     Object.keys(combinedResolvers).map(type => {
@@ -67,6 +70,7 @@ class GraphqlManager {
 
   /**
    * Composes complete type definitions schema + models
+   * TODO: create cache instead of generate each time
    */
   static getTypeDefs() {
     let queries = '';

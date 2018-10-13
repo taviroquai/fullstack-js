@@ -84,10 +84,10 @@ class ModuleManager {
   /**
    * Get hooks names
    */
-  static getHooksNames() {
+  static getHooksNames(type) {
     let hooks = [];
     const allowedExtensions = ['js'];
-    fs.readdirSync('./hooks').forEach(filename => {
+    fs.readdirSync('./hooks/' + type).forEach(filename => {
       const regex = new RegExp("\.([^/.]+)$", "ig");
       let result = regex.exec(filename);
       if (result && (allowedExtensions.indexOf(result[1].toLowerCase()) > -1)) {

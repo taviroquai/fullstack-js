@@ -32,6 +32,7 @@
   "deny": "Deny",
   "allow": "Allow",
   "applied_hooks": "Active Hooks",
+  "hook_type": "Type",
   "deactivate": "Deactivate",
   "activate": "Activate",
   "resource_saved": "Resource saved successfully",

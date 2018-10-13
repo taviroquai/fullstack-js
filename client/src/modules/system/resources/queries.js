@@ -30,6 +30,7 @@ query getResourceHooks(
       hook
       active
       order
+      type
     }
   }
 }`;

@@ -1,6 +1,7 @@
 const ModuleManager = require('../core/ModuleManager');
 const resources = ModuleManager.getResourcesNames();
-const hooks = ModuleManager.getHooksNames();
+const hooksBefore = ModuleManager.getHooksNames('before');
+const hooksAfter = ModuleManager.getHooksNames('after');
 
 exports.seed = function(knex, Promise) {
 
@@ -9,12 +10,27 @@ exports.seed = function(knex, Promise) {
     .then(function () {
 
       let items = [];
-      for (let i = 0; i < hooks.length; i++) {
+
+      // Populate hooks of type before
+      for (let i = 0; i < hooksBefore.length; i++) {
         for (let j = 0; j < resources.length; j++) {
           items.push({
             resource: resources[j],
-            hook: hooks[i],
-            order: i+1
+            hook: hooksBefore[i],
+            order: i+1,
+            type: 'before'
+          });
+        }
+      }
+
+      // Populate hooks of type after
+      for (let i = 0; i < hooksAfter.length; i++) {
+        for (let j = 0; j < resources.length; j++) {
+          items.push({
+            resource: resources[j],
+            hook: hooksAfter[i],
+            order: i+1,
+            type: 'after'
           });
         }
       }
