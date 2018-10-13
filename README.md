@@ -1,5 +1,7 @@
 # Fullstack Javascript Framework
 
+> *"By the power combined I am... FullstackJS"* :boom: :sunglasses:
+
 WARNING: this is an ongoing work. don't use in production yet!
 
 ## Featuring Advanced Authorization for Graphql
@@ -27,7 +29,7 @@ Role based + Policy based authorization using:
 5. Backend starter with authorization UI
 
 ## Install
-```
+```shell
 $ cd server
 $ npm install
 $ npm i knex -g
@@ -42,7 +44,7 @@ $ npm run start
 ```
 
 ## Build & Deploy & Run
-```
+```shell
 $ cd server
 $ nohup node app.js &
 $ cd client
