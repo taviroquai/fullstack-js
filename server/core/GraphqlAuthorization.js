@@ -23,9 +23,9 @@ class GraphqlAuthorization {
       const resource = type + '.' + name;
       const denied = await GraphqlAuthorization.getAccessDenied(roles, resource);
       
-      // Debug authorization message
+      // Debug message
       if (process.env.FSTACK_DEBUG) console.log(
-        'Authorization:',
+        'Authorize?',
         user ? user.username : user,
         roles.map(r => r.role.system).join(','),
         resource,

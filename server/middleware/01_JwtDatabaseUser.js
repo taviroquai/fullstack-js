@@ -18,13 +18,10 @@ const middleware = async (ctx, next) => {
  * @param {Object} header
  */
 const parseJwtHeader = (header) => {
-  let token = '';
-  if (header && header.authorization) {
-    const parts = header.authorization.split(' ');
-    if (parts.length === 2 && parts[0] === 'Bearer') {
-      token = parts[1];
-    }
-  }
+  if (process.env.FSTACK_DEBUG) console.log('Authorization header:', header.authorization);
+  const token = (header.authorization || '')
+    .replace('Bearer', '')
+    .trim();
   return token;
 }
 

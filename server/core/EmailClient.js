@@ -82,11 +82,10 @@ class EmailClient {
     return new Promise((resolve, reject) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          console.log(error);
+          if (process.env.FSTACK_DEBUG) console.log(error);
           return resolve(false);
         }
-        console.log('Message info: ', info);
-        //console.log('Message sent: %s', info.messageId);
+        if (process.env.FSTACK_DEBUG) console.log('Message info: ', info);
         resolve(true);
       });
     });

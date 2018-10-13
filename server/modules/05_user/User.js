@@ -106,7 +106,6 @@ class User extends Model {
     const user = await User.query()
       .where('resettoken', input.token)
       .first();
-    console.log(input, user);
     if (!user) throw new Error('ERROR_NOT_FOUND');
     return user;
   }
