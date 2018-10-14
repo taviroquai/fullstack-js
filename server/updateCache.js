@@ -11,5 +11,8 @@ const schema = ModuleManager.generateGraphqlSchema();
 const filename = GraphqlManager.getCacheFilename();
 fs.writeFileSync(filename, schema, 'utf-8');
 
+// Update resources and hooks cache
+ModuleManager.updateCache();
+
 // Send some acknoledge output
-console.log('Schema cache updated:', filename);
+console.log('Cache updated!');

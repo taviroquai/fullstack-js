@@ -119,9 +119,4 @@ class Authorization {
   }
 }
 
-// Update cache on require
-if (!!process.env.FSTACK_AUTHORIZATION) {
-  Authorization.updateCache();
-}
-
 module.exports = Authorization;

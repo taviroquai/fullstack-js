@@ -61,22 +61,61 @@ class ModuleManager {
    * Get resources names
    */
   static getResourcesNames() {
-    let combinedResolvers = {};
+    const filename = (process.env.FSTACK_CACHE_PATH || "./cache")
+      + '/resources.json';
+    return require('.' + filename);
+  }
+
+  /**
+   * Get cached authorization filename
+   * 
+   * @param {String} name 
+   */
+  static getCacheFilename(name) {
+    return (process.env.FSTACK_CACHE_PATH || "./cache")
+      + '/' + name + '.json';
+  }
+
+  /**
+   * Update cache
+   */
+  static async updateCache() {
+    let filename = '';
+    
+    // Update resources
+    let resources = ModuleManager.generateResourcesNames()
+    filename = ModuleManager.getCacheFilename('resources');
+    fs.writeFileSync(filename, JSON.stringify(resources, null, 2), 'utf-8');
+    
+    // Update hooks cache
+    let hooks = ModuleManager.generateHooksNames('before')
+    filename = ModuleManager.getCacheFilename('hooks_before');
+    fs.writeFileSync(filename, JSON.stringify(hooks, null, 2), 'utf-8');
+    hooks = ModuleManager.generateHooksNames('after')
+    filename = ModuleManager.getCacheFilename('hooks_after');
+    fs.writeFileSync(filename, JSON.stringify(hooks, null, 2), 'utf-8');
+  }
+
+  /**
+   * Get resources names
+   */
+  static generateResourcesNames() {
     const modulesList = ModuleManager.getModulesNames();
+    let resources = [];
+
+    // Get Graphql resources
     for (let m of modulesList) {
       let filePath = './modules/' + m + '/resolvers.js';
       let requirePath = '../modules/' + m + '/resolvers';
       if (fs.existsSync(filePath)) {
-        let modelResolvers = require(requirePath);
-        combinedResolvers = merge(combinedResolvers, modelResolvers);
+        let resolvers = require(requirePath);
+        Object.keys(resolvers).map(type => {
+          Object.keys(resolvers[type]).map(name => {
+            resources.push(type + '.' +name);
+          });
+        });
       }
     }
-    let resources = [];
-    Object.keys(combinedResolvers).map(type => {
-      Object.keys(combinedResolvers[type]).map(name => {
-        resources.push(type + '.' +name);
-      });
-    });
 
     // Get HTTP resources
     const router = new Router();
@@ -103,13 +142,24 @@ class ModuleManager {
    * @param {String} type
    */
   static getHooksNames(type) {
+    const filename = (process.env.FSTACK_CACHE_PATH || "./cache")
+      + '/hooks_' + type + '.json';
+    return require('.' + filename);
+  }
+
+  /**
+   * Generate hooks cache
+   * 
+   * @param {String} type
+   */
+  static generateHooksNames(type) {
     let hooks = [];
     const allowedExtensions = ['js'];
-    fs.readdirSync('./hooks/' + type).forEach(filename => {
+    fs.readdirSync('./hooks/' + type).forEach(f => {
       const regex = new RegExp("\.([^/.]+)$", "ig");
-      let result = regex.exec(filename);
+      let result = regex.exec(f);
       if (result && (allowedExtensions.indexOf(result[1].toLowerCase()) > -1)) {
-        hooks.push(filename.replace(/\.[^/.]+$/, ""));
+        hooks.push(f.replace(/\.[^/.]+$/, ""));
       }
     });
     return hooks;
@@ -152,7 +202,6 @@ ${types}
     // Return schema
     return schema;
   }
-
 }
 
 module.exports = ModuleManager;
