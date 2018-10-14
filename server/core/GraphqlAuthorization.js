@@ -1,26 +1,28 @@
 const fs = require('fs');
 const errors = require('../core/errors.json');
-const ModuleManager = require('../core/ModuleManager');
+const User = require('../modules/user/User');
 const RoleHook = require('../modules/rolehook/RoleHook');
-const RoleUser = require('../modules/roleuser/RoleUser');
 const Permission = require('../modules/permission/Permission');
 const ResourceHook = require('../modules/resourcehook/ResourceHook');
 
 /**
  * Graphql authorization
- * TODO: cache permissions instead of check from database in every request
  */
 class GraphqlAuthorization {
 
-  /*
-   * Inject permissions for resolver
+  /**
+   * Wraps the resolver around authorization resolver
+   * 
+   * @param {String} type 
+   * @param {String} name 
+   * @param {Function} resolver 
    */
   static authorize(type, name, resolver) {
     const fn = async (root, args, context) => {
 
       // Check permissions
       const user = context.ctx.state.user;
-      const roles = await GraphqlAuthorization.getRolesFromUser(user);
+      const roles = await User.getRoles(user);
       const resource = type + '.' + name;
       const denied = await GraphqlAuthorization.getAccessDenied(roles, resource);
       
@@ -47,7 +49,8 @@ class GraphqlAuthorization {
   }
 
   /**
-   * Get cached filename
+   * Get cached authorization filename
+   * 
    * @param {String} name 
    */
   static getCacheFilename(name) {
@@ -56,7 +59,7 @@ class GraphqlAuthorization {
   }
 
   /**
-   * Update authorization cache
+   * Update all authorization cache files
    */
   static async updateCache() {
     let filename = '';
@@ -82,27 +85,10 @@ class GraphqlAuthorization {
   }
 
   /**
-   * Get user roles
-   */
-  static async getRolesFromUser(user) {
-    let roles = [];
-    if (!user) {
-      roles = await RoleUser
-        .query()
-        .eager('role')
-        .where('role_id', '1');
-    } else {
-      roles = await RoleUser
-        .query()
-        .eager('role')
-        .where('user_id', user.id)
-        .where('active', true);
-    }
-    return roles;
-  }
-
-  /*
-   * Get access denied
+   * Resolve resource/roles access
+   * 
+   * @param {Array} roles 
+   * @param {String} resource 
    */
   static async getAccessDenied(roles, resource) {
     const roleIds = roles.map(r => r.role_id);
@@ -116,8 +102,16 @@ class GraphqlAuthorization {
     return !access;
   }
 
-  /*
-   * Run hooks for roles and resource
+  /**
+   * Load hooks and run them
+   * 
+   * @param {Array} roles 
+   * @param {String} resource 
+   * @param {String} hookType 
+   * @param {Object} context 
+   * @param {String} type 
+   * @param {String} name 
+   * @param {Object} data 
    */
   static async runHooks(roles, resource, hookType, context, type, name, data) {
     const roleIds = roles.map(r => r.role_id);
@@ -138,6 +132,7 @@ class GraphqlAuthorization {
 
   /**
    * Get resource hooks
+   * 
    * @param {String} resource
    * @param {String} hookType
    */
@@ -151,6 +146,7 @@ class GraphqlAuthorization {
 
   /**
    * Get hook bypass for user roles
+   * 
    * @param {Array} roleIds
    * @param {Array} rolehooks 
    */

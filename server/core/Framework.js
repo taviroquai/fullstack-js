@@ -9,7 +9,10 @@ const GraphqlManager = require('./GraphqlManager');
 class Framework {
 
   /**
-   * Init services
+   * 
+   * @param {Function} router 
+   * @param {Array} middleware 
+   * @param {Function} apolloServer 
    */
   constructor(router, middleware, apolloServer) {
     this.httpServer = new Koa();
@@ -37,6 +40,7 @@ class Framework {
 
   /**
    * Add middleware
+   * Using lazy loading of services
    */
   addMiddleware() {
     if (!this.middleware) this.middleware = ModuleManager.loadMiddleware();

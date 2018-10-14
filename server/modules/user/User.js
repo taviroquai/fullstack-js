@@ -192,20 +192,26 @@ class User extends Model {
   };
 
   /**
-   * Role relation
+   * Get user's roles from database
+   * 
+   * @param {Object} user 
    */
-  static get relationMappings() {
-    const Role = require('../role/Role');
-    return {
-      role: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: Role,
-        join: {
-          from: 'users.role_id',
-          to: 'roles.id'
-        }
-      }
+  static async getRoles(user) {
+    const RoleUser = require('../roleuser/RoleUser');
+    let roles = [];
+    if (!user) {
+      roles = await RoleUser
+        .query()
+        .eager('role')
+        .where('role_id', '1');
+    } else {
+      roles = await RoleUser
+        .query()
+        .eager('role')
+        .where('user_id', user.id)
+        .where('active', true);
     }
+    return roles;
   }
 
   /**

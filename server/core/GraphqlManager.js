@@ -24,8 +24,8 @@ class GraphqlManager {
   }
 
   /**
-   * Composes complete resolvers object from models and
-   * adds permissions and hooks configuration
+   * Composes complete resolvers object from models
+   * and wraps authorization if set
    */
   static getResolvers() {
     let combinedResolvers = {};

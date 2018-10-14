@@ -82,7 +82,9 @@ class ModuleManager {
   }
 
   /**
-   * Get hooks names
+   * Get hooks filenames
+   * 
+   * @param {String} type
    */
   static getHooksNames(type) {
     let hooks = [];

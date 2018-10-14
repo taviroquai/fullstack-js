@@ -9,7 +9,7 @@ const errors = require('./errors.json');
 class EmailClient {
 
   /**
-   * Create new instance with template
+   * Create new instance
    */
   constructor() {
     this.transportConfig = {
@@ -27,17 +27,13 @@ class EmailClient {
   }
 
   /**
-   * Compose email message
+   * Composes the message boby using a template and data object
+   * 
+   * @param {String} template 
+   * @param {*} data 
    */
-  composeMessage(template, data = {}, attachments = []) {
-
-    // Validate template
-    const templatesPath = process.env.FSTACK_TEMPLATES_PATH;
-    const filename = templatesPath + template;
-    if (!fs.existsSync(filename)) throw new Error(errors["020"]);
-
-    // Compose message
-    let message = fs.readFileSync(filename, 'utf8');
+  composeMessage(template, data = {}) {
+    let message = this.loadTemplate(template);
     for (let key in data) {
         let regex = new RegExp('\\['+key+'\\]', "g")
         message = message.replace(regex, data[key])
@@ -45,9 +41,20 @@ class EmailClient {
     const entities = new HtmlEntities();
     message = entities.decode(message);
     message = message.replace(/\r?\n/g, "<br />"); // Add breack lines
-
-    // Return message
     return message;
+  }
+
+  /**
+   * Validates template name
+   * and returns template file content
+   * 
+   * @param {String} template 
+   */
+  loadTemplate(template) {
+    const templatesPath = process.env.FSTACK_TEMPLATES_PATH;
+    const filename = templatesPath + template;
+    if (!fs.existsSync(filename)) throw new Error(errors["020"]);
+    return fs.readFileSync(filename, 'utf8');
   }
 
   /**
