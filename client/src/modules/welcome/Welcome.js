@@ -6,7 +6,7 @@ import { getHello } from './queries.js';
 
 const stack = [
   'Fullstack Client Module',
-  'React (and Apollo Client)',
+  'React with Router',
   'Koa',
   'Koa Middleware (inc. Apollo Server)',
   'Fullstack Authorization',
@@ -46,7 +46,7 @@ class Welcome extends Component {
             <h1>{ name }</h1>
             <Link to='/demo'>Backoffice</Link>
 
-            <div style={{ maxWidth: '360px', margin: '0 auto' }}>
+            <div style={{ maxWidth: '420px', margin: '0 auto' }}>
 
               <Divider />
 
