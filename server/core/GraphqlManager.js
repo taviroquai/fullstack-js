@@ -42,11 +42,10 @@ class GraphqlManager {
     // Merge all resolvers
     const finalResolvers = {};
 
-    // Check if authorization is anabled
+    // Check if authorization is enabled
     let GraphqlAuthorization = false;
     if (!!process.env.FSTACK_AUTHORIZATION) {
       GraphqlAuthorization = require('./GraphqlAuthorization');
-      GraphqlAuthorization.updateCache();
     }
 
     // Iterate through module resolvers
