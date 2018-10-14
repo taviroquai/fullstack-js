@@ -5,16 +5,14 @@ import { get } from '../../graphql';
 import { getHello } from './queries.js';
 
 const stack = [
-  'Fullstack Module',
+  'Fullstack Client Module',
   'React',
   'Apollo Client',
   'Koa',
-  'Middleware',
-  'Authorization',
-  'ApolloServer',
-  'Fullstack Server Module',
-  'ObjectionJS',
-  'Database'
+  'Koa Middleware',
+  'Apollo Server',
+  'Fullstack Authorization',
+  'Fullstack Server Module'
 ]
 
 class Welcome extends Component {
@@ -55,8 +53,8 @@ class Welcome extends Component {
               <Divider />
 
               <List celled animated verticalAlign='middle'>
-                { stack.map(item => (
-                  <List.Item>
+                { stack.map((item, i) => (
+                  <List.Item key={i}>
                     <Icon name="sort" />
                     <List.Content>
                       <List.Header as='h3'>{ item }</List.Header>
