@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Grid, Divider } from 'semantic-ui-react';
+import { Grid, Divider, List, Icon } from 'semantic-ui-react';
 import { get } from '../../graphql';
 import { getHello } from './queries.js';
+
+const stack = [
+  'Fullstack Module',
+  'React',
+  'Apollo Client',
+  'Koa',
+  'Middleware',
+  'Authorization',
+  'ApolloServer',
+  'Fullstack Server Module',
+  'ObjectionJS',
+  'Database'
+]
 
 class Welcome extends Component {
 
@@ -37,19 +50,24 @@ class Welcome extends Component {
             <h1>{ name }</h1>
             <Link to='/demo'>Backoffice</Link>
 
-            <Divider />
+            <div style={{ maxWidth: '280px', margin: '0 auto' }}>
+
+              <Divider />
+
+              <List celled animated verticalAlign='middle'>
+                { stack.map(item => (
+                  <List.Item>
+                    <Icon name="sort" />
+                    <List.Content>
+                      <List.Header as='h3'>{ item }</List.Header>
+                    </List.Content>
+                  </List.Item>
+                )) }
+              </List>
+            </div>
 
             <p><small><em>
-              SemanticUI &lt;&gt;
-              React &lt;&gt;
-              Apollo Client &lt;&gt;
-              Koa &lt;&gt;
-              Middleware &lt;&gt;
-              Authorization &lt;&gt;
-              ApolloServer &lt;&gt;
-              Module &lt;&gt;
-              ObjectionJS &lt;&gt;
-              Database
+              
             </em></small></p>
 
           </Grid.Column>

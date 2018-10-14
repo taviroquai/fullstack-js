@@ -3,4 +3,5 @@
 /storage/**/*.*
 /public/**/*.*
 .env
+nohup.out
 !*.gitkeep
