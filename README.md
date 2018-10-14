@@ -23,6 +23,7 @@ Role based + Policy based authorization using:
 4. Permission - Access (allow/deny) for Role/Resource
 5. Policy (or hook) - IN-code function, allows to compare database attributes for fine-grained permissions
 6. Policy Bypass - Allows to bypass/enforce policies for given roles
+---
 
 ## Server
 1. KnexJS - For database connections and migrations
@@ -34,6 +35,7 @@ Role based + Policy based authorization using:
 1. ReactJS - React app created with CRA
 2. Semantic UI - CSS framework
 3. Batteries included: Backend starter with Authorization Management UI
+---
 
 ## Install
 ```shell
@@ -58,6 +60,9 @@ $ cd client
 $ npm run build
 $ npm run deploy
 ```
+
 Login with ([look at the code](./server/seeds/02_users.js#L14))
+
+---
 
 ## Tutorial (TODO)
