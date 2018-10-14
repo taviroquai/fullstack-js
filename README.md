@@ -4,7 +4,18 @@
 
 **WARNING: this is an ongoing work. Don't use in production yet!**
 
-## Featuring Advanced Authorization for Graphql
+## Featuring
+
+### Modular architecture
+**Server Module: folder with module name containing**
+1. gql folder with .gql files
+2. resolvers.js (Graphql resolvers)
+3. routes.js (Koa routes)
+
+**Client Module: folder with module name containing:**
+1. Routes.js
+
+### Advanced Authorization for Graphql
 Role based + Policy based authorization using:
 1. User - The authenticated object
 2. Role - Group for permissions and policies
