@@ -58,12 +58,7 @@ class RolesForm extends Component {
     // Save role
     this.setState({ ...this.state, loading: true, success: null });
     saveRole(edit).then(() => {
-      this.setState({
-        ...this.state,
-        loading: false,
-        errors: false,
-        success: 'role_saved_successfully'
-      });
+      this.props.history.push('/system/roles?refresh=1');
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
     });

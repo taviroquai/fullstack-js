@@ -48,8 +48,8 @@ class UsersList extends Component {
   }
 
   componentDidMount() {
-    const { users } = this.props;
-    if (!users.length) this.reload();
+    const { users, match: { search } } = this.props;
+    if (!users.length || /refresh/i.test(search)) this.reload();
   }
 
   reload() {

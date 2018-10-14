@@ -72,12 +72,7 @@ class UsersForm extends Component {
     // Save user
     this.setState({ ...this.state, loading: true, success: null });
     saveUser(edit).then(() => {
-      this.setState({
-        ...this.state,
-        loading: false,
-        errors: false,
-        success: 'user_saved_successfully'
-      });
+      this.props.history.push('/system/users?refresh=1');
     }).catch(errors => {
       this.setState({ ...this.state, loading: false, errors, success: false });
     });

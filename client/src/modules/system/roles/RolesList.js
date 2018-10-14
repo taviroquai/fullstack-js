@@ -28,8 +28,8 @@ const put = (data) => Store.update('sysroleslist', data);
 class RolesList extends Component {
 
   componentDidMount() {
-    const { roles } = this.props;
-    if (!roles.length) this.reload();
+    const { roles, match: { search } } = this.props;
+    if (!roles.length || /refresh/i.test(search)) this.reload();
   }
 
   reload() {
