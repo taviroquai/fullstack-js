@@ -66,4 +66,98 @@ Login with ([look at the code](./server/seeds/02_users.js#L14))
 
 ---
 
-## Tutorial (TODO)
+## Hello World Module Example
+
+**1. Server Module Structure**
+
+/root  
+../modules  
+../../**helloworld**  
+../../../gql  
+../../../../queries.gql  
+../../../../types.gql  
+../../../HelloWorld.js  
+../../../resolvers.js  
+../../../routes.js  
+
+1.1. queries.gql
+```gql
+getHello(name: String!): Hello
+```
+
+1.2. types.gql
+```gql
+type Hello {
+  name: String
+}
+```
+
+At this point, the framework will generate the following **schema.gql** automatically:  
+/cache/schema.gql  
+```gql
+Queries {
+  getHello(name: String!): Hello
+}
+type Hello {
+  name: String
+}
+```
+
+1.3. HelloWorld.js
+```js
+class HelloWorld {
+  static async talkTo(name) {
+    return new Promise(resolve => {
+      resolve(`Hello ${name}!`);
+    });
+  }
+}
+module.exports = HelloWorld;
+```
+
+1.4. resolvers.js
+```js
+const HelloWorld = require('./HelloWorld');
+
+module.exports = {
+  Query: {
+    getHello: async (root, args, context) => {
+      const name = await HelloWorld.talkTo(args.name);
+      return { name };
+    }
+  }
+}
+```
+
+1.5. routes.js
+```js
+module.exports = (app, router) => {
+  router.get('/hello/:name', async (ctx, next) => {
+    ctx.body = 'Hello ' + ctx.params.name;
+  });
+}
+```
+
+
+**2. Client Module Structure**
+/src  
+../modules  
+../../**welcome**  
+../../../Routes.js  
+  
+2.1 Routes.js  
+```jsx
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import Welcome from './Welcome';
+
+class Routes extends Component {
+  render() {
+    return (
+      <Route exact path="/" component={Welcome} />
+    );
+  }
+}
+export default Routes;
+```
+Module routes will be loaded using the Loadable lib
