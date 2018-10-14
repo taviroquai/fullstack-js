@@ -60,7 +60,7 @@ class User extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const RoleUser = require('../06_roleuser/RoleUser');
+    const RoleUser = require('../roleuser/RoleUser');
     await RoleUser.populateWithUser(this)
   }
 
@@ -195,7 +195,7 @@ class User extends Model {
    * Role relation
    */
   static get relationMappings() {
-    const Role = require('../03_role/Role');
+    const Role = require('../role/Role');
     return {
       role: {
         relation: Model.BelongsToOneRelation,

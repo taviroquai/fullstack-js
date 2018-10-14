@@ -1,4 +1,4 @@
-const RoleUser = require('../../modules/06_roleuser/RoleUser');
+const RoleUser = require('../../modules/roleuser/RoleUser');
 const errors = require('../../core/errors.json');
 
 /**

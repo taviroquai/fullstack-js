@@ -1,4 +1,4 @@
-const User = require('../modules/05_user/User');
+const User = require('../modules/user/User');
 
 /**
  * Load user into request if found

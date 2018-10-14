@@ -1,10 +1,10 @@
 const fs = require('fs');
 const errors = require('../core/errors.json');
 const ModuleManager = require('../core/ModuleManager');
-const RoleHook = require('../modules/07_rolehook/RoleHook');
-const RoleUser = require('../modules/06_roleuser/RoleUser');
-const Permission = require('../modules/04_permission/Permission');
-const ResourceHook = require('../modules/02_resourcehook/ResourceHook');
+const RoleHook = require('../modules/rolehook/RoleHook');
+const RoleUser = require('../modules/roleuser/RoleUser');
+const Permission = require('../modules/permission/Permission');
+const ResourceHook = require('../modules/resourcehook/ResourceHook');
 
 /**
  * Graphql authorization

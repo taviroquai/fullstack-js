@@ -1,13 +1,13 @@
 const Model = require('../Model');
-const Role = require('../03_role/Role');
+const Role = require('../role/Role');
 
-class RoleHook extends Model {
+class Permission extends Model {
 
   /**
    * Set database table name
    */
   static get tableName() {
-    return 'role_hooks';
+    return 'permissions';
   }
 
   /**
@@ -16,9 +16,9 @@ class RoleHook extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['role_id', 'hook', 'bypass'],
+      required: ['access'],
       properties: {
-        bypass: { type: 'boolean' }
+        access: { type: 'boolean' }
       }
     }
   };
@@ -32,7 +32,7 @@ class RoleHook extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Role,
         join: {
-          from: 'role_hooks.role_id',
+          from: 'permissions.role_id',
           to: 'roles.id'
         }
       }
@@ -44,15 +44,15 @@ class RoleHook extends Model {
    */
   static async populateWithRole(role) {
     const ModuleManager = require('../../core/ModuleManager');
-    const hooks = ModuleManager.getHooksNames();
+    const resources = ModuleManager.getResourcesNames();
     const items = [];
-    for (let h of hooks) items.push({
+    for (let r of resources) items.push({
+      resource: r,
       role_id: role.id,
-      hook: h,
-      bypass: false
+      access: role.system === 'ANONYMOUS' ? false : true
     });
-    await RoleHook.query().insert(items)
+    await Permission.knex().table('permissions').insert(items);
   }
 }
 
-module.exports = RoleHook;
+module.exports = Permission;
