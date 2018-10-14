@@ -44,9 +44,7 @@ class Framework {
    */
   addMiddleware() {
     if (!this.middleware) this.middleware = ModuleManager.loadMiddleware();
-    for (let name in this.middleware) this.httpServer.use(this.middleware[name]);
-    if (!this.apolloServer) this.apolloServer = GraphqlManager.getApolloServer();
-    this.apolloServer.applyMiddleware({ app: this.httpServer });
+    for (let name in this.middleware) this.middleware[name](this.httpServer);
   }
 
   /**

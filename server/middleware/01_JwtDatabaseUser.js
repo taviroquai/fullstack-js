@@ -13,6 +13,16 @@ const middleware = async (ctx, next) => {
 }
 
 /**
+ * Inversion of control
+ * Apply middleware
+ * 
+ * @param {Object} app The Koa application 
+ */
+const use = (app) => {
+  app.use(middleware);
+}
+
+/**
  * Parse JWT from HTTP headers
  *
  * @param {Object} header
@@ -24,4 +34,4 @@ const parseJwtHeader = (header) => {
   return token;
 }
 
-module.exports = middleware;
+module.exports = use;

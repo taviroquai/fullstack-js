@@ -6,11 +6,9 @@ import { getHello } from './queries.js';
 
 const stack = [
   'Fullstack Client Module',
-  'React',
-  'Apollo Client',
+  'React (and Apollo Client)',
   'Koa',
-  'Koa Middleware',
-  'Apollo Server',
+  'Koa Middleware (inc. Apollo Server)',
   'Fullstack Authorization',
   'Fullstack Server Module'
 ]
@@ -48,7 +46,7 @@ class Welcome extends Component {
             <h1>{ name }</h1>
             <Link to='/demo'>Backoffice</Link>
 
-            <div style={{ maxWidth: '280px', margin: '0 auto' }}>
+            <div style={{ maxWidth: '360px', margin: '0 auto' }}>
 
               <Divider />
 
