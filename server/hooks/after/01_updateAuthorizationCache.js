@@ -8,7 +8,7 @@ const errors = require('../../core/errors.json');
  * @param {String} action
  * @param {Object} data
  */
-const hook = async (ctx, type, action, data) => {
+const hook = async (ctx, resource, data) => {
   GraphqlAuthorization = require('../../core/GraphqlAuthorization');
   GraphqlAuthorization.updateCache();
   return data;

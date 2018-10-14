@@ -1,5 +1,6 @@
 const fs = require('fs');
 const merge = require('lodash.merge');
+const Router = require('koa-router');
 
 /**
  * Module manager
@@ -75,6 +76,21 @@ class ModuleManager {
       Object.keys(combinedResolvers[type]).map(name => {
         resources.push(type + '.' +name);
       });
+    });
+
+    // Get HTTP resources
+    const router = new Router();
+    for (let m of modulesList) {
+      let filePath = './modules/' + m + '/routes.js';
+      let requirePath = '../modules/' + m + '/routes';
+      if (fs.existsSync(filePath)) {
+        let loader = require(requirePath);
+        loader(null, router);
+      }
+    }
+    const { stack } = router.routes().router;
+    stack.map(layer => {
+      resources.push(layer.path);
     });
 
     // Return resources

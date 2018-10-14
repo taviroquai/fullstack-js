@@ -50,11 +50,23 @@ class Framework {
   /**
    * Apply module routes
    */
-  addRoutes() {
+  addRoutes(router = null) {
+    if (router) this.router = router;
     if (!this.router) this.router = new Router();
     const routes = ModuleManager.loadRoutes();
     for (let name in routes) routes[name](this.httpServer, this.router);
-    this.httpServer.use(this.router.routes()).use(this.router.allowedMethods());
+    
+    // Check if authorization is enabled
+    let RouterAuthorization = false;
+    if (!!process.env.FSTACK_AUTHORIZATION) {
+      RouterAuthorization = require('./RouterAuthorization');
+      const authRouter = RouterAuthorization.getRouter(this.router);
+      this.httpServer.use(authRouter.routes())
+        .use(authRouter.allowedMethods());
+    } else {
+      this.httpServer.use(this.router.routes())
+        .use(this.router.allowedMethods());
+    }
   }
 
   /**

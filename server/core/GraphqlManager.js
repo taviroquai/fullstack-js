@@ -53,11 +53,12 @@ class GraphqlManager {
     Object.keys(combinedResolvers).map(type => {
       finalResolvers[type] = finalResolvers[type] || {};
       Object.keys(combinedResolvers[type]).map(name => {
+        const resource = type + '.' + name;
         const resolver = combinedResolvers[type][name];
 
         // Use authorization
         if (GraphqlAuthorization)
-          finalResolvers[type][name] = GraphqlAuthorization.authorize(type, name, resolver);
+          finalResolvers[type][name] = GraphqlAuthorization.authorize(resource, resolver);
         else
           finalResolvers[type][name] = resolver;
         

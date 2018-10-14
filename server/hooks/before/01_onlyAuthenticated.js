@@ -5,11 +5,10 @@ const errors = require('../../core/errors.json');
  * or not
  *
  * @param {Object} ctx
- * @param {String} type
- * @param {String} action
+ * @param {String} resource
  * @param {Object} args
  */
-const hook = async (ctx, type, action, args) => {
+const hook = async (ctx, resource, args) => {
   const { user } = ctx.state;
   if (!user) throw new Error(errors['043']);
   return args;

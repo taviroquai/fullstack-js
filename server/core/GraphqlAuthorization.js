@@ -13,17 +13,15 @@ class GraphqlAuthorization {
   /**
    * Wraps the resolver around authorization resolver
    * 
-   * @param {String} type 
-   * @param {String} name 
+   * @param {String} resource
    * @param {Function} resolver 
    */
-  static authorize(type, name, resolver) {
+  static authorize(resource, resolver) {
     const fn = async (root, args, context) => {
 
       // Check permissions
       const user = context.ctx.state.user;
       const roles = await User.getRoles(user);
-      const resource = type + '.' + name;
       const denied = await GraphqlAuthorization.getAccessDenied(roles, resource);
       
       // Debug message
@@ -40,9 +38,9 @@ class GraphqlAuthorization {
       if (!!denied) throw new Error(errors['001']);
 
       // Wrap hooks in sequence (before and after)
-      args = await GraphqlAuthorization.runHooks(roles, resource, 'before', context, type, name, args);
+      args = await GraphqlAuthorization.runHooks(roles, resource, 'before', context, args);
       let data = await resolver(root, args, context);
-      data = await GraphqlAuthorization.runHooks(roles, resource, 'after', context, type, name, data);
+      data = await GraphqlAuthorization.runHooks(roles, resource, 'after', context, data);
       return data;
     }
     return fn;
@@ -109,11 +107,9 @@ class GraphqlAuthorization {
    * @param {String} resource 
    * @param {String} hookType 
    * @param {Object} context 
-   * @param {String} type 
-   * @param {String} name 
    * @param {Object} data 
    */
-  static async runHooks(roles, resource, hookType, context, type, name, data) {
+  static async runHooks(roles, resource, hookType, context, data) {
     const roleIds = roles.map(r => r.role_id);
     const rolehooks = JSON.parse(fs.readFileSync(GraphqlAuthorization.getCacheFilename('rolehooks')));
     let hooksConfig = GraphqlAuthorization.getResourceHooks(resource, hookType);
@@ -124,7 +120,7 @@ class GraphqlAuthorization {
       if (process.env.FSTACK_DEBUG) console.log('Bypass:', hookType, k.hook, !!bypass);
       if (!bypass) {
         const hook = require('../hooks/' + hookType + '/' + k.hook);
-        data = await hook(context.ctx, type, name, data);
+        data = await hook(context.ctx, resource, data);
       }
     }
     return data;

@@ -9,7 +9,7 @@ const errors = require('../../core/errors.json');
  * @param {String} action
  * @param {Object} args
  */
-const hook = async (ctx, type, action, args) => {
+const hook = async (ctx, resource, args) => {
   const { user } = ctx.state;
 
   // Get superuser roles
