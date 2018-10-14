@@ -15,14 +15,15 @@
 **Client Module: folder with module name containing:**
 1. Routes.js
 
-### Advanced Authorization for Graphql
+### Advanced Authorization
 Role based + Policy based authorization using:
 1. User - The authenticated object
 2. Role - Group for permissions and policies
-3. Resource - Graphql resource (Queries, Mutations, etc...)
+3. Resource - Currently supports Graphql resolver and Koa Router's path
 4. Permission - Access (allow/deny) for Role/Resource
-5. Policy (or hook) - IN-code function, allows to compare database attributes for fine-grained permissions
+5. Policy (or hook) - IN-code function, allows to use input args for fine-grained permissions
 6. Policy Bypass - Allows to bypass/enforce policies for given roles
+7. Cache for faster resolution
 ---
 
 ## Server
