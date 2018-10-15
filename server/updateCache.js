@@ -2,17 +2,21 @@
 require('dotenv').config();
 
 // Require dependencies
-const fs = require('fs');
 const ModuleManager = require('./core/ModuleManager');
+const Authorization = require('./core/Authorization');
 const GraphqlManager = require('./core/GraphqlManager');
 
-// Update schema cache
-const schema = ModuleManager.generateGraphqlSchema();
-const filename = GraphqlManager.getCacheFilename();
-fs.writeFileSync(filename, schema, 'utf-8');
+// Update authorization cache
+const updateCache = async () => {
+  ModuleManager.updateCache();
+  GraphqlManager.updateCache();
+  await Authorization.updateCache();
 
-// Update resources and hooks cache
-ModuleManager.updateCache();
 
-// Send some acknoledge output
-console.log('Cache updated!');
+  // Send some acknoledge output
+  console.log('Cache updated!');
+  process.exit(0);
+}
+
+// Start
+updateCache();

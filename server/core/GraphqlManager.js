@@ -92,6 +92,15 @@ class GraphqlManager {
     return (process.env.FSTACK_CACHE_PATH || "./cache")
       + '/schema.gql';
   }
+
+  /**
+   * Update cache
+   */
+  static updateCache() {
+    const schema = ModuleManager.generateGraphqlSchema();
+    const filename = GraphqlManager.getCacheFilename();
+    fs.writeFileSync(filename, schema, 'utf-8');
+  }
 }
 
 module.exports = GraphqlManager;
