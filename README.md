@@ -45,8 +45,8 @@ $ npm install
 $ npm i knex -g
 $ cp .env.example .env # Edit .env with your configuration
 $ knex migrate:latest
-$ knex seed:run
 $ node updateCache.js
+$ knex seed:run
 
 $ cd client
 $ npm install
@@ -145,7 +145,7 @@ module.exports = (app, router) => {
 ../modules  
 ../../**welcome**  
 ../../../Routes.js  
-  
+
 2.1 Routes.js  
 ```jsx
 import React, { Component } from 'react';

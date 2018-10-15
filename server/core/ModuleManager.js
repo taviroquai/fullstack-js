@@ -68,8 +68,8 @@ class ModuleManager {
 
   /**
    * Get cached authorization filename
-   * 
-   * @param {String} name 
+   *
+   * @param {String} name
    */
   static getCacheFilename(name) {
     return (process.env.FSTACK_CACHE_PATH || "./cache")
@@ -79,14 +79,14 @@ class ModuleManager {
   /**
    * Update cache
    */
-  static async updateCache() {
+  static updateCache() {
     let filename = '';
-    
+
     // Update resources
     let resources = ModuleManager.generateResourcesNames()
     filename = ModuleManager.getCacheFilename('resources');
     fs.writeFileSync(filename, JSON.stringify(resources, null, 2), 'utf-8');
-    
+
     // Update hooks cache
     let hooks = ModuleManager.generateHooksNames('before')
     filename = ModuleManager.getCacheFilename('hooks_before');
@@ -138,7 +138,7 @@ class ModuleManager {
 
   /**
    * Get hooks filenames
-   * 
+   *
    * @param {String} type
    */
   static getHooksNames(type) {
@@ -149,7 +149,7 @@ class ModuleManager {
 
   /**
    * Generate hooks cache
-   * 
+   *
    * @param {String} type
    */
   static generateHooksNames(type) {
