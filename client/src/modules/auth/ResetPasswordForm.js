@@ -106,7 +106,7 @@ class ResetPasswordForm extends Component {
 
                 <Divider />
 
-                <Link to='/login'>{t('cancel')}</Link>
+                <Link to='/auth/login'>{t('cancel')}</Link>
 
               </Segment>
             </Form>

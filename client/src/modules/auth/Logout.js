@@ -7,7 +7,7 @@ class Logout extends Component {
 
   componentDidMount() {
     let { redirect, history } = this.props;
-    redirect = redirect || '/login';
+    redirect = redirect || '/auth/login';
     setTimeout(() => {
       logout(history, redirect);
     }, 1000);

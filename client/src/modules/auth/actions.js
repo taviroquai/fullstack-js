@@ -11,7 +11,7 @@ export const recover = (email) => {
     const { protocol, hostname, port } = window.location;
     const client_url = protocol + '//' 
       + hostname + ( port ? ':' + port : '')
-      + '/#/reset?token=';
+      + '/#/auth/reset?token=';
     const variables = {
       email,
       client_url

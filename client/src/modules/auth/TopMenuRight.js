@@ -13,12 +13,15 @@ class TopMenuItem extends Component {
           <React.Fragment>
 
             { !user ? (
-              <Button as={Link} to='/login'>{t('login')}</Button>
+              <Button as={Link} to='/auth/login'>{t('login')}</Button>
             ) : (
 
               <Dropdown item simple text={user.username}>
                 <Dropdown.Menu>
-                  <Dropdown.Item as={Link} to='/logout'>
+                  <Dropdown.Item as={Link} to='/auth/profile'>
+                    {t('my_profile')}
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/auth/logout'>
                     {t('logout')}
                   </Dropdown.Item>
                 </Dropdown.Menu>

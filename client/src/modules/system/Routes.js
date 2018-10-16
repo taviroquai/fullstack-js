@@ -14,7 +14,7 @@ import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
 class ProtectedRoutes extends Component {
   render() {
     return (
-      <RedirectNotAuthenticated to='/login'>
+      <RedirectNotAuthenticated to='/auth/login'>
         <Route exact path="/system/users" component={UsersList} />
         <Route path="/system/users/edit/:id?" component={UsersForm} />
         <Route exact path="/system/roles" component={RolesList} />

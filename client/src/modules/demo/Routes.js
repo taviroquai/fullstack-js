@@ -6,7 +6,7 @@ import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
 class ProtectedComponent extends Component {
   render() {
     return (
-      <RedirectNotAuthenticated to='/login'>
+      <RedirectNotAuthenticated to='/auth/login'>
         <Demo />
       </RedirectNotAuthenticated>
     );

@@ -111,7 +111,7 @@ class ResourcesList extends Component {
                           <Button primary icon
                             size='mini'
                             disabled={loading}
-                            as={Link} to={'/system/resources/edit/'+resource}>
+                            as={Link} to={'/system/resources/edit/'+encodeURIComponent(resource)}>
                             <Icon name="list" />
                           </Button>
                         </Button.Group>

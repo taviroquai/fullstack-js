@@ -18,7 +18,7 @@ class ResourcesForm extends Component {
     if (!params.id) return;
 
     // Load Resource
-    this.setState({ ...this.state, loading: false, edit: params.id });
+    this.setState({ ...this.state, loading: false, edit: decodeURIComponent(params.id) });
   }
 
   render() {
