@@ -1,20 +1,12 @@
 import React from 'react';
-import Loadable from 'react-loadable';
+import ModuleLoaders from './modules/loaders';
 
-// Get routes from environment (.env file)
-const modules = process.env.REACT_APP_MODULES ?
-  process.env.REACT_APP_MODULES.split(',') : [];
+const loaderName = process.env.REACT_APP_MODULES_LOADER;
 
-export default ({ path }) => {
-  return (
-    <React.Fragment>
-      { modules.map(key => {
-        let ModuleItem = Loadable({
-          loader: () => import('./modules/' + key + '/' + path),
-          loading: () => null
-        });
-        return <ModuleItem key={key} />
-      }) }
-    </React.Fragment>
-  )
+// Get ModuleLoader from environment (.env file)
+const ModuleLoader = (path) => {
+  const ModuleLoader = ModuleLoaders[loaderName];
+  return <ModuleLoader path={path} />
 }
+
+export default ModuleLoader;

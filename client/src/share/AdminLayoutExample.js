@@ -24,9 +24,9 @@ class Layout extends Component {
                 <span className="desk-only">{t('brand')}</span>
                 </Menu.Item>
 
-                <ModuleLoader path="TopMenuLeft" />
+                { ModuleLoader("TopMenuLeft") }
                 <Menu.Item position='right'>
-                  <ModuleLoader path="TopMenuRight" />
+                  { ModuleLoader("TopMenuRight") }
                 </Menu.Item>
 
               </Container>

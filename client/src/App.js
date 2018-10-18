@@ -14,7 +14,7 @@ class App extends Component {
           <Switch>
             <React.Fragment>
 
-              <ModuleLoader path="Routes" />
+              { ModuleLoader('Routes') }
 
             </React.Fragment>
           </Switch>
