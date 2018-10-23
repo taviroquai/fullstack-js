@@ -148,9 +148,11 @@ class User extends Model {
    * @param {String} filename
    */
   static storeAvatar(id, stream, filename) {
-    const uploadDir = storagePath + '/users/avatar';
+    let uploadDir = User.getStoragePath(id);
     if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-    const path = `${uploadDir}/${filename}`
+    uploadDir = uploadDir + '/avatar';
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+    const path = User.getAvatarPath(id, filename);
     return new Promise((resolve, reject) =>
       stream.on('error', error => {
           if (stream.truncated) fs.unlinkSync(path)
@@ -163,13 +165,22 @@ class User extends Model {
   }
 
   /**
+   * Get storage path
+   *
+   * @param {Number} id
+   */
+  static getStoragePath(id) {
+    return storagePath + '/users/' + id;
+  }
+
+  /**
    * Get avatar full filename
    *
    * @param {Number} id
    * @param {String} filename
    */
   static getAvatarPath(id, filename) {
-    const dir = storagePath + '/users/avatar';
+    const dir = User.getStoragePath(id) + '/avatar';
     const path = `${dir}/${filename}`;
     return path;
   }
@@ -193,8 +204,8 @@ class User extends Model {
 
   /**
    * Get user's roles from database
-   * 
-   * @param {Object} user 
+   *
+   * @param {Object} user
    */
   static async getRoles(user) {
     const RoleUser = require('../roleuser/RoleUser');

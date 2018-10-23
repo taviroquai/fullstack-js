@@ -1,4 +1,4 @@
-const RoleUser = require('../../modules/roleuser/RoleUser');
+const UserModel = require('../../modules/user/User');
 const errors = require('../../core/errors.json');
 
 /**
@@ -11,7 +11,8 @@ const errors = require('../../core/errors.json');
  */
 const hook = async (ctx, resource, args) => {
   const { user } = ctx.state;
-  if (user && (user.id !== parseInt(args.id, 10))) throw new Error(errors['001']);
+  const owner = await UserModel.query().findOne({ id: args.id });
+  if (user && owner && (user.id !== owner.id)) throw new Error(errors['001']);
   return args;
 }
 
