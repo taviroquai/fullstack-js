@@ -9,16 +9,14 @@ const GraphqlManager = require('./GraphqlManager');
 class Framework {
 
   /**
-   * 
-   * @param {Function} router 
-   * @param {Array} middleware 
-   * @param {Function} apolloServer 
+   *
+   * @param {Function} router
+   * @param {Array} middleware
    */
-  constructor(router, middleware, apolloServer) {
+  constructor(router, middleware) {
     this.httpServer = new Koa();
     this.port = parseInt(process.env.FSTACK_HTTP_PORT || 4000, 10);
     this.middleware = middleware;
-    this.apolloServer = apolloServer;
     this.router = router;
 
     // Protect private props/functions
@@ -55,7 +53,7 @@ class Framework {
     if (!this.router) this.router = new Router();
     const routes = ModuleManager.loadRoutes();
     for (let name in routes) routes[name](this.httpServer, this.router);
-    
+
     // Check if authorization is enabled
     let RouterAuthorization = false;
     if (!!process.env.FSTACK_AUTHORIZATION) {
