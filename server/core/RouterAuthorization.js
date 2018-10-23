@@ -10,8 +10,8 @@ class RouterAuthorization {
 
   /**
    * Creates an authorization router and adds nested modules routes
-   * 
-   * @param {Object} modulesRouter 
+   *
+   * @param {Object} modulesRouter
    */
   static getRouter(modulesRouter) {
     const router = new Router();
@@ -21,7 +21,7 @@ class RouterAuthorization {
         try {
           await RouterAuthorization.authorize(ctx, layer.path, next);
         } catch (error) {
-          if (error === 'ERROR_ACCESS_DENIED') {
+          if (error.message === 'ERROR_ACCESS_DENIED') {
             ctx.status = 401;
           } else {
             throw error;
@@ -35,10 +35,10 @@ class RouterAuthorization {
 
   /**
    * Wraps the next around authorization resolver
-   * 
-   * @param {String} type 
-   * @param {String} name 
-   * @param {Function} resolver 
+   *
+   * @param {String} type
+   * @param {String} name
+   * @param {Function} resolver
    */
   static async authorize(ctx, resource, next) {
 
@@ -46,7 +46,7 @@ class RouterAuthorization {
     const user = ctx.state.user;
     const roles = await User.getRoles(user);
     const denied = await Authorization.getAccessDenied(roles, resource);
-    
+
     // Debug message
     if (process.env.FSTACK_DEBUG) console.log(
       'Authorize?',
