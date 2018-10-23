@@ -21,7 +21,7 @@ class Layout extends Component {
                     src={logoImg}
                     style={{ marginRight: '1.5em' }}
                   />
-                <span className="desk-only">{t('brand')}</span>
+                  <span className="desk-only">{t('brand')}</span>
                 </Menu.Item>
 
                 { ModuleLoader("TopMenuLeft") }

@@ -10,7 +10,7 @@ export default ({ path }) => {
     <React.Fragment>
       { modules.map(key => {
         let ModuleItem = Loadable({
-          loader: () => import('../' + key + '/' + path),
+          loader: () => import('../modules/' + key + '/' + path),
           loading: () => null
         });
         return <ModuleItem key={key} />

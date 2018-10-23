@@ -1,5 +1,5 @@
 import React from 'react';
-import ModuleLoaders from './modules/loaders';
+import ModuleLoaders from './loaders';
 
 const loaderName = process.env.REACT_APP_MODULES_LOADER;
 

@@ -9,3 +9,5 @@ const store = {
 }
 
 Store.init(store);
+
+export default Store;

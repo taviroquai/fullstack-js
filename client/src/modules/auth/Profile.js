@@ -10,6 +10,7 @@ import {
   Image
 } from 'semantic-ui-react';
 import Layout from './Layout';
+import { getUserFromCookie } from '../auth/actions';
 import { getUserById, saveUser, uploadAvatar } from '../system/users/actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../share/Objection';
@@ -27,7 +28,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
+    const user = getUserFromCookie();
     if (!user) return null;
 
     // Load user
