@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { Dropdown, Icon, Loader } from 'semantic-ui-react';
+import { allowed } from './Authorization';
+import Store, { withStore } from 'react-observable-store';
+import { load as loadAuth } from './Authorization';
 
 class TopMenuItem extends Component {
 
+  componentDidMount() {
+    if (this.props.authorization) return;
+
+    // Load authorization
+    loadAuth().then(data => {
+      Store.set('system.authorization', data);
+    });
+  }
+
   render() {
+    const { authorization } = this.props;
+    if (!authorization) return <Loader size='mini' active inline />;
     return (
       <React.Fragment>
 
@@ -15,10 +29,23 @@ class TopMenuItem extends Component {
             </React.Fragment>
           )}>
           <Dropdown.Menu>
-            <Dropdown.Item as={Link} to='/system/users'>Users</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/system/roles'>Roles</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/system/permissions'>Permissions</Dropdown.Item>
-            <Dropdown.Item as={Link} to='/system/resources'>Resources</Dropdown.Item>
+
+            { allowed('Query.getUsers') && (
+              <Dropdown.Item as={Link} to='/system/users'>Users</Dropdown.Item>
+            )}
+
+            { allowed('Query.getRoles') && (
+              <Dropdown.Item as={Link} to='/system/roles'>Roles</Dropdown.Item>
+            )}
+
+            { allowed('Query.getPermissions') && (
+              <Dropdown.Item as={Link} to='/system/permissions'>Permissions</Dropdown.Item>
+            )}
+
+            { allowed('Query.getResources') && (
+              <Dropdown.Item as={Link} to='/system/resources'>Resources</Dropdown.Item>
+            )}
+
           </Dropdown.Menu>
         </Dropdown>
 
@@ -27,4 +54,4 @@ class TopMenuItem extends Component {
   }
 }
 
-export default TopMenuItem;
+export default withStore('system', TopMenuItem);

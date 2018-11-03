@@ -9,6 +9,9 @@ query getAccessToken($email: String!, $password: String!) {
         authtoken
         active
         avatar
+        roles {
+            role_id
+        }
     }
 }`;
 

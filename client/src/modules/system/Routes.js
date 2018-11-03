@@ -8,8 +8,14 @@ import RolesForm from './roles/RolesForm';
 import ResourcesList from './resources/ResourcesList';
 import ResourcesForm from './resources/ResourcesForm';
 import PermissionsList from './permissions/PermissionsList';
-
 import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
+import Store from 'react-observable-store';
+
+Store.add('system', {
+  system: {
+    authorization: null
+  }
+});
 
 class ProtectedRoutes extends Component {
   render() {

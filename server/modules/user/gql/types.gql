@@ -11,7 +11,7 @@ type User {
   authtoken: String
   active: Boolean
   avatar: String
-  role_id: ID
+  roles: [RoleUser]
 }
 
 type File {
