@@ -82,6 +82,21 @@ export const login = (email, password, history, redirect) => {
 }
 
 /**
+ * Remember redirect
+ *
+ * @param {String} email
+ * @param {String} password
+ */
+export const remember = (path) => {
+  const cookies = new Cookies();
+  if (!path) return cookies.get('redirect');
+  const options = {
+    maxAge: parseInt(process.env.REACT_APP_AUTH_EXPIRES, 10)
+  };
+  cookies.set('redirect', path, options);
+}
+
+/**
  * Validate cookie
  */
 export const validateCookie = () => {

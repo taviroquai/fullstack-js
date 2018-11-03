@@ -47,6 +47,7 @@ $ cp .env.example .env # Edit .env with your configuration
 $ knex migrate:latest
 $ node updateCache.js
 $ knex seed:run
+$ node updateCache.js
 
 $ cd client
 $ npm install

@@ -11,7 +11,7 @@ import {
   Divider
 } from 'semantic-ui-react';
 import Layout from './Layout';
-import { login } from './actions';
+import { login, remember } from './actions';
 import logoImg from '../../assets/logo.svg';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
@@ -31,6 +31,7 @@ class LoginForm extends Component {
     // Login
     login(email.value, password.value).then(user => {
       Store.update('app', { loading: false, user });
+      if (remember()) return history.push(remember()); 
       history.push(redirect);
     })
 
