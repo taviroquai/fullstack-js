@@ -1,12 +1,15 @@
 import React from 'react';
 import ModuleLoaders from './loaders';
 
+// Validate module loader
 const loaderName = process.env.REACT_APP_MODULES_LOADER;
+if (!loaderName) throw new Error('Missing .env var: REACT_APP_MODULES_LOADER');
+const Loader = ModuleLoaders[loaderName];
+if (!Loader) throw new Error('Module loader not found: ' + loaderName);
 
-// Get ModuleLoader from environment (.env file)
+// Get loader from environment (.env file)
 const ModuleLoader = (path) => {
-  const ModuleLoader = ModuleLoaders[loaderName];
-  return <ModuleLoader path={path} />
+  return <Loader path={path} />
 }
 
 export default ModuleLoader;
