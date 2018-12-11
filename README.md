@@ -38,24 +38,42 @@ Role based + Policy based authorization using:
 3. Batteries included: Backend starter with Authorization Management UI
 ---
 
-## Install
+## Install Server
 ```shell
 $ cd server
 $ npm install
 $ npm i knex -g
 $ cp .env.example .env # Edit .env with your configuration
 $ knex migrate:latest
+$ mkdir cache
 $ node updateCache.js
 $ knex seed:run
 $ node updateCache.js
+```
 
+## Start Server
+```shell
+$ node app.js &
+```
+Open in browser http://localhost:4000/graphql  
+Enter query and run:
+```gql
+query getHello { getHello(name: "world") { name } }
+```
+
+## Install Client
+```shell
 $ cd client
 $ npm install
 $ cp .env.example .env # Edit .env with your configuration
+```
+
+## Test Client
+```shell
 $ npm run start
 ```
 
-## Build & Deploy & Run
+## Build & Deploy Client on Server
 ```shell
 $ cd server
 $ nohup node app.js &
@@ -64,7 +82,9 @@ $ npm run build
 $ npm run deploy
 ```
 
-Login with ([look at the code](./server/seeds/02_users.js#L14))
+## Open Application
+Open http://localhost:4000  
+Login with ([look at the code](./server/seeds/02_users.js#L14))  
 
 ---
 
