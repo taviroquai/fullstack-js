@@ -44,8 +44,20 @@ class RoleHook extends Model {
    */
   static async populateWithRole(role) {
     const ModuleManager = require('../../core/ModuleManager');
-    const hooks = ModuleManager.getHooksNames();
-    const items = [];
+
+    // Populate hooks of type before
+    let hooks = ModuleManager.getHooksNames('before');
+    let items = [];
+    for (let h of hooks) items.push({
+      role_id: role.id,
+      hook: h,
+      bypass: false
+    });
+    await RoleHook.query().insert(items)
+
+    // Populate hooks of type after
+    hooks = ModuleManager.getHooksNames('after');
+    items = [];
     for (let h of hooks) items.push({
       role_id: role.id,
       hook: h,
