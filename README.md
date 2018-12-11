@@ -73,16 +73,12 @@ $ cp .env.example .env # Edit .env with your configuration
 $ npm run start
 ```
 
-## Build & Deploy Client on Server
+## Build, Deploy Client on Server and Open Application
 ```shell
-$ cd server
-$ nohup node app.js &
 $ cd client
 $ npm run build
 $ npm run deploy
 ```
-
-## Open Application
 Open http://localhost:4000  
 Login with ([look at the code](./server/seeds/02_users.js#L14))  
 
