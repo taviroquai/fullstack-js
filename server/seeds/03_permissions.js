@@ -14,6 +14,7 @@ exports.seed = function(knex, Promise) {
           'Query.recoverUserPassword',
           'Mutation.resetUserPassword',
           'Query.getHello',
+          '/authorization',
           '/hello/:name',
           '/avatar/:id/:filename'
         ];
