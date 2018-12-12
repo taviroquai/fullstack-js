@@ -13,6 +13,7 @@ import RoleHooksList from './RoleHooksList';
 import { getRoleById, saveRole } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 class RolesForm extends Component {
 
@@ -151,4 +152,15 @@ class RolesForm extends Component {
   }
 }
 
-export default withRouter(RolesForm);
+const RolesFormWithDeps = withRouter(RolesForm);
+class ProtectedRolesForm extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <RolesFormWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedRolesForm;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   Header,
   Table,
@@ -12,6 +12,7 @@ import Layout from '../../../share/AdminLayoutExample';
 import { getRoles } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 Store.add('sysroleslist', {
   sysroleslist: {
@@ -122,4 +123,15 @@ class RolesList extends Component {
   }
 }
 
-export default withStore('sysroleslist', RolesList);
+const RolesListWithDeps = withRouter(withStore('sysroleslist', RolesList));
+class ProtectedRolesList extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <RolesListWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedRolesList;

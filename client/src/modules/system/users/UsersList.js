@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 import {
   Header,
@@ -16,6 +16,7 @@ import Layout from '../../../share/AdminLayoutExample';
 import { getUsers } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 Store.add('sysuserslist', {
   sysuserslist: {
@@ -188,4 +189,15 @@ class UsersList extends Component {
   }
 }
 
-export default withStore('sysuserslist', UsersList);
+const UsersListWithDeps = withRouter(withStore('sysuserslist', UsersList));
+class ProtectedUsersList extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <UsersListWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedUsersList;

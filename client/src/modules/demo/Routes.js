@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Demo from './Demo';
-import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
-
-class ProtectedComponent extends Component {
-  render() {
-    return (
-      <RedirectNotAuthenticated to='/auth/login'>
-        <Demo />
-      </RedirectNotAuthenticated>
-    );
-  }
-}
 
 class Routes extends Component {
   render() {
     return (
-      <Route exact path="/demo" component={ProtectedComponent} />
+      <Route exact path="/demo" component={Demo} />
     );
   }
 }

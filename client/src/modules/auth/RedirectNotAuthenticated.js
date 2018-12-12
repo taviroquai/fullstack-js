@@ -8,7 +8,6 @@ class RedirectNotAuthenticated extends Component {
     const current = history.location.pathname;
     const user = getUserFromCookie();
     if (user) return children;
-    if (to === current) return null;
     remember(current);
     return <Redirect to={to} />;
   }

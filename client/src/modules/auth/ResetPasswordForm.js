@@ -13,6 +13,7 @@ import Layout from './Layout';
 import { resetUserPassword } from './actions';
 import logoImg from '../../assets/logo.svg';
 import { NamespacesConsumer } from 'react-i18next';
+import RedirectAuthenticated from './RedirectAuthenticated';
 
 class ResetPasswordForm extends Component {
 
@@ -117,4 +118,18 @@ class ResetPasswordForm extends Component {
   }
 }
 
-export default withRouter(ResetPasswordForm);
+const ResetPasswordFormWithDeps = withRouter(ResetPasswordForm);
+
+const loginRedirect = process.env.REACT_APP_LOGIN_REDIRECT;
+
+class SecuredResetPasswordForm extends Component {
+  render() {
+    return (
+      <RedirectAuthenticated to={loginRedirect}>
+        <ResetPasswordFormWithDeps />
+      </RedirectAuthenticated>
+    )
+  }
+}
+
+export default SecuredResetPasswordForm;

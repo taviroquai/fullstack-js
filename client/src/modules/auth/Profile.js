@@ -15,6 +15,7 @@ import { getUserById, saveUser, uploadAvatar } from '../system/users/actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../share/Objection';
 import { withStore } from 'react-observable-store';
+import RedirectNotAuthenticated from './RedirectNotAuthenticated';
 
 const endpoint = process.env.REACT_APP_SERVER_URL;
 
@@ -115,6 +116,7 @@ class Profile extends Component {
 
   render() {
     const { loading, errors, success, user } = this.state;
+    console.log('render profile', user);
     if (!user) return null;
     return (
       <NamespacesConsumer ns="translations">
@@ -229,4 +231,15 @@ class Profile extends Component {
   }
 }
 
-export default withRouter(withStore('app', Profile));
+const ProfileWithDeps = withRouter(withStore('app', Profile));
+class SecuredProfile extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to="/auth/login">
+        <ProfileWithDeps redirect={this.props.redirect} />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default SecuredProfile;

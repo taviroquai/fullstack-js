@@ -7,31 +7,17 @@ import Logout from './Logout';
 import RecoverForm from './RecoverForm';
 import ResetPasswordForm from './ResetPasswordForm';
 
-import RedirectNotAuthenticated from './RedirectNotAuthenticated';
-import RedirectAuthenticated from './RedirectAuthenticated';
-
-const loginRedirect = process.env.REACT_APP_LOGIN_REDIRECT;
-const logoutRedirect = process.env.REACT_APP_LOGOUT_REDIRECT;
-
 class ProtectedRoutes extends Component {
   render() {
     return (
       <React.Fragment>
 
-        <RedirectAuthenticated to={loginRedirect}>
-          <Route exact path="/auth/login" render={() =>
-            <LoginForm redirect={loginRedirect} />
-          } />
-          <Route exact path="/auth/recover" component={RecoverForm} />
-          <Route exact path="/auth/reset" component={ResetPasswordForm} />
-        </RedirectAuthenticated>
-      
-        <RedirectNotAuthenticated to='/auth/login'>
-          <Route exact path="/auth/profile" component={Profile} />
-          <Route exact path="/auth/logout" render={() =>
-            <Logout redirect={logoutRedirect} />
-          } />
-        </RedirectNotAuthenticated>
+        <Route exact path="/auth/login" component={LoginForm} />
+        <Route exact path="/auth/recover" component={RecoverForm} />
+        <Route exact path="/auth/reset" component={ResetPasswordForm} />
+        <Route exact path="/auth/profile" component={Profile} />
+        <Route exact path="/auth/logout" component={Logout} />
+
       </React.Fragment>
     );
   }

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
 import { NamespacesConsumer } from 'react-i18next';
 import Layout from '../../share/AdminLayoutExample';
+import RedirectNotAuthenticated from '../auth/RedirectNotAuthenticated';
 
-class Dashboard extends Component {
+class Demo extends Component {
   render() {
     return (
       <NamespacesConsumer ns="translations">
@@ -24,4 +25,14 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+class SecuredDemo extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to="/auth/login">
+        <Demo />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default SecuredDemo;

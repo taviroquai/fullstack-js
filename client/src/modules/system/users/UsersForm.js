@@ -14,6 +14,7 @@ import RoleUsersList from './RoleUsersList';
 import { getUserById, saveUser, uploadAvatar } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 const endpoint = process.env.REACT_APP_SERVER_URL;
 
@@ -246,4 +247,15 @@ class UsersForm extends Component {
   }
 }
 
-export default withRouter(UsersForm);
+const UsersFormWithDeps = withRouter(UsersForm);
+class ProtectedUsersForm extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <UsersFormWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedUsersForm;

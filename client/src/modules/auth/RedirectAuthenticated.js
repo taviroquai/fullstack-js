@@ -4,11 +4,9 @@ import { getUserFromCookie } from './actions';
 
 class RedirectAuthenticated extends Component {
   render() {
-    const { to, children, history } = this.props;
-    const current = history.location.pathname;
+    const { to, children } = this.props;
     const user = getUserFromCookie();
     if (!user) return children;
-    if (to === current) return null;
     return <Redirect to={to} />;
   }
 }

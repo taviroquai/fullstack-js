@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Header,
   Table,
@@ -14,6 +15,7 @@ import Layout from '../../../share/AdminLayoutExample';
 import { getPermissions, updatePermission } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 Store.add('syspermissionslist', {
   syspermissionslist: {
@@ -192,4 +194,15 @@ class PermissionsList extends Component {
   }
 }
 
-export default withStore('syspermissionslist', PermissionsList);
+const PermissionsListWithDeps = withRouter(withStore('syspermissionslist', PermissionsList));
+class ProtectedPermissionsList extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <PermissionsListWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedPermissionsList;

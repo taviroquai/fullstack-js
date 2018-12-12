@@ -15,6 +15,7 @@ import { login, remember } from './actions';
 import logoImg from '../../assets/logo.svg';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
+import RedirectAuthenticated from './RedirectAuthenticated';
 
 class LoginForm extends Component {
 
@@ -95,4 +96,17 @@ class LoginForm extends Component {
   }
 }
 
-export default withRouter(withCookies(withStore('app', LoginForm)));
+const LoginFormWithDeps = withRouter(withCookies(withStore('app', LoginForm)));
+const loginRedirect = process.env.REACT_APP_LOGIN_REDIRECT;
+
+class SecuredLoginForm extends Component {
+  render() {
+    return (
+      <RedirectAuthenticated to={loginRedirect}>
+        <LoginFormWithDeps redirect={loginRedirect} />
+      </RedirectAuthenticated>
+    )
+  }
+}
+
+export default SecuredLoginForm;

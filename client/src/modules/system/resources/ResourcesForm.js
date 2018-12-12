@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Header, Message } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import ResourceHooksList from './ResourceHooksList';
 import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 class ResourcesForm extends Component {
 
@@ -53,4 +55,15 @@ class ResourcesForm extends Component {
   }
 }
 
-export default ResourcesForm;
+const ResourcesFormWithDeps = withRouter(ResourcesForm);
+class ProtectedResourcesForm extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <ResourcesFormWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedResourcesForm;

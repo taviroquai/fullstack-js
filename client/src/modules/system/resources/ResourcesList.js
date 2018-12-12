@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   Header,
   Table,
@@ -13,6 +13,7 @@ import Layout from '../../../share/AdminLayoutExample';
 import { getResources } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
+import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
 Store.add('sysresourceslist', {
   sysresourceslist: {
@@ -130,4 +131,15 @@ class ResourcesList extends Component {
   }
 }
 
-export default withStore('sysresourceslist', ResourcesList);
+const ResourcesListWithDeps = withRouter(withStore('sysresourceslist', ResourcesList));
+class ProtectedResourcesList extends Component {
+  render() {
+    return (
+      <RedirectNotAuthenticated to='/auth/login'>
+        <ResourcesListWithDeps />
+      </RedirectNotAuthenticated>
+    )
+  }
+}
+
+export default ProtectedResourcesList;

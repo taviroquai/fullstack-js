@@ -4,6 +4,7 @@ import Layout from './Layout';
 import { recover } from './actions';
 import logoImg from '../../assets/logo.svg';
 import { NamespacesConsumer } from 'react-i18next';
+import RedirectAuthenticated from './RedirectAuthenticated';
 
 class RecoverForm extends Component {
 
@@ -92,4 +93,16 @@ class RecoverForm extends Component {
   }
 }
 
-export default RecoverForm;
+const loginRedirect = process.env.REACT_APP_LOGIN_REDIRECT;
+
+class SecuredRecoverForm extends Component {
+  render() {
+    return (
+      <RedirectAuthenticated to={loginRedirect}>
+        <RecoverForm />
+      </RedirectAuthenticated>
+    )
+  }
+}
+
+export default SecuredRecoverForm;
