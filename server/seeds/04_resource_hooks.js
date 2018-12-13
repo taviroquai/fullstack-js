@@ -18,7 +18,8 @@ exports.seed = function(knex, Promise) {
             resource: resources[j],
             hook: hooksBefore[i],
             order: i+1,
-            type: 'before'
+            type: 'before',
+            active: false
           });
         }
       }
@@ -26,11 +27,13 @@ exports.seed = function(knex, Promise) {
       // Populate hooks of type after
       for (let i = 0; i < hooksAfter.length; i++) {
         for (let j = 0; j < resources.length; j++) {
+          let active = /create|update/i.test(resources[j]) && hooksAfter[i] === '01_updateAuthorizationCache';
           items.push({
             resource: resources[j],
             hook: hooksAfter[i],
             order: i+1,
-            type: 'after'
+            type: 'after',
+            active
           });
         }
       }
