@@ -116,7 +116,6 @@ class Profile extends Component {
 
   render() {
     const { loading, errors, success, user } = this.state;
-    console.log('render profile', user);
     if (!user) return null;
     return (
       <NamespacesConsumer ns="translations">
