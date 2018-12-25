@@ -17,7 +17,6 @@ const resolvers = {
         if (!user.verifyPassword(args.password)) throw new Error(errors['042']);
         user.authtoken = await user.regenerateJwt();
         user.roles = await User.getRoles(user);
-        console.log(user);
         return user;
       }
     },

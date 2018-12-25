@@ -5,13 +5,24 @@ require('dotenv').config();
 const Framework = require('./core/Framework');
 
 // Create instance
-const app = new Framework();
+const fullstack = new Framework();
 
-// Add middleware (inc. Apollo server)
-app.addMiddleware();
+// Create HTTP Server
+fullstack.getHTTPSServer();
+
+// Get app
+const app = fullstack.getKoa();
+
+// Load middleware (inc. Apollo server)
+const middleware = fullstack.requireMiddleware();
+for (let name in middleware) middleware[name](app);
 
 // Add module routes
-app.addRoutes();
+const router = fullstack.getHTTPRouter();
+fullstack.addRoutes(app, router);
 
 // Start app
-app.start();
+const port = process.env.FSTACK_HTTP_PORT || 4000;
+app.listen({ port }, () =>
+  console.log('Server ready at http://localhost:' + port),
+);

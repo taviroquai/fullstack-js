@@ -1,7 +1,9 @@
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const Koa = require('koa');
 const Router = require('koa-router');
 const ModuleManager = require('./ModuleManager');
-const GraphqlManager = require('./GraphqlManager');
 
 /**
  * Framework
@@ -9,26 +11,35 @@ const GraphqlManager = require('./GraphqlManager');
 class Framework {
 
   /**
-   *
-   * @param {Function} router
-   * @param {Array} middleware
+   * Create framework instance
+   * 
+   * @param {Object} options
    */
-  constructor(router, middleware) {
-    this.httpServer = new Koa();
+  constructor(options) {
+    this.app = new Koa(options);
     this.port = parseInt(process.env.FSTACK_HTTP_PORT || 4000, 10);
-    this.middleware = middleware;
-    this.router = router;
+    this.middleware = null;
+    this.router = null;
 
     // Protect private props/functions
     const api = Object.freeze({
-      addMiddleware: () => {
-        this.addMiddleware();
+      getKoa: () => {
+        return this.app;
       },
-      addRoutes: () => {
-        this.addRoutes();
+      getHTTPServer: (options) => {
+        return this.getHTTPServer(options);
       },
-      start: () => {
-        this.start();
+      getHTTPSServer: (options) => {
+        return this.getHTTPSServer(options);
+      },
+      getHTTPRouter: (options) => {
+        return this.getHTTPRouter(options);
+      },
+      requireMiddleware: () => {
+        return this.requireMiddleware();
+      },
+      addRoutes: (server, router) => {
+        this.addRoutes(server, router);
       }
     });
 
@@ -37,43 +48,69 @@ class Framework {
   }
 
   /**
-   * Add middleware
-   * Using lazy loading of services
+   * Get HTTP Server
    */
-  addMiddleware() {
-    if (!this.middleware) this.middleware = ModuleManager.loadMiddleware();
-    for (let name in this.middleware) this.middleware[name](this.httpServer);
+  getHTTPServer() {
+    if (!this.httpServer) this.httpServer = http.createServer(this.app.callback());
+    return this.httpServer;
+  }
+
+  /**
+   * Get HTTPS Server
+   */
+  getHTTPSServer() {
+    if (!this.httpsServer) this.httpsServer = https.createServer(this.app.callback());
+    return this.httpsServer;
+  }
+
+  /**
+   * Create HTTP Router
+   * 
+   * @param {Object} options 
+   */
+  getHTTPRouter(options) {
+    if (!this.router) this.router = new Router(options);
+    return this.router;
+  }
+
+  /**
+   * Require middleware
+   */
+  requireMiddleware() {
+    const middlewareList = this.getMiddlewareNames();
+    const middleware = {};
+    for (let name of middlewareList) {
+      middleware[name] = require('../middleware/' + name);
+    }
+    return middleware;
+  }
+
+  /**
+   * Get middleware names
+   */
+  getMiddlewareNames() {
+    const path = './middleware';
+    let names = fs.readdirSync(path)
+    .filter(file => {
+      return !fs.statSync(path+'/'+file).isDirectory();
+    });
+    return names;
   }
 
   /**
    * Apply module routes
    */
-  addRoutes(router = null) {
-    if (router) this.router = router;
-    if (!this.router) this.router = new Router();
+  addRoutes(server, router) {
     const routes = ModuleManager.loadRoutes();
-    for (let name in routes) routes[name](this.httpServer, this.router);
+    for (let name in routes) routes[name](server, router);
 
     // Check if authorization is enabled
     let RouterAuthorization = false;
     if (!!process.env.FSTACK_AUTHORIZATION) {
       RouterAuthorization = require('./RouterAuthorization');
-      const authRouter = RouterAuthorization.getRouter(this.router);
-      this.httpServer.use(authRouter.routes())
-        .use(authRouter.allowedMethods());
-    } else {
-      this.httpServer.use(this.router.routes())
-        .use(this.router.allowedMethods());
+      router = RouterAuthorization.getRouter(router);
     }
-  }
-
-  /**
-   * Start HTTP server
-   */
-  start() {
-    this.httpServer.listen({ port: this.port }, () =>
-      console.log('Server ready at http://localhost:' + this.port),
-    );
+    server.use(router.routes()).use(router.allowedMethods());
   }
 }
 

@@ -1,5 +1,4 @@
 const fs = require('fs');
-const merge = require('lodash.merge');
 const Router = require('koa-router');
 
 /**
@@ -17,30 +16,6 @@ class ModuleManager {
       return fs.statSync(path+'/'+file).isDirectory();
     });
     return modules;
-  }
-
-  /**
-   * Load middleware
-   */
-  static loadMiddleware() {
-    const middlewareList = ModuleManager.getMiddlewareNames();
-    const middleware = {};
-    for (let name of middlewareList) {
-      middleware[name] = require('../middleware/' + name);
-    }
-    return middleware;
-  }
-
-  /**
-   * Get middleware names
-   */
-  static getMiddlewareNames() {
-    const path = './middleware';
-    let names = fs.readdirSync(path)
-    .filter(file => {
-      return !fs.statSync(path+'/'+file).isDirectory();
-    });
-    return names;
   }
 
   /**
