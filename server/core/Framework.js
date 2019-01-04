@@ -80,7 +80,7 @@ class Framework {
     const middlewareList = this.getMiddlewareNames();
     const middleware = {};
     for (let name of middlewareList) {
-      middleware[name] = require('../middleware/' + name);
+      middleware[name] = require('../middleware/enabled/' + name);
     }
     return middleware;
   }
@@ -89,7 +89,7 @@ class Framework {
    * Get middleware names
    */
   getMiddlewareNames() {
-    const path = './middleware';
+    const path = './middleware/enabled';
     let names = fs.readdirSync(path)
     .filter(file => {
       return !fs.statSync(path+'/'+file).isDirectory();

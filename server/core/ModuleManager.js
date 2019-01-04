@@ -10,7 +10,7 @@ class ModuleManager {
    * Get modules names
    */
   static getModulesNames() {
-    const path = './modules';
+    const path = './modules/enabled';
     let modules = fs.readdirSync(path)
     .filter(file => {
       return fs.statSync(path+'/'+file).isDirectory();
@@ -19,14 +19,24 @@ class ModuleManager {
   }
 
   /**
+   * Resolve module path
+   * 
+   * @param {String} name 
+   */
+  static resolveModulePath(name) {
+    return './modules/enabled/' + name;
+  }
+
+  /**
    * Load routes
    */
   static loadRoutes() {
+    const self = ModuleManager;
     const routes = {};
-    const modules = ModuleManager.getModulesNames();
+    const modules = self.getModulesNames();
     for (let name of modules) {
-      let filePath = './modules/' + name + '/routes.js';
-      let requirePath = '../modules/' + name + '/routes';
+      let filePath = self.resolveModulePath(name) + '/routes.js';
+      let requirePath = '.' + self.resolveModulePath(name) + '/routes';
       if (fs.existsSync(filePath)) routes[name] = require(requirePath);
     }
     return routes;
@@ -55,19 +65,20 @@ class ModuleManager {
    * Update cache
    */
   static updateCache() {
+    const self = ModuleManager;
     let filename = '';
 
     // Update resources
-    let resources = ModuleManager.generateResourcesNames()
-    filename = ModuleManager.getCacheFilename('resources');
+    let resources = self.generateResourcesNames()
+    filename = self.getCacheFilename('resources');
     fs.writeFileSync(filename, JSON.stringify(resources, null, 2), 'utf-8');
 
     // Update hooks cache
-    let hooks = ModuleManager.generateHooksNames('before')
-    filename = ModuleManager.getCacheFilename('hooks_before');
+    let hooks = self.generateHooksNames('before')
+    filename = self.getCacheFilename('hooks_before');
     fs.writeFileSync(filename, JSON.stringify(hooks, null, 2), 'utf-8');
-    hooks = ModuleManager.generateHooksNames('after')
-    filename = ModuleManager.getCacheFilename('hooks_after');
+    hooks = self.generateHooksNames('after')
+    filename = self.getCacheFilename('hooks_after');
     fs.writeFileSync(filename, JSON.stringify(hooks, null, 2), 'utf-8');
   }
 
@@ -75,13 +86,14 @@ class ModuleManager {
    * Get resources names
    */
   static generateResourcesNames() {
-    const modulesList = ModuleManager.getModulesNames();
+    const self = ModuleManager;
+    const modulesList = self.getModulesNames();
     let resources = [];
 
     // Get Graphql resources
     for (let m of modulesList) {
-      let filePath = './modules/' + m + '/resolvers.js';
-      let requirePath = '../modules/' + m + '/resolvers';
+      let filePath = self.resolveModulePath(m) + '/resolvers.js';
+      let requirePath = '.' + self.resolveModulePath(m) + '/resolvers';
       if (fs.existsSync(filePath)) {
         let resolvers = require(requirePath);
         Object.keys(resolvers).map(type => {
@@ -95,8 +107,8 @@ class ModuleManager {
     // Get HTTP resources
     const router = new Router();
     for (let m of modulesList) {
-      let filePath = './modules/' + m + '/routes.js';
-      let requirePath = '../modules/' + m + '/routes';
+      let filePath = self.resolveModulePath(m) + '/routes.js';
+      let requirePath = '.' + self.resolveModulePath(m) + '/routes';
       if (fs.existsSync(filePath)) {
         let loader = require(requirePath);
         loader(null, router);
@@ -144,20 +156,21 @@ class ModuleManager {
    * Composes complete type definitions schema from modules
    */
   static generateGraphqlSchema() {
+    const self = ModuleManager;
     let queries = '';
     let mutations = '';
     let types = '';
-    const modulesList = ModuleManager.getModulesNames();
+    const modulesList = self.getModulesNames();
     for (let m of modulesList) {
-      let filename = './modules/' + m + '/gql/queries.gql';
+      let filename = self.resolveModulePath(m) + '/gql/queries.gql';
       if (fs.existsSync(filename)) queries += fs.readFileSync(filename)
     }
     for (let m of modulesList) {
-      let filename = './modules/' + m + '/gql/mutations.gql';
+      let filename = self.resolveModulePath(m) + '/gql/mutations.gql';
       if (fs.existsSync(filename)) mutations += fs.readFileSync(filename);
     }
     for (let m of modulesList) {
-      let filename = './modules/' + m + '/gql/types.gql';
+      let filename = self.resolveModulePath(m) + '/gql/types.gql';
       if (fs.existsSync(filename)) types += fs.readFileSync(filename);
     }
 

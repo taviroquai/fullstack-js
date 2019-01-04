@@ -28,11 +28,12 @@ class GraphqlManager {
    * and wraps authorization if set
    */
   static getResolvers() {
+    const MM = ModuleManager;
     let combinedResolvers = {};
-    const modulesList = ModuleManager.getModulesNames();
+    const modulesList = MM.getModulesNames();
     for (let m of modulesList) {
-      let filePath = './modules/' + m + '/resolvers.js';
-      let requirePath = '../modules/' + m + '/resolvers';
+      let filePath = MM.resolveModulePath(m) + '/resolvers.js';
+      let requirePath = '.' + MM.resolveModulePath(m) + '/resolvers';
       if (fs.existsSync(filePath)) {
         let modelResolvers = require(requirePath);
         combinedResolvers = merge(combinedResolvers, modelResolvers);

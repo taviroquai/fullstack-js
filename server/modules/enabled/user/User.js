@@ -1,6 +1,6 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const Model = require('../Model');
+const Model = require('../../Model');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
 const pick = require('lodash.pick');
@@ -136,6 +136,17 @@ class User extends Model {
     try {
       const decoded = jwt.verify(jwttoken, authSecret);
       return await User.query().findOne({ id: decoded.id });
+    } catch (err) {
+      return null;
+    }
+  }
+
+  /**
+   * Get user from email
+   */
+  static async getUserFromEmail(email) {
+    try {
+      return await User.query().findOne({ email });
     } catch (err) {
       return null;
     }

@@ -1,7 +1,7 @@
 const Authorization = require('./Authorization');
 const Router = require('koa-router');
 const errors = require('../core/errors.json');
-const User = require('../modules/user/User');
+const User = require('../modules/enabled/user/User');
 
 /**
  * Router authorization

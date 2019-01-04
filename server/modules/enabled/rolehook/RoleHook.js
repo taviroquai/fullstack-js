@@ -1,4 +1,4 @@
-const Model = require('../Model');
+const Model = require('../../Model');
 const Role = require('../role/Role');
 
 class RoleHook extends Model {

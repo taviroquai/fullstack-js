@@ -1,7 +1,7 @@
 const fs = require('fs');
-const RoleHook = require('../modules/rolehook/RoleHook');
-const Permission = require('../modules/permission/Permission');
-const ResourceHook = require('../modules/resourcehook/ResourceHook');
+const RoleHook = require('../modules/enabled/rolehook/RoleHook');
+const Permission = require('../modules/enabled/permission/Permission');
+const ResourceHook = require('../modules/enabled/resourcehook/ResourceHook');
 
 /**
  * Graphql authorization

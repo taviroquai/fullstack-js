@@ -12,4 +12,5 @@ module.exports = (app, router) => {
     const path = User.getAvatarPath(id, filename);
     await send(ctx, path);
   });
+
 }

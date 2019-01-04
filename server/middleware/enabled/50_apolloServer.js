@@ -1,4 +1,4 @@
-const GraphqlManager = require('../core/GraphqlManager');
+const GraphqlManager = require('../../core/GraphqlManager');
 
 /**
  * Inversion of control

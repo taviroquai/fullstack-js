@@ -1,5 +1,5 @@
 const errors = require('../core/errors.json');
-const User = require('../modules/user/User');
+const User = require('../modules/enabled/user/User');
 const Authorization = require('./Authorization');
 
 /**

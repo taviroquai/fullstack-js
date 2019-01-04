@@ -1,5 +1,5 @@
 const Role = require('./Role');
-const errors = require('../../core/errors.json');
+const errors = require('../../../core/errors.json');
 
 /**
  * Graphql resolvers

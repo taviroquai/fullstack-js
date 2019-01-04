@@ -1,5 +1,5 @@
 const pick = require('lodash.pick');
-const Model = require('../Model');
+const Model = require('../../Model');
 
 class Role extends Model {
 
