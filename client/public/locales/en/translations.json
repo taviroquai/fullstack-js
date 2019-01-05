@@ -70,6 +70,7 @@
   "password_confirm": "Confirm Password",
   "password_reset_failed": "Failed reseting password. Try later.",
   "password_reset_ok": "Reset successfull!",
+  "back": "Go Back",
   "ERROR_ACCESS_DENIED": "Access denied",
   "ERROR_NOT_FOUND": "The requested object was not found",
   "ERROR_AT_LEAST_ONE_ROLE": "User must have at least 1 role",

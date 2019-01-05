@@ -6,6 +6,7 @@ import LoginForm from './LoginForm';
 import Logout from './Logout';
 import RecoverForm from './RecoverForm';
 import ResetPasswordForm from './ResetPasswordForm';
+import GoogleOAuth2Login from './GoogleOAuth2Login';
 
 class ProtectedRoutes extends Component {
   render() {
@@ -17,6 +18,7 @@ class ProtectedRoutes extends Component {
         <Route exact path="/auth/reset" component={ResetPasswordForm} />
         <Route exact path="/auth/profile" component={Profile} />
         <Route exact path="/auth/logout" component={Logout} />
+        <Route exact path="/auth/googleoauth2login/:message" component={GoogleOAuth2Login} />
 
       </React.Fragment>
     );

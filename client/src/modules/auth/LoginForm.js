@@ -12,6 +12,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from './Layout';
 import { login, remember } from './actions';
+import GoogleOAuth2Form from './GoogleOAuth2Form';
 import logoImg from '../../assets/logo.svg';
 import { NamespacesConsumer } from 'react-i18next';
 import Store, { withStore } from 'react-observable-store';
@@ -86,6 +87,10 @@ class LoginForm extends Component {
                 <Divider />
 
                 <Link to='/recover'>{t('forgot_password')}</Link>
+
+                <Divider />
+
+                <GoogleOAuth2Form />
 
               </Segment>
             </Form>

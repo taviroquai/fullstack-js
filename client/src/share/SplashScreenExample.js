@@ -3,13 +3,20 @@ import {
   Header,
   Image,
   Message,
-  Grid
+  Grid,
+  Button
  } from 'semantic-ui-react';
 import imgLogo from '../assets/logo.svg';
 import { NamespacesConsumer } from 'react-i18next';
 
 class SplashScreenExample extends Component {
+
+  back() {
+    window.history.back();
+  }
+
   render() {
+    const { error } = this.props;
     return (
       <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
@@ -33,7 +40,15 @@ class SplashScreenExample extends Component {
                   <Image src={imgLogo} style={{width: '200px'}} />
                 </Header>
 
-                <Message header="" content={t('loading')} />
+                { error 
+                  ? (
+                    <React.Fragment>
+                      <Message error header="" content={t(error)} />
+                      <Button as='a' onClick={this.back}>{t('back')}</Button>
+                    </React.Fragment>
+                  )
+                  : <Message header="" content={t('loading')} />
+                }
 
               </Grid.Column>
             </Grid>

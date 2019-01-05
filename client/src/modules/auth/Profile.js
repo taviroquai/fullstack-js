@@ -131,7 +131,7 @@ class Profile extends Component {
 
             { success && <Message success size='mini'
               icon='bullhorn'
-              content={t(success)}
+              content={t('user_saved_successfully')}
             /> }
 
             { loading && <Loader active inline='centered' /> }

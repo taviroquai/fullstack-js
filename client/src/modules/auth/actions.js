@@ -55,25 +55,35 @@ export const resetUserPassword = (token, password, password_confirm) => {
 }
 
 /**
+ * 
+ * @param {Object} user 
+ * @param {Function} cb 
+ */
+export const loginUser = (user, cb) => {
+  const cookies = new Cookies();
+  const options = {
+    maxAge: parseInt(process.env.REACT_APP_AUTH_EXPIRES, 10)
+  };
+  cookies.set('user', user, options);
+  cb(user);
+}
+
+/**
  * Authenticate user
  *
  * @param {String} email
  * @param {String} password
  */
-export const login = (email, password, history, redirect) => {
+export const login = (email, password) => {
   return new Promise((resolve, reject) => {
     const client = getClient();
     client.query({
       query: Queries.getAccessToken,
       variables: { email, password }
     }).then(r => {
-      const cookies = new Cookies();
-      const options = {
-        maxAge: parseInt(process.env.REACT_APP_AUTH_EXPIRES, 10)
-      };
       const user = r.data.getAccessToken;
-      cookies.set('user', user, options);
-      resolve(user);
+      if (!user) reject([{ message: 'ERROR_INVALID_CREDENTIALS' }]);
+      else loginUser(user, resolve);
     })
     .catch(error => {
       reject(error.graphQLErrors)
