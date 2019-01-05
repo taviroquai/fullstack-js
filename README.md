@@ -90,13 +90,14 @@ Login with ([look at the code](./server/seeds/02_users.js#L14))
 
 /root  
 ../modules  
-../../**helloworld**  
-../../../gql  
-../../../../queries.gql  
-../../../../types.gql  
-../../../HelloWorld.js  
-../../../resolvers.js  
-../../../routes.js  
+../../enabled
+../../../**helloworld**  
+../../../../gql  
+../../../../../queries.gql  
+../../../../../types.gql  
+../../../../HelloWorld.js  
+../../../../resolvers.js  
+../../../../routes.js  
 
 1.1. queries.gql
 ```gql
