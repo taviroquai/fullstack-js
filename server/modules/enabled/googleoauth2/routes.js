@@ -63,20 +63,20 @@ module.exports = (app, router) => {
     const email = res.data.emails[0].value;
     let user = await User.query().findOne({ email });
 
+    /*
     // Invalidate user and return error message
     if (!user) {
       message.error = 'ERROR_INVALID_CREDENTIALS';
       return sendMessage(ctx, message);
     }
+    */
 
-    /*
     // Create user if not exists
     if (!user) {
       let data = { email, username: email, active: true };
       let result = await User.query().insert(data).returning('id');
       user = await User.query().findById(result.id);
     }
-    */
 
     // Validate user is active
     if (!user.active) {
