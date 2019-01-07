@@ -1,4 +1,4 @@
-const Model = require('../../Model');
+const Model = use('core/Model');
 
 class ResourceHook extends Model {
 

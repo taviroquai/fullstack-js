@@ -1,9 +1,9 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const Model = require('../../Model');
 const bcrypt = require('bcrypt-nodejs');
 const validator = require("email-validator");
 const pick = require('lodash.pick');
+const Model = use('core/Model');
 
 // Get config
 const authSecret = process.env.FSTACK_AUTH_SECRET;

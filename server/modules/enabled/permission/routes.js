@@ -1,5 +1,5 @@
 const fs = require('fs');
-const Authorization = require('../../../core/Authorization');
+const Authorization = use('core/Authorization');
 
 /*
  * Routes loader

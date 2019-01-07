@@ -1,4 +1,4 @@
-const errors = require('../../core/errors.json');
+const errors = use('core/errors.json');
 
 /**
  * Check whether there is a user in state

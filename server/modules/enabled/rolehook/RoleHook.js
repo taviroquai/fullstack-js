@@ -1,5 +1,5 @@
-const Model = require('../../Model');
-const Role = require('../role/Role');
+const Model = use('core/Model');
+const Role = use('role/Role');
 
 class RoleHook extends Model {
 

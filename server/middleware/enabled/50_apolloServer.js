@@ -1,4 +1,4 @@
-const GraphqlManager = require('../../core/GraphqlManager');
+const GraphqlManager = use('core/GraphqlManager');
 
 /**
  * Inversion of control
@@ -6,9 +6,9 @@ const GraphqlManager = require('../../core/GraphqlManager');
  * 
  * @param {Object} app The Koa application 
  */
-const use = (app) => {
+const load = (app) => {
   const apolloServer = GraphqlManager.getApolloServer();
   apolloServer.applyMiddleware({ app });
 }
 
-module.exports = use;
+module.exports = load;
