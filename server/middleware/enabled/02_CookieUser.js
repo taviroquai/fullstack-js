@@ -1,4 +1,4 @@
-const User = require('../../modules/enabled/user/User');
+const User = use('user/User');
 
 /**
  * Load user into request if found
@@ -19,7 +19,7 @@ const middleware = async (ctx, next) => {
  *
  * @param {Object} app The Koa application
  */
-const use = (app) => {
+const load = (app) => {
   app.use(middleware);
 }
 
@@ -36,4 +36,4 @@ const parseJwtFromCookieHeader = (header) => {
   return user.authtoken;
 }
 
-module.exports = use;
+module.exports = load;

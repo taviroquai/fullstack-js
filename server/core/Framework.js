@@ -3,7 +3,22 @@ const http = require('http');
 const https = require('https');
 const Koa = require('koa');
 const Router = require('koa-router');
+
+/**
+ * Register global framework includer
+ * Automatically resolves to enabled modules and its files
+ * instead in require them with hardcoded filepath
+ */
+global.use = (filepath) => {
+  let filename = '../modules/enabled/' + filepath;
+  if (filepath.indexOf('core') === 0) filename = '../' + filepath;
+  return require(filename);
+};
+
+// Require framework tools
 const ModuleManager = require('./ModuleManager');
+const Authorization = require('./Authorization');
+const GraphqlManager = require('./GraphqlManager');
 
 /**
  * Framework
@@ -23,6 +38,15 @@ class Framework {
 
     // Protect private props/functions
     const api = Object.freeze({
+      getModuleManager: () => {
+        return ModuleManager;
+      },
+      getAuthorization: () => {
+        return Authorization;
+      },
+      getGraphqlManager: () => {
+        return GraphqlManager;
+      },
       getKoa: () => {
         return this.app;
       },
@@ -111,6 +135,11 @@ class Framework {
       router = RouterAuthorization.getRouter(router);
     }
     server.use(router.routes()).use(router.allowedMethods());
+  }
+
+  static use(filepath) {
+    const filename = './modules/enabled/' + filepath;
+    return require(filename);
   }
 }
 

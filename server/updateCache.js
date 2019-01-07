@@ -2,15 +2,14 @@
 require('dotenv').config();
 
 // Require dependencies
-const ModuleManager = require('./core/ModuleManager');
-const Authorization = require('./core/Authorization');
-const GraphqlManager = require('./core/GraphqlManager');
+const Framework = require('./core/Framework');
+const fw = new Framework();
 
 // Update authorization cache
 const updateCache = async () => {
-  ModuleManager.updateCache();
-  GraphqlManager.updateCache();
-  await Authorization.updateCache();
+  fw.getModuleManager().updateCache();
+  fw.getGraphqlManager().updateCache();
+  await fw.getAuthorization().updateCache();
 
 
   // Send some acknoledge output

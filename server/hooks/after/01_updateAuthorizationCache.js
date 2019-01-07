@@ -1,4 +1,4 @@
-const errors = require('../../core/errors.json');
+const errors = use('core/errors.json');
 
 /**
  * Update authorization cache
@@ -9,7 +9,7 @@ const errors = require('../../core/errors.json');
  * @param {Object} data
  */
 const hook = async (ctx, resource, data) => {
-  Authorization = require('../../core/Authorization');
+  Authorization = use('core/Authorization');
   Authorization.updateCache();
   return data;
 }

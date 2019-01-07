@@ -1,6 +1,6 @@
 const errors = require('../core/errors.json');
-const User = require('../modules/enabled/user/User');
-const Authorization = require('./Authorization');
+const User = use('user/User');
+const Authorization = use('core/Authorization');
 
 /**
  * Graphql authorization

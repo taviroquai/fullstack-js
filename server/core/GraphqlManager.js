@@ -1,7 +1,7 @@
 const fs = require('fs');
 const merge = require('lodash.merge');
-const ModuleManager = require('../core/ModuleManager');
 const { ApolloServer, gql } = require('apollo-server-koa');
+const ModuleManager = use('core/ModuleManager');
 
 /**
  * Graphql configuration server

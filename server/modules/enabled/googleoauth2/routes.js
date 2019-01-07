@@ -1,22 +1,11 @@
-const User = require('../user/User');
-const { google } = require('googleapis');
+const User = use('user/User');
+const { oauth2Client, google } = require('./GoogleOAuthClient');
 const plus = google.plus('v1');
-const errors = require('../../../core/errors.json');
+const fs = require('fs');
 
 /**
- * Init oauth2 client
+ * HTTP message helper
  */
-const oauth2Client = new google.auth.OAuth2(
-  process.env.GOOGLE_SIGN_IN_CLIENT_ID,
-  process.env.GOOGLE_SIGN_IN_SECRET,
-  process.env.GOOGLE_SIGN_IN_REDIRECT
-);
-google.options({auth: oauth2Client});
-
-// List supported apis
-//const apis = google.getSupportedAPIs();
-//console.log(apis);
-
 let clientUrl = process.env.FSTACK_GOOGLEOAUTH2_LOGIN;
 const sendMessage = (ctx, message) => {
   let encoded = Buffer.from(JSON.stringify(message)).toString('base64');
@@ -37,29 +26,32 @@ module.exports = (app, router) => {
       scope: ['https://www.googleapis.com/auth/userinfo.email'].join(' ')
     });
 
-    // Return url
+    // Return google oauth2 url
     ctx.set('Access-Control-Allow-Headers', 'content-type');
     ctx.set('Access-Control-Allow-Methods', 'GET');
     ctx.set('Access-Control-Allow-Origin', '*');
     ctx.body = url
   });
 
-  // Route to google auth sample
+  // Route to google oauth2 callback
   router.get('/googleoauth2done', async (ctx, next) => {
+
+    // Set google api auth client
+    google.options({auth: oauth2Client});
     const { tokens } = await oauth2Client.getToken(ctx.query.code);
     oauth2Client.credentials = tokens;
 
-    // Get remote user info
+    // Get google user info
     res = await plus.people.get({ userId: 'me' });
     let message = { error: null, user: null };
 
-    // Validate remote user email
+    // Validate google user email
     if (res.data.emails.length === 0) {
       message.error = 'ERROR_INVALID_CREDENTIALS';
       return sendMessage(ctx, message);
     }
 
-    // Get local user info from email if exists
+    // Get local user info from google user email, if exists
     const email = res.data.emails[0].value;
     let user = await User.query().findOne({ email });
 

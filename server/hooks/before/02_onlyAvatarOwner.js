@@ -1,5 +1,5 @@
-const UserModel = require('../../modules/user/User');
-const errors = require('../../core/errors.json');
+const UserModel = use('user/User');
+const errors = use('core/errors.json');
 
 /**
  * Check whether the requesting user is the avatar owner or not
