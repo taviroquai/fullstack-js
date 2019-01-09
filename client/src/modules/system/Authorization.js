@@ -15,15 +15,17 @@ export const load = async () => {
 
 export const allowed = (resource) => {
   const user = getUserFromCookie();
+  let access = true;
+  if (!user) return access;
   const roleIds = user.roles.map(r => parseInt(r.role_id, 10));
   const permissions = Store.get('system.authorization.permissions');
   if (!permissions) return false;
-  const access = permissions.reduce((access, p) => {
+  access = permissions.reduce((access, p) => {
     if (p.resource === resource && roleIds.indexOf(p.role_id) > -1) {
       access = access && p.access;
     }
     return access;
-  }, true);
+  }, access);
   return access;
 }
 
