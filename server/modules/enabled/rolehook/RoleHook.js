@@ -43,7 +43,7 @@ class RoleHook extends Model {
    * Populate with role
    */
   static async populateWithRole(role) {
-    const ModuleManager = require('../../core/ModuleManager');
+    const ModuleManager = use('core/ModuleManager');
 
     // Populate hooks of type before
     let hooks = ModuleManager.getHooksNames('before');

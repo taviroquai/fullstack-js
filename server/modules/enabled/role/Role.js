@@ -14,11 +14,11 @@ class Role extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const Permission = require('../permission/Permission');
+    const Permission = use('permission/Permission');
     await Permission.populateWithRole(this);
-    const RoleUser = require('../roleuser/RoleUser');
+    const RoleUser = use('roleuser/RoleUser');
     await RoleUser.populateWithRole(this)
-    const RoleHook = require('../rolehook/RoleHook');
+    const RoleHook = use('rolehook/RoleHook');
     await RoleHook.populateWithRole(this)
   }
 

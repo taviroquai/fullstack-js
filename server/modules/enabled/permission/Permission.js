@@ -43,7 +43,7 @@ class Permission extends Model {
    * Populate with role
    */
   static async populateWithRole(role) {
-    const ModuleManager = require('../../core/ModuleManager');
+    const ModuleManager = use('core/ModuleManager');
     const resources = ModuleManager.getResourcesNames();
     const items = [];
     for (let r of resources) items.push({

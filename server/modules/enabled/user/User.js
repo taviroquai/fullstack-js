@@ -60,7 +60,7 @@ class User extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const RoleUser = require('../roleuser/RoleUser');
+    const RoleUser = use('roleuser/RoleUser');
     await RoleUser.populateWithUser(this)
   }
 
@@ -219,7 +219,7 @@ class User extends Model {
    * @param {Object} user
    */
   static async getRoles(user) {
-    const RoleUser = require('../roleuser/RoleUser');
+    const RoleUser = use('roleuser/RoleUser');
     let roles = [];
     if (!user) {
       roles = await RoleUser
@@ -243,7 +243,7 @@ class User extends Model {
    * @param  {String} client_url  The client url
    */
   async sendRecoverPasswordEmail(client_url) {
-    const EmailClient = require('../../core/EmailClient');
+    const EmailClient = use('core/EmailClient');
     const client = new EmailClient();
     const subject = process.env.FSTACK_MAIL_RESET_SUBJECT;
     const data = { url: client_url + this.resettoken };
