@@ -40,3 +40,18 @@ export const getRoleHooks = (variables) => {
 export const updateRoleHook = (variables) => {
   return put(Queries.updateRoleHook, 'updateRoleHook', variables);
 }
+
+/**
+ * Get permissions list
+ */
+export const getPermissions = (variables) => {
+  return get(Queries.getPermissions, 'getPermissions', variables);
+}
+
+/**
+ * Save permission
+ * @param {Object} permission
+ */
+export const updatePermission = (variables) => {
+  return put(Queries.updatePermission, 'updatePermission', variables);
+}

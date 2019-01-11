@@ -38,10 +38,6 @@ class TopMenuItem extends Component {
               <Dropdown.Item as={Link} to='/system/roles'>Roles</Dropdown.Item>
             )}
 
-            { allowed('Query.getPermissions') && (
-              <Dropdown.Item as={Link} to='/system/permissions'>Permissions</Dropdown.Item>
-            )}
-
             { allowed('Query.getResources') && (
               <Dropdown.Item as={Link} to='/system/resources'>Resources</Dropdown.Item>
             )}

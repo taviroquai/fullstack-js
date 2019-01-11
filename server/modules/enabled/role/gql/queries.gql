@@ -6,3 +6,27 @@ getRoles(
 ): RoleList
 
 getRoleById(id: ID!): Role
+
+getPermissions(
+  resource: String
+  role_id: ID
+  access: Boolean
+  limit: Int
+  page: Int
+): PermissionList
+
+getRoleHooks(
+  hook: String
+  role_id: ID
+  bypass: Boolean
+  limit: Int
+  page: Int
+): RoleHookList
+
+getRoleUsers(
+  user_id: ID
+  role_id: ID
+  active: Boolean
+  limit: Int
+  page: Int
+): RoleUserList

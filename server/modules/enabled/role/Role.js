@@ -14,11 +14,11 @@ class Role extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const Permission = use('permission/Permission');
+    const Permission = use('role/Permission');
     await Permission.populateWithRole(this);
-    const RoleUser = use('roleuser/RoleUser');
+    const RoleUser = use('role/RoleUser');
     await RoleUser.populateWithRole(this)
-    const RoleHook = use('rolehook/RoleHook');
+    const RoleHook = use('role/RoleHook');
     await RoleHook.populateWithRole(this)
   }
 

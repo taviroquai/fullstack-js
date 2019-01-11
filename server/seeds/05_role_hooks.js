@@ -1,4 +1,6 @@
-const ModuleManager = require('../core/ModuleManager');
+const Framework = require('../core/Framework');
+const fw = new Framework();
+const ModuleManager = fw.getModuleManager();
 const hooksBefore = ModuleManager.getHooksNames('before');
 const hooksAfter = ModuleManager.getHooksNames('after');
 

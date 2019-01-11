@@ -60,7 +60,7 @@ class User extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const RoleUser = use('roleuser/RoleUser');
+    const RoleUser = use('role/RoleUser');
     await RoleUser.populateWithUser(this)
   }
 
@@ -219,7 +219,7 @@ class User extends Model {
    * @param {Object} user
    */
   static async getRoles(user) {
-    const RoleUser = use('roleuser/RoleUser');
+    const RoleUser = use('role/RoleUser');
     let roles = [];
     if (!user) {
       roles = await RoleUser

@@ -9,3 +9,24 @@ updateRole(
   label: String!
   system: String!
 ): Role
+
+updatePermission(
+  id: ID!
+  resource: String!
+  role_id: ID!
+  access: Boolean!
+): Permission
+
+updateRoleHook(
+  id: ID!
+  hook: String!
+  role_id: ID!
+  bypass: Boolean!
+): Boolean
+
+updateRoleUser(
+  id: ID!
+  user_id: ID!
+  role_id: ID!
+  active: Boolean!
+): Boolean

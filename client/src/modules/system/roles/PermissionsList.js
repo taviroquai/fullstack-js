@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
   Header,
   Table,
@@ -7,18 +6,15 @@ import {
   Message,
   Checkbox,
   Input,
-  Select,
   Button,
   Icon
 } from 'semantic-ui-react';
-import Layout from '../../../share/AdminLayoutExample';
 import { getPermissions, updatePermission } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
-import Store, { withStore } from 'react-observable-store';
-import RedirectNotAuthenticated from '../../auth/RedirectNotAuthenticated';
 
-Store.add('syspermissionslist', {
-  syspermissionslist: {
+class PermissionsList extends Component {
+
+  state = {
     loading: false,
     total: 0,
     permissions: [],
@@ -26,44 +22,46 @@ Store.add('syspermissionslist', {
     resourceFilter: '',
     errors: null
   }
-});
-
-// Helpers
-const put = (data) => Store.update('syspermissionslist', data);
-
-class PermissionsList extends Component {
 
   reload() {
-    put({ loading: true });
+    this.setState({ ...this.state, loading: true});
     getPermissions({}).then(({ results, total}) => {
-      put({
+      this.setState({
+        ...this.state,
         loading: false,
         errors: null,
         permissions: results,
         total
        });
     }).catch(errors => {
-      put({ loading: false, errors, permissions: [] });
+      this.setState({
+        ...this.state,
+        loading: false, 
+        errors, 
+        permissions: []
+      });
     });
   }
 
   componentDidMount() {
-    const { permissions } = this.props;
-    if (!permissions.length) this.reload();
+    const { role } = this.props;
+    this.onFilter('roleFilter', role.id, () => {
+      this.reload();
+    });
   }
 
   toggleAccess(permission) {
-    put({ loading: true});
+    this.setState({ ...this.state, loading: true});
     const variables = { ...permission, access: !permission.access };
     updatePermission(variables).then(() => {
       this.reload();
     }).catch(errors => {
-      put({ loading: false, errors });
+      this.setState({ ...this.state, loading: false, errors });
     });
   }
 
-  onFilter(name, value) {
-    put({ [name]: value });
+  onFilter(name, value, cb) {
+    this.setState({ ...this.state, [name]: value }, cb);
   }
 
   render() {
@@ -73,11 +71,8 @@ class PermissionsList extends Component {
       permissions,
       resourceFilter,
       roleFilter
-    } = this.props;
+    } = this.state;
     let filtered = permissions;
-
-    // Role options
-    let roleOptions = this.getRoleOptionsFromPermissions(permissions);
 
     // Filter by role
     if (roleFilter) {
@@ -94,8 +89,10 @@ class PermissionsList extends Component {
     return (
       <NamespacesConsumer ns="translations">
         { (t, { i18n }) => (
-          <Layout>
-            <Header as='h1'>{t('permissions')}</Header>
+          <React.Fragment>
+            <Header as='h3'>
+              {t('role')} {t('permissions')}
+            </Header>
 
             { errors && <Message error size='mini'
               icon='exclamation triangle'
@@ -109,16 +106,9 @@ class PermissionsList extends Component {
                     {t('id')}
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    <Select
-                      style={{ fontSize: '0.8rem' }}
-                      placeholder={t('filter_by_role')}
-                      value={roleFilter}
-                      options={roleOptions}
-                      onChange={(e, { value }) => this.onFilter('roleFilter', value)}
-                    />
+                    {t('resource')}
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    {t('resource')}
                     <Input style={{fontSize: '.8rem', float: 'right'}}
                       placeholder={t('filter_by_resource')}
                       value={resourceFilter}
@@ -145,8 +135,8 @@ class PermissionsList extends Component {
                 { filtered.map(permission => (
                   <Table.Row key={permission.id}>
                     <Table.Cell width={1}>{permission.id}</Table.Cell>
-                    <Table.Cell>{permission.role.label}</Table.Cell>
                     <Table.Cell>{permission.resource}</Table.Cell>
+                    <Table.Cell></Table.Cell>
                     <Table.Cell width={1}>
 
                       <Checkbox toggle
@@ -164,7 +154,7 @@ class PermissionsList extends Component {
               </Table.Body>
             </Table>
 
-          </Layout>
+          </React.Fragment>
         )}
       </NamespacesConsumer>
     )
@@ -194,15 +184,4 @@ class PermissionsList extends Component {
   }
 }
 
-const PermissionsListWithDeps = withRouter(withStore('syspermissionslist', PermissionsList));
-class ProtectedPermissionsList extends Component {
-  render() {
-    return (
-      <RedirectNotAuthenticated to='/auth/login'>
-        <PermissionsListWithDeps />
-      </RedirectNotAuthenticated>
-    )
-  }
-}
-
-export default ProtectedPermissionsList;
+export default PermissionsList;

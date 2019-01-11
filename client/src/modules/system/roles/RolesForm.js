@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import Layout from '../../../share/AdminLayoutExample';
 import RoleHooksList from './RoleHooksList';
+import PermissionsList from './PermissionsList';
 import { getRoleById, saveRole } from './actions';
 import { NamespacesConsumer } from 'react-i18next';
 import Objection from '../../../share/Objection';
@@ -141,6 +142,7 @@ class RolesForm extends Component {
                 </Grid>
 
                 <RoleHooksList role={edit} />
+                <PermissionsList role={edit} />
 
               </Form>
             )}

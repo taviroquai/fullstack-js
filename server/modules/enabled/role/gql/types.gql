@@ -9,3 +9,43 @@ type Role {
   label: String
   system: String
 }
+
+type PermissionList {
+  total: Int
+  results: [Permission]
+}
+
+type Permission {
+  id: ID!
+  resource: String!
+  role_id: ID!
+  access: Boolean
+  role: Role
+}
+
+type RoleHookList {
+  total: Int
+  results: [RoleHook]
+}
+
+type RoleHook {
+  id: ID!
+  hook: String!
+  role_id: ID!
+  bypass: Boolean
+  role: Role
+}
+
+type RoleUserList {
+  total: Int
+  results: [RoleUser]
+}
+
+type RoleUser {
+  id: ID!
+  user_id: ID!
+  role_id: ID!
+  active: Boolean
+  user: User
+  role: Role
+}

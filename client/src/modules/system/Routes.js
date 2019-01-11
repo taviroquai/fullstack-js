@@ -7,7 +7,7 @@ import RolesList from './roles/RolesList';
 import RolesForm from './roles/RolesForm';
 import ResourcesList from './resources/ResourcesList';
 import ResourcesForm from './resources/ResourcesForm';
-import PermissionsList from './permissions/PermissionsList';
+
 import Store from 'react-observable-store';
 
 Store.add('system', {
@@ -26,7 +26,6 @@ class ProtectedRoutes extends Component {
         <Route path="/system/roles/edit/:id?" component={RolesForm} />
         <Route exact path="/system/resources" component={ResourcesList} />
         <Route path="/system/resources/edit/:id?" component={ResourcesForm} />
-        <Route exact path="/system/permissions" component={PermissionsList} />
       </Switch>
     );
   }
