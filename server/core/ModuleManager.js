@@ -119,6 +119,9 @@ class ModuleManager {
       resources.push(layer.path);
     });
 
+    // Order alphabetically
+    resources = resources.sort();
+
     // Return resources
     return resources;
   }
