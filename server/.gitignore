@@ -2,6 +2,7 @@
 /cache/**/*.*
 /storage/**/*.*
 /public/**/*.*
+/modules/disabled/**/*.*
 .env
 nohup.out
 !*.gitkeep
