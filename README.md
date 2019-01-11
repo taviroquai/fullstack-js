@@ -90,7 +90,7 @@ Login with ([look at the code](./server/seeds/02_users.js#L14))
 
 /root  
 ../modules  
-../../enabled
+../../enabled  
 ../../../**helloworld**  
 ../../../../gql  
 ../../../../../queries.gql  
