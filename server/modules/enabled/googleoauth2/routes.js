@@ -1,7 +1,6 @@
 const User = use('user/User');
-const { oauth2Client, google } = require('./GoogleOAuthClient');
+const { oauth2Client, google } = use('googleoauth2/GoogleOAuthClient');
 const plus = google.plus('v1');
-const fs = require('fs');
 
 /**
  * HTTP message helper

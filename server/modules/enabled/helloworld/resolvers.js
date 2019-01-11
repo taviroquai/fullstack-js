@@ -1,4 +1,4 @@
-const HelloWorld = require('./HelloWorld');
+const HelloWorld = use('helloworld/HelloWorld');
 
 /**
  * Graphql resolvers

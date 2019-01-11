@@ -1,4 +1,4 @@
-const Role = require('./Role');
+const Role = use('role/Role');
 const errors = use('core/errors.json');
 
 /**

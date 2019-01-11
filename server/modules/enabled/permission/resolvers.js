@@ -1,4 +1,4 @@
-const Permission = require('./Permission');
+const Permission = use('permission/Permission');
 
 /**
  * Graphql resolvers

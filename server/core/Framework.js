@@ -16,9 +16,9 @@ global.use = (filepath) => {
 };
 
 // Require framework tools
-const ModuleManager = require('./ModuleManager');
-const Authorization = require('./Authorization');
-const GraphqlManager = require('./GraphqlManager');
+const ModuleManager = use('core/ModuleManager');
+const Authorization = use('core/Authorization');
+const GraphqlManager = use('core/GraphqlManager');
 
 /**
  * Framework

@@ -1,4 +1,4 @@
-const RoleUser = require('./RoleUser');
+const RoleUser = use('roleuser/RoleUser');
 
 /**
  * Graphql resolvers

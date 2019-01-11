@@ -1,4 +1,4 @@
-const User = require('./User');
+const User = use('user/User');
 const errors = use('core/errors.json');
 
 /**

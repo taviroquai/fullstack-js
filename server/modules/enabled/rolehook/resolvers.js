@@ -1,4 +1,4 @@
-const RoleHook = require('./RoleHook');
+const RoleHook = use('rolehook/RoleHook');
 
 /**
  * Graphql resolvers
