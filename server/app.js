@@ -19,6 +19,10 @@ for (let name in middleware) middleware[name](app);
 const router = fw.getHTTPRouter();
 fw.addRoutes(app, router);
 
+// Display current resources
+const activeResources = fw.getModuleManager().getResourcesNames();
+activeResources.forEach(r => console.log(r));
+
 // Start app
 const port = process.env.FSTACK_HTTP_PORT || 4000;
 app.listen({ port }, () =>
