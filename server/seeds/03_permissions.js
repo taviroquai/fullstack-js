@@ -16,9 +16,9 @@ exports.seed = function(knex, Promise) {
           'Query.recoverUserPassword',
           'Mutation.resetUserPassword',
           'Query.getHello',
-          '/authorization',
-          '/hello/:name',
-          '/avatar/:id/:filename'
+          '/core/authorization',
+          '/core/avatar/:id/:filename',
+          '/hello/:name'
         ];
         let permissions = [];
         for (let i = 0; i < roles.length; i++) {
