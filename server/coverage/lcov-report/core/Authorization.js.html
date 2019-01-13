@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for core/Authorization.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">core</a> Authorization.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.89% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>7/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">15.91% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>7/44</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const fs = require('fs');
+const roleDir = process.env.FSTACK_MODULE_ROLE;
+const resourceDir = process.env.FSTACK_MODULE_RESOURCE;
+const RoleHook = use(roleDir+'/RoleHook');
+const Permission = use(roleDir+'/Permission');
+const ResourceHook = use(resourceDir+'/ResourceHook');
+&nbsp;
+/**
+ * Graphql authorization
+ */
+class Authorization {
+&nbsp;
+  /**
+   * Get cached authorization filename
+   * 
+   * @param {String} name 
+   */
+<span class="fstat-no" title="function not covered" >  st</span>atic getCacheFilename(name) {
+<span class="cstat-no" title="statement not covered" >    return (process.env.FSTACK_CACHE_PATH || "./cache")</span>
+      + '/' + name + '.json';
+  }
+&nbsp;
+  /**
+   * Update all authorization cache files
+   */
+<span class="fstat-no" title="function not covered" >  st</span>atic async updateCache() {
+    let filename = <span class="cstat-no" title="statement not covered" >'';</span>
+&nbsp;
+    // Update permissions
+    const permissions = <span class="cstat-no" title="statement not covered" >await Permission.query()</span>
+      .select('role_id', 'resource', 'access');
+<span class="cstat-no" title="statement not covered" >    filename = Authorization.getCacheFilename('permissions');</span>
+<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(filename, JSON.stringify(permissions, null, 2), 'utf-8');</span>
+    
+    // Update resource hooks
+    const resourcehooks = <span class="cstat-no" title="statement not covered" >await ResourceHook.query()</span>
+      .select('resource', 'hook', 'active', 'type')
+      .orderBy('order');
+<span class="cstat-no" title="statement not covered" >    filename = Authorization.getCacheFilename('resourcehooks');</span>
+<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(filename, JSON.stringify(resourcehooks, null, 2), 'utf-8');</span>
+&nbsp;
+    // Update role hooks
+    const rolehooks = <span class="cstat-no" title="statement not covered" >await RoleHook.query()</span>
+      .select('role_id', 'hook', 'bypass');
+<span class="cstat-no" title="statement not covered" >    filename = Authorization.getCacheFilename('rolehooks');</span>
+<span class="cstat-no" title="statement not covered" >    fs.writeFileSync(filename, JSON.stringify(rolehooks, null, 2), 'utf-8');</span>
+  }
+&nbsp;
+  /**
+   * Resolve resource/roles access
+   * 
+   * @param {Array} roles 
+   * @param {String} resource 
+   */
+<span class="fstat-no" title="function not covered" >  st</span>atic async getAccessDenied(roles, resource) {
+    const roleIds = <span class="cstat-no" title="statement not covered" >roles.map(<span class="fstat-no" title="function not covered" >r </span>=&gt; <span class="cstat-no" title="statement not covered" >r.role_id)</span>;</span>
+    const permissions = <span class="cstat-no" title="statement not covered" >JSON.parse(fs.readFileSync(Authorization.getCacheFilename('permissions')));</span>
+    const access = <span class="cstat-no" title="statement not covered" >permissions.reduce(<span class="fstat-no" title="function not covered" >(a</span>ccess, p) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (p.resource === resource &amp;&amp; roleIds.indexOf(p.role_id) &gt; -1) {</span>
+<span class="cstat-no" title="statement not covered" >        access = access &amp;&amp; p.access;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return access;</span>
+    }, true);
+<span class="cstat-no" title="statement not covered" >    return !access;</span>
+  }
+&nbsp;
+  /**
+   * Load hooks and run them
+   * 
+   * @param {Array} roles 
+   * @param {String} resource 
+   * @param {String} hookType 
+   * @param {Object} context 
+   * @param {Object} data 
+   */
+<span class="fstat-no" title="function not covered" >  st</span>atic async runHooks(roles, resource, hookType, context, data) {
+    const roleIds = <span class="cstat-no" title="statement not covered" >roles.map(<span class="fstat-no" title="function not covered" >r </span>=&gt; <span class="cstat-no" title="statement not covered" >r.role_id)</span>;</span>
+    const rolehooks = <span class="cstat-no" title="statement not covered" >JSON.parse(fs.readFileSync(Authorization.getCacheFilename('rolehooks')));</span>
+    let hooksConfig = <span class="cstat-no" title="statement not covered" >Authorization.getResourceHooks(resource, hookType);</span>
+<span class="cstat-no" title="statement not covered" >    for (let k of hooksConfig) {</span>
+&nbsp;
+      // Find role hook bypass
+      const bypass = <span class="cstat-no" title="statement not covered" >Authorization.getHookBypass(roleIds, rolehooks, k.hook);</span>
+<span class="cstat-no" title="statement not covered" >      if (process.env.FSTACK_DEBUG) <span class="cstat-no" title="statement not covered" >console.log('Bypass:', hookType, k.hook, !!bypass);</span></span>
+<span class="cstat-no" title="statement not covered" >      if (!bypass) {</span>
+        const hook = <span class="cstat-no" title="statement not covered" >require('../hooks/' + hookType + '/' + k.hook);</span>
+<span class="cstat-no" title="statement not covered" >        data = await hook(context.ctx, resource, data);</span>
+      }
+    }
+<span class="cstat-no" title="statement not covered" >    return data;</span>
+  }
+&nbsp;
+  /**
+   * Get resource hooks
+   * 
+   * @param {String} resource
+   * @param {String} hookType
+   */
+<span class="fstat-no" title="function not covered" >  st</span>atic getResourceHooks(resource, hookType) {
+    let hooks = <span class="cstat-no" title="statement not covered" >JSON.parse(fs.readFileSync(Authorization.getCacheFilename('resourcehooks')));</span>
+<span class="cstat-no" title="statement not covered" >    hooks = hooks.filter(<span class="fstat-no" title="function not covered" >h </span>=&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      return h.resource === resource &amp;&amp; h.active === true &amp;&amp; h.type === hookType;</span>
+    });
+<span class="cstat-no" title="statement not covered" >    return hooks;</span>
+  }
+&nbsp;
+  /**
+   * Get hook bypass for user roles
+   * 
+   * @param {Array} roleIds
+   * @param {Array} rolehooks 
+   */
+<span class="fstat-no" title="function not covered" >  st</span>atic getHookBypass(roleIds, rolehooks, hook) {
+    const bypass = <span class="cstat-no" title="statement not covered" >rolehooks.reduce(<span class="fstat-no" title="function not covered" >(b</span>ypass, h) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (h.hook === hook &amp;&amp; roleIds.indexOf(h.role_id) &gt; -1) {</span>
+<span class="cstat-no" title="statement not covered" >        bypass = bypass &amp;&amp; h.bypass;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return bypass;</span>
+    }, true);
+<span class="cstat-no" title="statement not covered" >    return bypass;</span>
+  }
+}
+&nbsp;
+module.exports = Authorization;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 13 2019 17:25:36 GMT+0000 (WET)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

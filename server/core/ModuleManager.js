@@ -10,12 +10,12 @@ class ModuleManager {
    * Get modules names
    */
   static getModulesPaths() {
-    let path = './core/modules';
+    let path = __dirname + '/modules';
     let modules = [];
     process.env.FSTACK_CORE_MODULES.split(',').forEach(name => {
       if (fs.statSync(path+'/'+name).isDirectory()) modules.push(path+'/'+name);
     });
-    path = './modules/enabled';
+    path = __dirname + '/../modules/enabled';
     fs.readdirSync(path).forEach(file => {
       if (fs.statSync(path+'/'+file).isDirectory()) modules.push(path+'/'+file);
     });
@@ -31,7 +31,7 @@ class ModuleManager {
     const modules = self.getModulesPaths();
     for (let path of modules) {
       let filePath = path + '/routes.js';
-      let requirePath = '.' + path + '/routes';
+      let requirePath = path + '/routes.js';
       let name = path.split('/').pop();
       if (fs.existsSync(filePath)) routes[name] = require(requirePath);
     }
@@ -89,7 +89,7 @@ class ModuleManager {
     // Get Graphql resources
     for (let path of modulesList) {
       let filePath = path + '/resolvers.js';
-      let requirePath = '.' + path + '/resolvers';
+      let requirePath = path + '/resolvers';
       if (fs.existsSync(filePath)) {
         let resolvers = require(requirePath);
         Object.keys(resolvers).map(type => {
@@ -104,7 +104,7 @@ class ModuleManager {
     const router = new Router();
     for (let path of modulesList) {
       let filePath = path + '/routes.js';
-      let requirePath = '.' + path + '/routes';
+      let requirePath = path + '/routes';
       if (fs.existsSync(filePath)) {
         let loader = require(requirePath);
         loader(null, router);

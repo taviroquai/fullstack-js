@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for core/modules/user/routes.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">core/modules/user</a> routes.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">24.39% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>10/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">24.39% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>10/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101</td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const send = require('koa-send');
+const UserModel = require('./User');
+const { oauth2Client, google } = require('./GoogleOAuthClient');
+const plus = google.plus('v1');
+&nbsp;
+/**
+ * HTTP message helper
+ */
+let clientUrl = process.env.FSTACK_GOOGLEOAUTH2_LOGIN;
+const sendMessage = <span class="fstat-no" title="function not covered" >(c</span>tx, message) =&gt; {
+  let encoded = <span class="cstat-no" title="statement not covered" >Buffer.from(JSON.stringify(message)).toString('base64');</span>
+<span class="cstat-no" title="statement not covered" >  ctx.redirect(clientUrl + '/' + encoded);</span>
+}
+&nbsp;
+/*
+ * Routes loader
+ */
+module.exports = (app, router) =&gt; {
+&nbsp;
+  // Route to user avatar
+  router.get('/core/avatar/:id/:filename', <span class="fstat-no" title="function not covered" >as</span>ync (ctx, next) =&gt; {
+    const { id, filename } = <span class="cstat-no" title="statement not covered" >ctx.params;</span>
+    const path = <span class="cstat-no" title="statement not covered" >UserModel.getAvatarPath(id, filename);</span>
+<span class="cstat-no" title="statement not covered" >    await send(ctx, path);</span>
+  });
+&nbsp;
+  // Route to google auth2 
+  router.get('/core/googleoauth2', <span class="fstat-no" title="function not covered" >as</span>ync (ctx, next) =&gt; {
+&nbsp;
+    // grab the url that will be used for authorization
+    const url = <span class="cstat-no" title="statement not covered" >oauth2Client.generateAuthUrl({</span>
+      access_type: 'offline',
+      scope: ['https://www.googleapis.com/auth/userinfo.email'].join(' ')
+    });
+&nbsp;
+    // Return google oauth2 url
+<span class="cstat-no" title="statement not covered" >    ctx.set('Access-Control-Allow-Headers', 'content-type');</span>
+<span class="cstat-no" title="statement not covered" >    ctx.set('Access-Control-Allow-Methods', 'GET');</span>
+<span class="cstat-no" title="statement not covered" >    ctx.set('Access-Control-Allow-Origin', '*');</span>
+<span class="cstat-no" title="statement not covered" >    ctx.body = url</span>
+  });
+&nbsp;
+  // Route to google oauth2 callback
+  router.get('/core/googleoauth2done', <span class="fstat-no" title="function not covered" >as</span>ync (ctx, next) =&gt; {
+&nbsp;
+    // Set google api auth client
+<span class="cstat-no" title="statement not covered" >    google.options({auth: oauth2Client});</span>
+    const { tokens } = <span class="cstat-no" title="statement not covered" >await oauth2Client.getToken(ctx.query.code);</span>
+<span class="cstat-no" title="statement not covered" >    oauth2Client.credentials = tokens;</span>
+&nbsp;
+    // Get google user info
+<span class="cstat-no" title="statement not covered" >    res = await plus.people.get({ userId: 'me' });</span>
+    let message = <span class="cstat-no" title="statement not covered" >{ error: null, user: null };</span>
+&nbsp;
+    // Validate google user email
+<span class="cstat-no" title="statement not covered" >    if (res.data.emails.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >      message.error = 'ERROR_INVALID_CREDENTIALS';</span>
+<span class="cstat-no" title="statement not covered" >      return sendMessage(ctx, message);</span>
+    }
+&nbsp;
+    // Get local user info from google user email, if exists
+    const email = <span class="cstat-no" title="statement not covered" >res.data.emails[0].value;</span>
+    let user = <span class="cstat-no" title="statement not covered" >await UserModel.query().findOne({ email });</span>
+&nbsp;
+    // Invalidate user and return error message
+<span class="cstat-no" title="statement not covered" >    if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >      message.error = 'ERROR_INVALID_CREDENTIALS';</span>
+<span class="cstat-no" title="statement not covered" >      return sendMessage(ctx, message);</span>
+    }
+&nbsp;
+    // Create user if not exists
+    /*
+    if (!user) {
+      let data = { email, username: email, active: true };
+      let result = await UserModel.query().insert(data).returning('id');
+      user = await UserModel.query().findById(result.id);
+    }
+    */
+&nbsp;
+    // Validate user is active
+<span class="cstat-no" title="statement not covered" >    if (!user.active) {</span>
+<span class="cstat-no" title="statement not covered" >      message.error = 'ERROR_ACCOUNT_IS_DISABLED';</span>
+<span class="cstat-no" title="statement not covered" >      return sendMessage(ctx, message);</span>
+    }
+&nbsp;
+    // Authenticate user
+<span class="cstat-no" title="statement not covered" >    user.authtoken = await user.regenerateJwt();</span>
+&nbsp;
+    // Load user roles
+<span class="cstat-no" title="statement not covered" >    user.roles = await UserModel.getRoles(user);</span>
+<span class="cstat-no" title="statement not covered" >    message.user = user;</span>
+&nbsp;
+    // Exclude user password from message
+<span class="cstat-no" title="statement not covered" >    delete message.user.password;</span>
+&nbsp;
+    // Return user with JWT token
+<span class="cstat-no" title="statement not covered" >    sendMessage(ctx, message);</span>
+  });
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 13 2019 17:25:36 GMT+0000 (WET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

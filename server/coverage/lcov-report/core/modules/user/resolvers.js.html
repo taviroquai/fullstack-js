@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for core/modules/user/resolvers.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">core/modules/user</a> resolvers.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">6.9% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>4/58</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">7.69% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>4/52</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const User = require('./User');
+const errors = use('core/errors.json');
+&nbsp;
+/**
+ * Graphql resolvers
+ */
+const resolvers = {
+  Query: {
+&nbsp;
+    /**
+     * Get access token
+     */
+    getAccessToken: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+      const user = <span class="cstat-no" title="statement not covered" >await User.query().findOne({ email: args.email });</span>
+<span class="cstat-no" title="statement not covered" >      if (user) {</span>
+<span class="cstat-no" title="statement not covered" >        if (!user.active) <span class="cstat-no" title="statement not covered" >throw new Error(errors['041']);</span></span>
+<span class="cstat-no" title="statement not covered" >        if (!user.verifyPassword(args.password)) <span class="cstat-no" title="statement not covered" >throw new Error(errors['042']);</span></span>
+<span class="cstat-no" title="statement not covered" >        user.authtoken = await user.regenerateJwt();</span>
+<span class="cstat-no" title="statement not covered" >        user.roles = await User.getRoles(user);</span>
+<span class="cstat-no" title="statement not covered" >        return user;</span>
+      }
+    },
+&nbsp;
+    /**
+     * Get user by access token
+     */
+    getUserByAccessToken: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+      const user = <span class="cstat-no" title="statement not covered" >await User.getUserFromJwt(args.authtoken);</span>
+<span class="cstat-no" title="statement not covered" >      if (!user) <span class="cstat-no" title="statement not covered" >throw new Error(errors['010']);</span></span>
+<span class="cstat-no" title="statement not covered" >      return user;</span>
+    },
+&nbsp;
+    /**
+     * Get all users list
+     */
+    getUsers: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+      const query = <span class="cstat-no" title="statement not covered" >User.query();</span>
+      const limit = <span class="cstat-no" title="statement not covered" >args.limit || 1;</span>
+      const page = <span class="cstat-no" title="statement not covered" >args.page ? args.page - 1 : 0;</span>
+&nbsp;
+      // Filter by query
+<span class="cstat-no" title="statement not covered" >      if (args.query) {</span>
+<span class="cstat-no" title="statement not covered" >        query.where(<span class="fstat-no" title="function not covered" >bu</span>ilder =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          builder.where('username', 'ilike', '%' + args.query + '%')</span>
+<span class="cstat-no" title="statement not covered" >          builder.orWhere('email', 'ilike', '%' + args.query + '%')</span>
+        });
+      }
+&nbsp;
+      // Get results
+      const result = <span class="cstat-no" title="statement not covered" >await query.page(page, limit);</span>
+<span class="cstat-no" title="statement not covered" >      return result;</span>
+    },
+&nbsp;
+    /**
+     * Get user by id
+     */
+    getUserById: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+      const user = <span class="cstat-no" title="statement not covered" >await User.query().findById(args.id);</span>
+<span class="cstat-no" title="statement not covered" >      if (!user) <span class="cstat-no" title="statement not covered" >throw new Error(errors['010']);</span></span>
+<span class="cstat-no" title="statement not covered" >      return user;</span>
+    },
+&nbsp;
+    /**
+     * Start recover password
+     */
+    recoverUserPassword: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+      const user = <span class="cstat-no" title="statement not covered" >await User.query().where('email', args.email).first();</span>
+<span class="cstat-no" title="statement not covered" >      if (!user) <span class="cstat-no" title="statement not covered" >throw new Error(errors['010']);</span></span>
+&nbsp;
+      // Set reset token
+      const resettoken = <span class="cstat-no" title="statement not covered" >User.createResetToken();</span>
+<span class="cstat-no" title="statement not covered" >      await User.query().patch({ resettoken }).where('email', args.email);</span>
+&nbsp;
+      // Send recover email
+      const result = <span class="cstat-no" title="statement not covered" >await user.sendRecoverPasswordEmail(args.client_url);</span>
+<span class="cstat-no" title="statement not covered" >      if (!result) <span class="cstat-no" title="statement not covered" >throw new Error(errors['023']);</span></span>
+<span class="cstat-no" title="statement not covered" >      return result;</span>
+    }
+  },
+&nbsp;
+  Mutation: {
+&nbsp;
+    /**
+     * Create user
+     */
+    createUser: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+<span class="cstat-no" title="statement not covered" >      User.validateInputEmail(args);</span>
+<span class="cstat-no" title="statement not covered" >      User.validateInputPasswords(args);</span>
+      const data = <span class="cstat-no" title="statement not covered" >User.filterInput(args);</span>
+      const user = <span class="cstat-no" title="statement not covered" >await User.query().insert(data).returning('id');</span>
+<span class="cstat-no" title="statement not covered" >      return await User.query().findById(user.id);</span>
+    },
+&nbsp;
+    /**
+     * Update user
+     */
+    updateUser: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+<span class="cstat-no" title="statement not covered" >      User.validateInputEmail(args);</span>
+<span class="cstat-no" title="statement not covered" >      User.validateInputPasswords(args);</span>
+      const data = <span class="cstat-no" title="statement not covered" >User.filterInput(args);</span>
+<span class="cstat-no" title="statement not covered" >      await User.query().update(data).where('id', args.id)</span>
+<span class="cstat-no" title="statement not covered" >      return await User.query().findById(args.id);</span>
+    },
+&nbsp;
+    /**
+     * Reset password
+     */
+    resetUserPassword: <span class="fstat-no" title="function not covered" >as</span>ync (root, args, context) =&gt; {
+      const user = <span class="cstat-no" title="statement not covered" >await User.validateResetToken(args);</span>
+<span class="cstat-no" title="statement not covered" >      User.validateInputPasswords(args);</span>
+      const data = <span class="cstat-no" title="statement not covered" >User.filterInput(args);</span>
+<span class="cstat-no" title="statement not covered" >      await User.query().patch(data).where('id', user.id)</span>
+<span class="cstat-no" title="statement not covered" >      return true;</span>
+    },
+&nbsp;
+    /**
+     * Upload avatar
+     *
+     * @param {*} root
+     * @param {*} args
+     */
+    uploadAvatar: <span class="fstat-no" title="function not covered" >as</span>ync (parent, { id, file }) =&gt; {
+      const { stream, filename, mimetype, encoding } = <span class="cstat-no" title="statement not covered" >await file;</span>
+<span class="cstat-no" title="statement not covered" >      await User.storeAvatar(id, stream, filename, mimetype);</span>
+<span class="cstat-no" title="statement not covered" >      await User.query().patch({ avatar: filename }).where('id', id);</span>
+<span class="cstat-no" title="statement not covered" >      return { filename, mimetype, encoding };</span>
+    }
+  }
+}
+&nbsp;
+module.exports = resolvers;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 13 2019 17:25:36 GMT+0000 (WET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

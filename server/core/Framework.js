@@ -10,8 +10,8 @@ const Router = require('koa-router');
  * instead in require them with hardcoded filepath
  */
 global.use = (filepath) => {
-  let filename = '../modules/enabled/' + filepath;
-  if (filepath.indexOf('core') === 0) filename = '../' + filepath;
+  let filename = __dirname + '/../modules/enabled/' + filepath;
+  if (filepath.indexOf('core') === 0) filename = __dirname + '/../' + filepath;
   return require(filename);
 };
 
@@ -33,8 +33,13 @@ class Framework {
   constructor(options) {
     this.app = new Koa(options);
     this.port = parseInt(process.env.FSTACK_HTTP_PORT || 4000, 10);
-    this.middleware = null;
-    this.router = null;
+    this.router = options && options.router ?
+      options.router
+      : new Router();
+    this.httpServer = options && options.https ?
+      http.createServer(this.app.callback())
+      : https.createServer(this.app.callback());
+      this.middleware = null;
 
     // Protect private props/functions
     const api = Object.freeze({
@@ -52,9 +57,6 @@ class Framework {
       },
       getHTTPServer: (options) => {
         return this.getHTTPServer(options);
-      },
-      getHTTPSServer: (options) => {
-        return this.getHTTPSServer(options);
       },
       getHTTPRouter: (options) => {
         return this.getHTTPRouter(options);
@@ -75,25 +77,13 @@ class Framework {
    * Get HTTP Server
    */
   getHTTPServer() {
-    if (!this.httpServer) this.httpServer = http.createServer(this.app.callback());
     return this.httpServer;
   }
 
   /**
-   * Get HTTPS Server
-   */
-  getHTTPSServer() {
-    if (!this.httpsServer) this.httpsServer = https.createServer(this.app.callback());
-    return this.httpsServer;
-  }
-
-  /**
    * Create HTTP Router
-   * 
-   * @param {Object} options 
    */
-  getHTTPRouter(options) {
-    if (!this.router) this.router = new Router(options);
+  getHTTPRouter() {
     return this.router;
   }
 
