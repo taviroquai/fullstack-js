@@ -9,6 +9,24 @@
 # production
 /build
 
+# Ignore everything else except core code
+/src/modules/**/*.*
+/src/share/**/*.*
+/src/loaders/**/*.*
+/public/locales/**/*.*
+!/src/modules/auth
+!/src/modules/demo
+!/src/modules/system
+!/src/modules/welcome
+!/src/share/AdminLayoutExample.js
+!/src/share/LoaderRender.js
+!/src/share/Objection.js
+!/src/share/SplashScreenExample.js
+!/src/loaders/index.js
+!/src/loaders/EnvModuleLoader.js
+!/src/loaders/UrlModuleLoader.js
+!/public/locales/en/translations.js
+
 # misc
 .DS_Store
 .env
