@@ -11,11 +11,11 @@ class RouterAuthorization {
   /**
    * Creates an authorization router and adds nested modules routes
    *
-   * @param {Object} modulesRouter
+   * @param {Object} defaultRouter
    */
-  static getRouter(modulesRouter) {
+  static getRouter(defaultRouter) {
     const router = new Router();
-    const { stack } = modulesRouter.routes().router;
+    const { stack } = defaultRouter.routes().router;
     stack.map(layer => {
       router.all(layer.path, async (ctx, next) => {
         try {
@@ -29,7 +29,7 @@ class RouterAuthorization {
         }
       });
     });
-    router.use('', modulesRouter.routes(), modulesRouter.allowedMethods());
+    router.use('', defaultRouter.routes(), defaultRouter.allowedMethods());
     return router;
   }
 
