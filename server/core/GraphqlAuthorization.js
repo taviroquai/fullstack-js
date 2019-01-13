@@ -1,5 +1,6 @@
 const errors = use('core/errors.json');
-const User = use('user/User');
+const userDir = process.env.FSTACK_MODULE_USER || 'user';
+const User = use(userDir+'/User');
 const Authorization = use('core/Authorization');
 
 /**

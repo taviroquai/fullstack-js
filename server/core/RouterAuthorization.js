@@ -1,7 +1,8 @@
-const Authorization = require('./Authorization');
 const Router = require('koa-router');
+const Authorization = use('core/Authorization');
 const errors = use('core/errors.json');
-const User = use('user/User');
+const userDir = process.env.FSTACK_MODULE_USER || 'user';
+const User = use(userDir+'/User');
 
 /**
  * Router authorization

@@ -9,22 +9,17 @@ class ModuleManager {
   /**
    * Get modules names
    */
-  static getModulesNames() {
-    const path = './modules/enabled';
-    let modules = fs.readdirSync(path)
-    .filter(file => {
-      return fs.statSync(path+'/'+file).isDirectory();
+  static getModulesPaths() {
+    let path = './core/modules';
+    let modules = [];
+    process.env.FSTACK_CORE_MODULES.split(',').forEach(name => {
+      if (fs.statSync(path+'/'+name).isDirectory()) modules.push(path+'/'+name);
+    });
+    path = './modules/enabled';
+    fs.readdirSync(path).forEach(file => {
+      if (fs.statSync(path+'/'+file).isDirectory()) modules.push(path+'/'+file);
     });
     return modules;
-  }
-
-  /**
-   * Resolve module path
-   * 
-   * @param {String} name 
-   */
-  static resolveModulePath(name) {
-    return './modules/enabled/' + name;
   }
 
   /**
@@ -33,10 +28,11 @@ class ModuleManager {
   static loadRoutes() {
     const self = ModuleManager;
     const routes = {};
-    const modules = self.getModulesNames();
-    for (let name of modules) {
-      let filePath = self.resolveModulePath(name) + '/routes.js';
-      let requirePath = '.' + self.resolveModulePath(name) + '/routes';
+    const modules = self.getModulesPaths();
+    for (let path of modules) {
+      let filePath = path + '/routes.js';
+      let requirePath = '.' + path + '/routes';
+      let name = path.split('/').pop();
       if (fs.existsSync(filePath)) routes[name] = require(requirePath);
     }
     return routes;
@@ -52,7 +48,7 @@ class ModuleManager {
   }
 
   /**
-   * Get cached authorization filename
+   * Get cached file path
    *
    * @param {String} name
    */
@@ -87,13 +83,13 @@ class ModuleManager {
    */
   static generateResourcesNames() {
     const self = ModuleManager;
-    const modulesList = self.getModulesNames();
+    const modulesList = self.getModulesPaths();
     let resources = [];
 
     // Get Graphql resources
-    for (let m of modulesList) {
-      let filePath = self.resolveModulePath(m) + '/resolvers.js';
-      let requirePath = '.' + self.resolveModulePath(m) + '/resolvers';
+    for (let path of modulesList) {
+      let filePath = path + '/resolvers.js';
+      let requirePath = '.' + path + '/resolvers';
       if (fs.existsSync(filePath)) {
         let resolvers = require(requirePath);
         Object.keys(resolvers).map(type => {
@@ -106,9 +102,9 @@ class ModuleManager {
 
     // Get HTTP resources
     const router = new Router();
-    for (let m of modulesList) {
-      let filePath = self.resolveModulePath(m) + '/routes.js';
-      let requirePath = '.' + self.resolveModulePath(m) + '/routes';
+    for (let path of modulesList) {
+      let filePath = path + '/routes.js';
+      let requirePath = '.' + path + '/routes';
       if (fs.existsSync(filePath)) {
         let loader = require(requirePath);
         loader(null, router);
@@ -163,17 +159,13 @@ class ModuleManager {
     let queries = '';
     let mutations = '';
     let types = '';
-    const modulesList = self.getModulesNames();
-    for (let m of modulesList) {
-      let filename = self.resolveModulePath(m) + '/gql/queries.gql';
+    const modulesList = self.getModulesPaths();
+    for (let path of modulesList) {
+      let filename = path + '/gql/queries.gql';
       if (fs.existsSync(filename)) queries += fs.readFileSync(filename)
-    }
-    for (let m of modulesList) {
-      let filename = self.resolveModulePath(m) + '/gql/mutations.gql';
+      filename = path + '/gql/mutations.gql';
       if (fs.existsSync(filename)) mutations += fs.readFileSync(filename);
-    }
-    for (let m of modulesList) {
-      let filename = self.resolveModulePath(m) + '/gql/types.gql';
+      filename = path + '/gql/types.gql';
       if (fs.existsSync(filename)) types += fs.readFileSync(filename);
     }
 

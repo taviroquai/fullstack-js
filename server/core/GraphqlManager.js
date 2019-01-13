@@ -30,10 +30,10 @@ class GraphqlManager {
   static getResolvers(GraphqlAuthorization) {
     const MM = ModuleManager;
     let combinedResolvers = {};
-    const modulesList = MM.getModulesNames();
-    for (let m of modulesList) {
-      let filePath = MM.resolveModulePath(m) + '/resolvers.js';
-      let requirePath = '.' + MM.resolveModulePath(m) + '/resolvers';
+    const modulesList = MM.getModulesPaths();
+    for (let path of modulesList) {
+      let filePath = path + '/resolvers.js';
+      let requirePath = '.' + path + '/resolvers';
       if (fs.existsSync(filePath)) {
         let modelResolvers = require(requirePath);
         combinedResolvers = merge(combinedResolvers, modelResolvers);

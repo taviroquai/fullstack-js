@@ -60,7 +60,8 @@ class User extends Model {
    * Populate relations
    */
   async $afterInsert() {
-    const RoleUser = use('role/RoleUser');
+    const roleDir = process.env.FSTACK_MODULE_ROLE;
+    const RoleUser = use(roleDir+'/RoleUser');
     await RoleUser.populateWithUser(this)
   }
 
@@ -219,7 +220,8 @@ class User extends Model {
    * @param {Object} user
    */
   static async getRoles(user) {
-    const RoleUser = use('role/RoleUser');
+    const roleDir = process.env.FSTACK_MODULE_ROLE;
+    const RoleUser = use(roleDir+'/RoleUser');
     let roles = [];
     if (!user) {
       roles = await RoleUser

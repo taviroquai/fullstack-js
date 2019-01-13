@@ -1,7 +1,7 @@
-const Role = use('role/Role');
-const RoleHook = use('role/RoleHook');
-const RoleUser = use('role/RoleUser');
-const Permission = use('role/Permission');
+const Role = require('./Role');
+const RoleHook = require('./RoleHook');
+const RoleUser = require('./RoleUser');
+const Permission = require('./Permission');
 const errors = use('core/errors.json');
 
 /**

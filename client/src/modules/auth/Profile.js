@@ -84,7 +84,7 @@ class Profile extends Component {
    */
   getAvatarUrl() {
     const { user } = this.state;
-    return endpoint + '/avatar/' + user.id + '/' + user.avatar;
+    return endpoint + '/core/avatar/' + user.id + '/' + user.avatar;
   }
 
   /**

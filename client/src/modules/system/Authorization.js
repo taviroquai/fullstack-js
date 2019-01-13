@@ -5,7 +5,7 @@ const endpoint = process.env.REACT_APP_SERVER_URL;
 
 export const load = async () => {
   return new Promise(resolve => {
-    fetch(endpoint + '/authorization')
+    fetch(endpoint + '/core/authorization')
     .then(r => r.json())
     .then(data => {
       resolve(data);

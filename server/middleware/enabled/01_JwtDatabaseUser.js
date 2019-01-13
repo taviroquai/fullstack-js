@@ -1,4 +1,5 @@
-const User = use('user/User');
+const userDir = process.env.FSTACK_MODULE_USER;
+const UserModel = use(userDir+'/User');
 
 /**
  * Load user into request if found
@@ -7,7 +8,7 @@ const User = use('user/User');
  */
 const middleware = async (ctx, next) => {
   const jwttoken = parseJwtHeader(ctx.request.header);
-  const user = await User.getUserFromJwt(jwttoken);
+  const user = await UserModel.getUserFromJwt(jwttoken);
   ctx.state['user'] = user;
   return await next();
 }

@@ -9,4 +9,3 @@ module.exports = (app, router) => {
   // Serve static files in public directory
   app.use(serve('./public'));
 }
-

@@ -3,6 +3,8 @@
 /storage/**/*.*
 /public/**/*.*
 /modules/disabled/**/*.*
+/modules/enabled/**/*.*
 .env
 nohup.out
 !*.gitkeep
+!/modules/enabled/helloworld

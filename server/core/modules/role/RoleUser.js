@@ -1,6 +1,7 @@
 const Model = use('core/Model');
-const Role = use('role/Role');
-const User = use('user/User');
+const Role = require('./Role');
+const userDir = process.env.FSTACK_MODULE_USER;
+const User = use(userDir+'/User');
 const errors = use('core/errors.json');
 
 class RoleUser extends Model {

@@ -1,5 +1,3 @@
-const errors = use('core/errors.json');
-
 /**
  * Update authorization cache
  *

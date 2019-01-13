@@ -1,4 +1,4 @@
-const ResourceHook = use('resource/ResourceHook');
+const ResourceHook = require('./ResourceHook');
 
 /**
  * Graphql resolvers

@@ -7,7 +7,7 @@ const Authorization = use('core/Authorization');
 module.exports = (app, router) => {
 
   // Get cached permissions
-  router.get('/authorization', async (ctx, next) => {
+  router.get('/core/authorization', async (ctx, next) => {
     const data = {};
     let filename = '';
 

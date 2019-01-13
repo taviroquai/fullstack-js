@@ -1,7 +1,9 @@
 const fs = require('fs');
-const RoleHook = use('role/RoleHook');
-const Permission = use('role/Permission');
-const ResourceHook = use('resource/ResourceHook');
+const roleDir = process.env.FSTACK_MODULE_ROLE;
+const resourceDir = process.env.FSTACK_MODULE_RESOURCE;
+const RoleHook = use(roleDir+'/RoleHook');
+const Permission = use(roleDir+'/Permission');
+const ResourceHook = use(resourceDir+'/ResourceHook');
 
 /**
  * Graphql authorization

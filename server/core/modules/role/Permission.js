@@ -1,5 +1,5 @@
 const Model = use('core/Model');
-const Role = use('role/Role');
+const Role = require('./Role');
 
 class Permission extends Model {
 

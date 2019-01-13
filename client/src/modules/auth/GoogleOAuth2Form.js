@@ -9,7 +9,7 @@ class GoogleOAuth2Form extends Component {
 
   async url() {
     return new Promise((resolve, reject) => {
-      fetch(endpoint + '/googleoauth2')
+      fetch(endpoint + '/core/googleoauth2')
       .then(res => res.text())
       .then(url => {
         resolve(url);

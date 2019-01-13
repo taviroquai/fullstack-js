@@ -1,5 +1,6 @@
-const User = use('user/User');
-const { oauth2Client, google } = use('googleoauth2/GoogleOAuthClient');
+const send = require('koa-send');
+const UserModel = require('./User');
+const { oauth2Client, google } = require('./GoogleOAuthClient');
 const plus = google.plus('v1');
 
 /**
@@ -16,8 +17,15 @@ const sendMessage = (ctx, message) => {
  */
 module.exports = (app, router) => {
 
+  // Route to user avatar
+  router.get('/core/avatar/:id/:filename', async (ctx, next) => {
+    const { id, filename } = ctx.params;
+    const path = UserModel.getAvatarPath(id, filename);
+    await send(ctx, path);
+  });
+
   // Route to google auth2 
-  router.get('/googleoauth2', async (ctx, next) => {
+  router.get('/core/googleoauth2', async (ctx, next) => {
 
     // grab the url that will be used for authorization
     const url = oauth2Client.generateAuthUrl({
@@ -33,7 +41,7 @@ module.exports = (app, router) => {
   });
 
   // Route to google oauth2 callback
-  router.get('/googleoauth2done', async (ctx, next) => {
+  router.get('/core/googleoauth2done', async (ctx, next) => {
 
     // Set google api auth client
     google.options({auth: oauth2Client});
@@ -52,22 +60,22 @@ module.exports = (app, router) => {
 
     // Get local user info from google user email, if exists
     const email = res.data.emails[0].value;
-    let user = await User.query().findOne({ email });
+    let user = await UserModel.query().findOne({ email });
 
-    /*
     // Invalidate user and return error message
     if (!user) {
       message.error = 'ERROR_INVALID_CREDENTIALS';
       return sendMessage(ctx, message);
     }
-    */
 
     // Create user if not exists
+    /*
     if (!user) {
       let data = { email, username: email, active: true };
-      let result = await User.query().insert(data).returning('id');
-      user = await User.query().findById(result.id);
+      let result = await UserModel.query().insert(data).returning('id');
+      user = await UserModel.query().findById(result.id);
     }
+    */
 
     // Validate user is active
     if (!user.active) {
@@ -77,11 +85,16 @@ module.exports = (app, router) => {
 
     // Authenticate user
     user.authtoken = await user.regenerateJwt();
-    delete user.password;
+
+    // Load user roles
+    user.roles = await UserModel.getRoles(user);
+    message.user = user;
+
+    // Exclude user password from message
+    delete message.user.password;
 
     // Return user with JWT token
-    user.roles = await User.getRoles(user);
-    message.user = user;
     sendMessage(ctx, message);
   });
+
 }
