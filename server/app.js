@@ -16,8 +16,11 @@ const middleware = fw.requireMiddleware();
 for (let name in middleware) middleware[name](app);
 
 // Add module routes
+const RouterAuthorization = process.env.FSTACK_AUTHORIZATION_ROUTER ?
+  use(process.env.FSTACK_AUTHORIZATION_ROUTER)
+  : false;
 const router = fw.getHTTPRouter();
-fw.addRoutes(app, router);
+fw.addRoutes(app, router, RouterAuthorization);
 
 // Display current resources
 const activeResources = fw.getModuleManager().getResourcesNames();

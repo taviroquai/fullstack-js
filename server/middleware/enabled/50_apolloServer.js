@@ -7,7 +7,13 @@ const GraphqlManager = use('core/GraphqlManager');
  * @param {Object} app The Koa application 
  */
 const load = (app) => {
-  const apolloServer = GraphqlManager.getApolloServer();
+
+  // Load Graphql authorization adapter
+  Authorization = process.env.FSTACK_AUTHORIZATION_GRAPHQL ?
+    use(process.env.FSTACK_AUTHORIZATION_GRAPHQL)
+    : false;
+
+  const apolloServer = GraphqlManager.getApolloServer(Authorization);
   apolloServer.applyMiddleware({ app });
 }
 

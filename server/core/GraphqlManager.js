@@ -12,9 +12,9 @@ class GraphqlManager {
   /**
    * Get apollo server
    */
-  static getApolloServer() {
+  static getApolloServer(GraphqlAuthorization) {
     const typeDefs = GraphqlManager.getTypeDefs();
-    const resolvers = GraphqlManager.getResolvers();
+    const resolvers = GraphqlManager.getResolvers(GraphqlAuthorization);
     const server = new ApolloServer({
       typeDefs,
       resolvers,
@@ -27,7 +27,7 @@ class GraphqlManager {
    * Composes complete resolvers object from models
    * and wraps authorization if set
    */
-  static getResolvers() {
+  static getResolvers(GraphqlAuthorization) {
     const MM = ModuleManager;
     let combinedResolvers = {};
     const modulesList = MM.getModulesNames();
@@ -42,12 +42,6 @@ class GraphqlManager {
 
     // Merge all resolvers
     const finalResolvers = {};
-
-    // Check if authorization is enabled
-    let GraphqlAuthorization = false;
-    if (!!process.env.FSTACK_AUTHORIZATION) {
-      GraphqlAuthorization = require('./GraphqlAuthorization');
-    }
 
     // Iterate through module resolvers
     Object.keys(combinedResolvers).map(type => {

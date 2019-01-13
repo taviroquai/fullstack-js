@@ -62,8 +62,8 @@ class Framework {
       requireMiddleware: () => {
         return this.requireMiddleware();
       },
-      addRoutes: (server, router) => {
-        this.addRoutes(server, router);
+      addRoutes: (server, router, RouterAuthorization) => {
+        this.addRoutes(server, router, RouterAuthorization);
       }
     });
 
@@ -124,22 +124,11 @@ class Framework {
   /**
    * Apply module routes
    */
-  addRoutes(server, router) {
+  addRoutes(server, router, RouterAuthorization) {
     const routes = ModuleManager.loadRoutes();
     for (let name in routes) routes[name](server, router);
-
-    // Check if authorization is enabled
-    let RouterAuthorization = false;
-    if (!!process.env.FSTACK_AUTHORIZATION) {
-      RouterAuthorization = require('./RouterAuthorization');
-      router = RouterAuthorization.getRouter(router);
-    }
+    if (RouterAuthorization) router = RouterAuthorization.getRouter(router);
     server.use(router.routes()).use(router.allowedMethods());
-  }
-
-  static use(filepath) {
-    const filename = './modules/enabled/' + filepath;
-    return require(filename);
   }
 }
 
