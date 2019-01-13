@@ -1,6 +1,6 @@
 const Authorization = require('./Authorization');
 const Router = require('koa-router');
-const errors = require('../core/errors.json');
+const errors = use('core/errors.json');
 const User = use('user/User');
 
 /**

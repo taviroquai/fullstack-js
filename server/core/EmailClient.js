@@ -1,7 +1,7 @@
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const HtmlEntities = require('html-entities').XmlEntities;
-const errors = require('./errors.json');
+const errors = use('core/errors.json');
 
 /**
  * Email class for sending emails

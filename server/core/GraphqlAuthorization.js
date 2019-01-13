@@ -1,4 +1,4 @@
-const errors = require('../core/errors.json');
+const errors = use('core/errors.json');
 const User = use('user/User');
 const Authorization = use('core/Authorization');
 
