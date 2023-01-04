@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "jest": "^23.6.0"
+    "jest": "^29.3.1"
   },
   "scripts": {
     "test": "jest",
